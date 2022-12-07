@@ -94,7 +94,7 @@ Documents :
 
 - les diagrammes UML
   - le package `model` doit être décris en anticipant tout le développement
-  - les packages `controller` et `view` doivent proposé une version de base mais peuvent être incomplets
+  - les packages `controller` et `view` doivent proposer une version de base mais peuvent être incomplets
 - le code source
 - un rapport pour expliquer vos choix de conception
 
@@ -108,7 +108,7 @@ Documents :
 
 - les diagrammes UML
 	- ils doivent être entièrement cohérent avec le code
-	- ils doivent représenter
+	- ils doivent représenter l'intégralité de votre application
 - le code source
 - un exécutable au format JAR
 - un mode d'emploi (sur le `README.md`) pour expliquer comment installe et lancer votre application
