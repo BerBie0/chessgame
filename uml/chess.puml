@@ -1,0 +1,158 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Pawn extends Piece
+class Knight extends Piece
+class Bishop extends Piece
+class Rook extends Piece
+class Queen extends Piece
+class King extends Piece
+interface StrategyMovement
+
+enum Color {
+    WHITE
+    BLACK
+}
+
+class Board {
+    -board int[]
+    -pieces : List<Piece>
+    +Board() : Board
+    +getPieces() : List<Piece>
+    +getPieceFromPosition(position : int) : Piece
+    +addPieceToList(piece : Piece) : void
+    +removePieceFromList(piece : Piece) : void
+    +isValidMove(piece : Piece, newPosition : int) : boolean
+    -pathIsFree(piece : Piece, newPosition : int)
+    +isPathFreeOnXY(piece : Piece, newPosition : int)
+    +isPathFreeOnRay(piece : Piece, newPosition : int)
+    +isPostionOccupied(position : int) : boolean
+    +isInCheck(color : Color)
+    +getKing(color : Color)
+    +isPat(color : Color)
+    +moveWillCauseCheck(piece : Piece, newPosition : int)
+    +initBoard()
+}
+class Player {
+    -name : String
+    -urTurn : boolean
+    -capturedPiece : List<Piece>
+    +Player(color : Color, name : String, urTurn : boolean)
+    +getColor() : Color
+    +isUrTurn() : boolean
+    +changeTurn() : void
+    +addCapturedPiece(piece : Piece) : void
+    +move(piece : Piece, newPosition : int)
+}
+
+class GameManager{
+    -whitePlayer : Player
+    -blackPlayer : Player
+    -lastCommand : ICommand
+    +executeCommand(String command) : void
+    +undoCommand() : void
+    +addObserver(object : GameManagerObserver) : void
+    +notifyObserver() : void
+    +doSomething() : void
+}
+
+interface GameManagerObserver{
+    +update()
+}
+class GameManagerReactive extends GameManagerObserver{
+    + update()
+}
+
+
+class CommandFactory {
+    +CommandFactory(board : Board)
+    +createCommand() : ICommand
+}
+
+interface ICommand{
+    execute() : void
+    undo() : void
+}
+
+class CommandMaker {
+    -position : int
+    -newPosition : int
+    -player : Player
+    -piece : Piece
+    -board : Board
+}
+
+class MoveCommand {
+}
+class AttackCommand {
+}
+class RookKingCommand {
+}
+
+class PieceFactory {
+    -instance : PieceFactory
+    -PieceFactory()
+    +createInstance() : PieceFactory
+    +createPawn() : Piece
+    +createKnight() : Piece
+    +createBishop() : Piece
+    +createRook() : Piece
+    +createQueen() : Piece
+    +createKing() : Piece
+}
+class Piece {
+    -color : Color
+    -position : int
+    #Piece(color : Color, position : int)
+    +getPosition() : int
+    +setPosition(position : int)
+    +getColor() : Color
+    +isValidMove(newPosition : int) : boolean
+    +canCapturePiece(piece : Piece) : boolean
+}
+class Pawn {
+    -isPromoted : boolean
+    -isEmpassant : boolean
+    -hasMovedOnce : boolean
+}
+class King {
+    -instance : King
+    -isChecked : boolean
+    -hasMovedOnce : boolean
+    -King()
+    +createInstance() : King
+}
+class Queen {
+}
+class Knight {
+}
+class Bishop {
+}
+class Rook {
+}
+
+Piece "1" *-- "1" StrategyMovement : contains
+Piece "1" *-- "1" Color : contains
+Player "1" *-- "1" Color : contains
+
+StrategyMovement <|-- StrategyMovementPawn
+StrategyMovement <|-- StrategyMovementKnight
+StrategyMovement <|-- StrategyMovementBishop
+StrategyMovement <|-- StrategyMovementRook
+StrategyMovement <|-- StrategyMovementQueen
+StrategyMovement <|-- StrategyMovementKing
+Player --o Piece
+Board --* CommandFactory
+CommandFactory --[dashed]-> ICommand
+ICommand --* GameManager
+CommandFactory --* GameManager
+Board --* GameManager
+GameManagerObserver --o GameManager
+Player --* GameManager
+CommandMaker *-- Board
+CommandMaker *-- Piece
+AttackCommand --[dashed]-> CommandMaker
+MoveCommand --[dashed]-> CommandMaker
+RookKingCommand --[dashed]-> CommandMaker
+
+@enduml

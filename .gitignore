@@ -1,0 +1,13 @@
+.idea
+.vs*
+
+*.o
+*.out
+*.class
+
+
+cmake-build-debug
+Lib
+Scripts
+bin
+obj
