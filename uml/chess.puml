@@ -9,6 +9,27 @@ class Queen extends Piece
 class King extends Piece
 interface StrategyMovement
 
+
+
+interface IPlayerObserver
+{
+    +reactTo() : void
+}
+
+interface IBoardObserver
+{
+    +reactTo() : void
+}
+class BoardObserver implements IBoardObserver
+{
+    +reactTo(board : Board) : void
+}
+class PlayerObserver implements IPlayerObserver
+{
+    +reactTo(player : Player) : void
+}
+
+
 enum Color {
     WHITE
     BLACK
@@ -17,6 +38,8 @@ enum Color {
 class Board {
     -board int[]
     -pieces : List<Piece>
+    #observers : List<BoardObserver>
+
     +Board() : Board
     +getPieces() : List<Piece>
     +getPieceFromPosition(position : int) : Piece
@@ -32,36 +55,48 @@ class Board {
     +isPat(color : Color)
     +moveWillCauseCheck(piece : Piece, newPosition : int)
     +initBoard()
+
+    +addObserver(observer : BoardObserver) : void
+    +notifyObserver() : void
 }
+
 class Player {
     -name : String
     -urTurn : boolean
     -capturedPiece : List<Piece>
-    +Player(color : Color, name : String, urTurn : boolean)
+    -color : Color
+    #observers : List<PlayerObserver>
+
+    +Player(Color : color, String : name , urTurn : boolean)
     +getColor() : Color
+    +getCapturedPieces() : List<Piece>
     +isUrTurn() : boolean
     +changeTurn() : void
-    +addCapturedPiece(piece : Piece) : void
-    +move(piece : Piece, newPosition : int)
+    +isUrTurn() : boolean
+    +addCapturedPieces(piece : Piece) : void
+    +move(piece : Piece, newPosition : int) : void
+
+    +addObserver(observer : PlayerObserver) : void
+    +notifyObserver() : void
 }
 
 class GameManager{
     -whitePlayer : Player
     -blackPlayer : Player
     -lastCommand : ICommand
+    -commandFactory : CommandFactory
+    -board : Board
+
+    +GameManager(board : Board, whitePlayer : Player, blackPlayer : Player, lastCommand : ICommand, commandFactory : CommandFactory)
+    +getCurrentPlayer() : Player
     +executeCommand(String command) : void
     +undoCommand() : void
-    +addObserver(object : GameManagerObserver) : void
-    +notifyObserver() : void
-    +doSomething() : void
+    +promotePawn(pawn : Pawn, newPiece : Piece)
+    +isPat() : boolean
+    +isPlayerInCheckMate() : boolean
+    +isPlayerInCheck() : boolean
 }
 
-interface GameManagerObserver{
-    +update()
-}
-class GameManagerReactive extends GameManagerObserver{
-    + update()
-}
 
 
 class CommandFactory {
@@ -75,7 +110,7 @@ interface ICommand{
 }
 
 class CommandMaker {
-    -position : int
+    -oldPosition : int
     -newPosition : int
     -player : Player
     -piece : Piece
@@ -91,6 +126,7 @@ class RookKingCommand {
 
 class PieceFactory {
     -instance : PieceFactory
+
     -PieceFactory()
     +createInstance() : PieceFactory
     +createPawn() : Piece
@@ -147,7 +183,6 @@ CommandFactory --[dashed]-> ICommand
 ICommand --* GameManager
 CommandFactory --* GameManager
 Board --* GameManager
-GameManagerObserver --o GameManager
 Player --* GameManager
 CommandMaker *-- Board
 CommandMaker *-- Piece
