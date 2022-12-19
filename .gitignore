@@ -1,8 +1,13 @@
 .idea
+*.settings
+build/
+*.iml
 .vs*
 
 *.o
 *.out
+/out
+*.iml
 *.class
 
 
