@@ -1,4 +1,6 @@
-package Model;
+package Model.Pieces;
+
+import Model.utils.Color2;
 
 /**
  * rook's class child of piece.
@@ -37,9 +39,9 @@ public class Rook extends Piece
     @Override
     public boolean isValidMove(int position)
     {
-        //comment in Model.Bishop.java
+        //comment in Model.Pieces.Bishop.java
         if(position < 0)
-            throw new IllegalArgumentException("Model.Bishop.java : isValidMove(int position) : position < 0");
+            throw new IllegalArgumentException("Model.Pieces.Bishop.java : isValidMove(int position) : position < 0");
         int[] offset = executeStrategy();
         for (int j : offset)
         {

@@ -39,7 +39,7 @@ public class MainMenu extends JFrame{
         jpMainMenu.add(jpChose);
         this.add(jpMainMenu);
         mainMenu();
-        multiPlayer.addActionListener((event) -> gameMenu(event));
+        multiPlayer.addActionListener(this::gameMenu);
     }
 
 
@@ -88,7 +88,7 @@ public class MainMenu extends JFrame{
         });
     }
 
-    private int setSize(JLabel text)
+    private int setSize(JLabel title)
     {
         Font labelFont = title.getFont();
         String labelText = title.getText();

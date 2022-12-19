@@ -1,8 +1,8 @@
-package Model;
+package Controller;
 
-import Model.Board;
-import Model.Color2;
-import Model.Player;
+import Model.Board.Board;
+import Model.utils.Color2;
+import Model.Player.Player;
 
 public class GameManager {
     private Board board;

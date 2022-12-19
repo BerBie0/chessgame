@@ -1,4 +1,4 @@
-package Model;
+package Model.Pieces;
 
 public class StrategyMovementKnight implements StrategyMovement{
     @Override

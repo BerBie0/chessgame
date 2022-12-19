@@ -1,4 +1,6 @@
-package Model;
+package Model.Pieces;
+
+import Model.utils.Color2;
 
 /**
  * king's class child of piece.
@@ -22,8 +24,8 @@ public class King extends Piece
     //TODO remettre en prive junit test
     /**
      * king's private contructor set the strategy movement by default, hasMovedOnce, isChecked to false.
-     * @param color Model.King's color.
-     * @param position Model.King's position in the board.
+     * @param color Model.Pieces.King's color.
+     * @param position Model.Pieces.King's position in the board.
      */
     public King(Color2 color, int position)
     {
@@ -38,7 +40,7 @@ public class King extends Piece
      * Inialise an instance of king, limit of 2 king.
      * @param color king's color.
      * @param position kings' position.
-     * @return instance of Model.King.
+     * @return instance of Model.Pieces.King.
      */
     public static King createInstanceKing(Color2 color, int position)
     {
@@ -46,7 +48,7 @@ public class King extends Piece
         {
             return new King(color, position);
         }
-        throw new IllegalArgumentException("Model.King.java : createInstanceKing : too much king on the board");
+        throw new IllegalArgumentException("Model.Pieces.King.java : createInstanceKing : too much king on the board");
     }
 
 
@@ -84,7 +86,7 @@ public class King extends Piece
     public boolean isValidMove(int position)
     {
         if(position < 0)
-            throw new IllegalArgumentException("Model.Bishop.java : isValidMove(int position) : position < 0");
+            throw new IllegalArgumentException("Model.Pieces.Bishop.java : isValidMove(int position) : position < 0");
 
         //get the offset movement of the piece.
         int[] offset = executeStrategy();

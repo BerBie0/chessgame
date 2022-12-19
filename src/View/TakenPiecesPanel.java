@@ -1,8 +1,8 @@
 package View;
 
-import Model.Board;
-import Model.Color2;
-import Model.Piece;
+import Model.Board.Board;
+import Model.utils.Color2;
+import Model.Pieces.Piece;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

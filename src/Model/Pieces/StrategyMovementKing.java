@@ -1,6 +1,6 @@
-package Model;
+package Model.Pieces;
 
-public class StrategyMovementQueen implements StrategyMovement{
+public class StrategyMovementKing implements StrategyMovement{
     @Override
     public int[] offset()
     {

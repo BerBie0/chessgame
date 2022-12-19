@@ -1,7 +1,9 @@
-package Model;
+package Model.Pieces;
+
+import Model.utils.Color2;
 
 /**
- * Model.Knight's class child of piece.
+ * Model.Pieces.Knight's class child of piece.
  */
 public class Knight extends Piece
 {
@@ -12,7 +14,7 @@ public class Knight extends Piece
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
     /**
-     * Model.Knight's constructor set the movement strategy by default.
+     * Model.Pieces.Knight's constructor set the movement strategy by default.
      * @param color
      * @param position
      */
@@ -36,9 +38,9 @@ public class Knight extends Piece
     @Override
     public boolean isValidMove(int position)
     {
-        //comment in Model.Bishop.java
+        //comment in Model.Pieces.Bishop.java
         if(position < 0)
-            throw new IllegalArgumentException("Model.Knight.java : isValidMove(int position) : position < 0");
+            throw new IllegalArgumentException("Model.Pieces.Knight.java : isValidMove(int position) : position < 0");
         int[] offset = executeStrategy();
         for (int j : offset) {
             int positionCalcul = this.getPosition();

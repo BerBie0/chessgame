@@ -1,6 +1,7 @@
-package Model;
+package Model.Player;
 
-import Model.Piece;
+import Model.utils.Color2;
+import Model.Pieces.Piece;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,10 @@ public class Player {
     public void move(Piece piece, int position)
     {
         piece.setPosition(position);
+    }
+    public boolean isWhite()
+    {
+        return color == Color2.WHITE;
     }
 
 }
