@@ -15,8 +15,8 @@ class GameController {
 class GameManager{
     -whitePlayer : Player
     -blackPlayer : Player
-    -lastCommand : ICommand
-    -commandFactory : CommandFactory
+    -lastCommand : IMove
+    -commandFactory : MoveFactory
     -board : Board
 
     +GameManager()
@@ -226,16 +226,15 @@ StrategyMovement <|-- StrategyMovementRook
 StrategyMovement <|-- StrategyMovementQueen
 StrategyMovement <|-- StrategyMovementKing
 Player --o Piece
-Board --* CommandFactory
-CommandFactory --[dashed]-> ICommand
-ICommand --* GameManager
-CommandFactory --* GameManager
+Board --* MoveFactory
+MoveFactory --[dashed]-> IMove
+IMove --* GameManager
+MoveFactory --* GameManager
 Board --* GameManager
 Player --* GameManager
-CommandMaker *-- Board
-CommandMaker *-- Piece
-AttackCommand --[dashed]-> CommandMaker
-MoveCommand --[dashed]-> CommandMaker
-RookKingCommand --[dashed]-> CommandMaker
+Move *-- Board
+Move *-- Piece
+Move *-- Player
+
 
 @enduml
