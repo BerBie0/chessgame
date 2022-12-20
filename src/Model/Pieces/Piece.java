@@ -1,7 +1,9 @@
-package Model;
+package Model.Pieces;
+
+import Model.utils.Color2;
 
 /**
- * Parent class Model.Piece which describe common attributes with children class
+ * Parent class Model.Pieces.Piece which describe common attributes with children class
  */
 public abstract class Piece
 {
@@ -12,15 +14,15 @@ public abstract class Piece
     // TODO context dans le constructeur enfant ?
     // TODO retirer fonction inutile
 
-    /**Model.Piece's color*/
+    /**Model.Pieces.Piece's color*/
     private final Color2 color;
-    /**Model.Piece's position in the board*/
+    /**Model.Pieces.Piece's position in the board*/
     private int position;
-    /**Model.Piece's offset movement */
+    /**Model.Pieces.Piece's offset movement */
     private StrategyMovement context;
-    /**Model.Piece's value*/
+    /**Model.Pieces.Piece's value*/
     private float value;
-    /**Model.Piece's code : 1 : Model.Pawn, 2 : Model.Knight, 3 : Model.Bishop, 4 : Model.Rook, 5 : Model.Queen, 6 : Model.King, Negative for black piece*/
+    /**Model.Pieces.Piece's code : 1 : Model.Pieces.Pawn, 2 : Model.Pieces.Knight, 3 : Model.Pieces.Bishop, 4 : Model.Pieces.Rook, 5 : Model.Pieces.Queen, 6 : Model.Pieces.King, Negative for black piece*/
     private int pieceCode;
     /**
      * static 10x12 array, describe the board which is initialised one time at the creation of the first piece,
@@ -33,7 +35,7 @@ public abstract class Piece
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
     /**
-     * Model.Piece's constructor's which initialise a board.
+     * Model.Pieces.Piece's constructor's which initialise a board.
      * @param color piece's color.
      * @param position piece's position in the board.
      * @param value piece's value.
@@ -74,11 +76,11 @@ public abstract class Piece
     public void setPosition( int position )
     {
         if(position < 0)
-            throw new IllegalArgumentException("Model.Piece.java : setPosition(int position) : position < 0");
+            throw new IllegalArgumentException("Model.Pieces.Piece.java : setPosition(int position) : position < 0");
         if ( board[position] == -10 )
-            throw new IllegalArgumentException("Model.Piece.java : setPosition(int position) : position = -10");
+            throw new IllegalArgumentException("Model.Pieces.Piece.java : setPosition(int position) : position = -10");
         if ( !isValidMove(position) )
-            throw new IllegalArgumentException("Model.Piece.java : setPosition(int position) : move not valid");
+            throw new IllegalArgumentException("Model.Pieces.Piece.java : setPosition(int position) : move not valid");
         this.position = position;
     }
 
@@ -130,15 +132,6 @@ public abstract class Piece
     {
         return value;
     }
-    public boolean canCapturePiece(Piece piece)
-    {
-        if(piece.getColor() == this.color)
-            throw new IllegalArgumentException("Model.Piece.java : canCapturePiece : trying to capture ur own piece ");
-        if(piece.getPosition() == this.getPosition())
-            return false;
-        return true;
-    }
-
 
 
 
@@ -158,6 +151,22 @@ public abstract class Piece
      * @param position piece's position in the board.
      * @return true if the move is valid, false else.
      */
+
+    public boolean isWhite()
+    {
+        return color == Color2.WHITE;
+    }
+
+    public boolean canCapturePiece(Piece piece)
+    {
+        if(piece.getColor() == this.color)
+            throw new IllegalArgumentException("Model.Pieces.Piece.java : canCapturePiece : trying to capture ur own piece ");
+        if(piece.getPosition() == this.getPosition())
+            return false;
+        if ( !this.isValidMove(piece.getPosition()) )
+            return false;
+        return true;
+    }
 
 
 

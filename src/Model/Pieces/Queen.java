@@ -1,7 +1,9 @@
-package Model;
+package Model.Pieces;
+
+import Model.utils.Color2;
 
 /**
- * class Model.Queen child of piece.
+ * class Model.Pieces.Queen child of piece.
  */
 public class Queen extends Piece
 {
@@ -14,7 +16,7 @@ public class Queen extends Piece
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
     /**
-     * Model.Queen's constructor set the strategy movement by default.
+     * Model.Pieces.Queen's constructor set the strategy movement by default.
      * @param color queen's color.
      * @param position queen's position.
      */
@@ -37,9 +39,9 @@ public class Queen extends Piece
     @Override
     public boolean isValidMove(int position)
     {
-        //comments in Model.Bishop.java
+        //comments in Model.Pieces.Bishop.java
         if(position < 0)
-            throw new IllegalArgumentException("Model.Bishop.java : isValidMove(int position) : position < 0");
+            throw new IllegalArgumentException("Model.Pieces.Bishop.java : isValidMove(int position) : position < 0");
         int[] offset = executeStrategy();
         //System.out.print("{ ");
         //System.out.println(Arrays.toString(offset));

@@ -1,9 +1,11 @@
-package Model;
+package Model.utils;
+
+import Model.Pieces.*;
 
 public class PieceFactory {
     private static PieceFactory instance;
 
-    PieceFactory() {}
+    public PieceFactory() {}
 
     public PieceFactory createInstancePiecefactory()
     {

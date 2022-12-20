@@ -1,7 +1,9 @@
-package Model;
+package Model.Pieces;
+
+import Model.utils.Color2;
 
 /**
- * Model.Pawn's class child of piece.
+ * Model.Pieces.Pawn's class child of piece.
  */
 public class Pawn extends Piece
 {
@@ -62,7 +64,7 @@ public class Pawn extends Piece
     public boolean isValidMove(int position)
     {
         if(position < 0)
-            throw new IllegalArgumentException("Model.Bishop.java : isValidMove(int position) : position < 0");
+            throw new IllegalArgumentException("Model.Pieces.Bishop.java : isValidMove(int position) : position < 0");
 
         //get the offset of movement
         int[] offset = executeStrategy();

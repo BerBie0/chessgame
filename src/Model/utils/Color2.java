@@ -1,4 +1,4 @@
-package Model;
+package Model.utils;
 
 public enum Color2 {
     BLACK,

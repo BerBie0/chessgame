@@ -1,7 +1,7 @@
 package View;
 
-import Model.Board;
-import Model.Piece;
+import Model.Board.Board;
+import Model.Pieces.Piece;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.sql.Array;
 import java.util.*;
 import java.util.List;
 

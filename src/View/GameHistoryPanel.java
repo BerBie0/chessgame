@@ -1,7 +1,7 @@
 package View;
 
-import Model.Board;
-import Model.Color2;
+import Model.Board.Board;
+import Model.utils.Color2;
 import View.GameFrame.MoveLog;
 
 import javax.swing.*;
@@ -9,7 +9,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class GameHistoryPanel extends JPanel {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
