@@ -25,6 +25,10 @@ public class Player {
     {
         return color;
     }
+    public void setUrTurn(boolean turn)
+    {
+        urTurn = turn;
+    }
     public boolean isUrTurn()
     {
         return urTurn;

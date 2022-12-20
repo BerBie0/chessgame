@@ -94,12 +94,6 @@ public class CastleMove extends Move
             board.move(king, kingPosition);
             board.move(rook, rookPosition);
         }
-
-
-
-
-
-
     }
 
 

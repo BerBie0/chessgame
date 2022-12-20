@@ -132,15 +132,6 @@ public abstract class Piece
     {
         return value;
     }
-    public boolean canCapturePiece(Piece piece)
-    {
-        if(piece.getColor() == this.color)
-            throw new IllegalArgumentException("Model.Pieces.Piece.java : canCapturePiece : trying to capture ur own piece ");
-        if(piece.getPosition() == this.getPosition())
-            return false;
-        return true;
-    }
-
 
 
 
@@ -161,9 +152,20 @@ public abstract class Piece
      * @return true if the move is valid, false else.
      */
 
-    public boolean isWhithe()
+    public boolean isWhite()
     {
         return color == Color2.WHITE;
+    }
+
+    public boolean canCapturePiece(Piece piece)
+    {
+        if(piece.getColor() == this.color)
+            throw new IllegalArgumentException("Model.Pieces.Piece.java : canCapturePiece : trying to capture ur own piece ");
+        if(piece.getPosition() == this.getPosition())
+            return false;
+        if ( !this.isValidMove(piece.getPosition()) )
+            return false;
+        return true;
     }
 
 

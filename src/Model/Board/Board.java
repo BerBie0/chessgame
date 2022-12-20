@@ -184,11 +184,11 @@ public class Board
     {
         return true;
     }
-
+    //TODO isPathFree and axis and diagonal !
     public boolean isPathFreeAxis(Piece piece, int newPos){
         return true;
     }
-
+    //TODO isPathFree and axis and diagonal !
     public boolean isPathFreeDiagonal(Piece piece, int newPos){
         return true;
     }
@@ -214,6 +214,34 @@ public class Board
                 .filter( piece -> piece.getColor() == Color2.BLACK && piece instanceof King )
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Board.java : Piece getWhiteKing() : king not found"));
+    }
+
+    public King getKing(Color2 color)
+    {
+        return (King) pieces.stream()
+                .filter( piece -> piece.getColor() == color && piece instanceof King )
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Board.java : Piece getKing(Color2 color) : king not found"));
+    }
+
+    public Boolean isCheck(Color2 color)
+    {
+        Color2 attackColor = color == Color2.WHITE ? Color2.BLACK: Color2.WHITE;
+        King king = getKing(color);
+        Boolean check =  pieces.stream()
+                .filter( piece -> piece.getColor() != attackColor )
+                .anyMatch( piece -> piece.canCapturePiece(king) && isPathFree(piece, king.getPosition()) );
+        if ( !king.getIsChecked() && check )
+        {
+            king.setIsChecked(true);
+        }
+        return check;
+    }
+
+    //TODO anyValidMove
+    public boolean anyValidMove( Color2 color )
+    {
+        return true;
     }
 
 
