@@ -40,6 +40,21 @@ public class Board
         return pieces;
     }
 
+    public Piece getPieceFromPosition(int position)
+    {
+        if(position < 21 && position > 98)
+        {
+            throw new IllegalArgumentException("Model.Board.Board.java : getPieceFromPosition(int position) : position < 21 or position > 98");
+        }
+        return pieces.stream()
+                .filter( pos -> pos.getPosition() == position)
+                .findFirst()
+                .orElseThrow(
+                        () -> {
+                            throw new IllegalArgumentException("Model.Board.Board.java : getPieceFromPosition(int position) : can't find piece");
+                        } );
+    }
+
 
 
     /*-------------------------------------------OVERRIDE METHOD------------------------------------------------------*/
@@ -59,20 +74,7 @@ public class Board
         return res;
     }
 
-    public Piece getPieceFromPosition(int position)
-    {
-        if(position < 21 && position > 98)
-        {
-            throw new IllegalArgumentException("Model.Board.Board.java : getPieceFromPosition(int position) : position < 21 or position > 98");
-        }
-        return pieces.stream()
-                .filter( pos -> pos.getPosition() == position)
-                .findFirst()
-                .orElseThrow(
-                        () -> {
-                            throw new IllegalArgumentException("Model.Board.Board.java : getPieceFromPosition(int position) : can't find piece");
-                        } );
-    }
+
 
 
     public boolean isPositionOccupied(int position)
@@ -179,13 +181,15 @@ public class Board
         validateMoveCommon(piece, newPos);
     }
 
+    //TODO validateCastleMove
+
     //TODO isPathFree and axis and diagonal !
     public boolean isPathFree(Piece piece, int newPos)
     {
         return true;
     }
     //TODO isPathFree and axis and diagonal !
-    public boolean isPathFreeAxis(Piece piece, int newPos){
+    public boolean isPathFreeVertical(Piece piece, int newPos){
         return true;
     }
     //TODO isPathFree and axis and diagonal !

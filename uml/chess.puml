@@ -9,77 +9,9 @@ class Queen extends Piece
 class King extends Piece
 interface StrategyMovement
 
+class GameController {
 
-
-interface IPlayerObserver
-{
-    +reactTo() : void
 }
-
-interface IBoardObserver
-{
-    +reactTo() : void
-}
-class BoardObserver implements IBoardObserver
-{
-    +reactTo(board : Board) : void
-}
-class PlayerObserver implements IPlayerObserver
-{
-    +reactTo(player : Player) : void
-}
-
-
-enum Color {
-    WHITE
-    BLACK
-}
-
-class Board {
-    -board int[]
-    -pieces : List<Piece>
-    #observers : List<BoardObserver>
-
-    +Board() : Board
-    +getPieces() : List<Piece>
-    +getPieceFromPosition(position : int) : Piece
-    +addPieceToList(piece : Piece) : void
-    +removePieceFromList(piece : Piece) : void
-    +isValidMove(piece : Piece, newPosition : int) : boolean
-    -pathIsFree(piece : Piece, newPosition : int)
-    +isPathFreeOnXY(piece : Piece, newPosition : int)
-    +isPathFreeOnRay(piece : Piece, newPosition : int)
-    +isPostionOccupied(position : int) : boolean
-    +isInCheck(color : Color)
-    +getKing(color : Color)
-    +isPat(color : Color)
-    +moveWillCauseCheck(piece : Piece, newPosition : int)
-    +initBoard()
-
-    +addObserver(observer : BoardObserver) : void
-    +notifyObserver() : void
-}
-
-class Player {
-    -name : String
-    -urTurn : boolean
-    -capturedPiece : List<Piece>
-    -color : Color
-    #observers : List<PlayerObserver>
-
-    +Player(Color : color, String : name , urTurn : boolean)
-    +getColor() : Color
-    +getCapturedPieces() : List<Piece>
-    +isUrTurn() : boolean
-    +changeTurn() : void
-    +isUrTurn() : boolean
-    +addCapturedPieces(piece : Piece) : void
-    +move(piece : Piece, newPosition : int) : void
-
-    +addObserver(observer : PlayerObserver) : void
-    +notifyObserver() : void
-}
-
 class GameManager{
     -whitePlayer : Player
     -blackPlayer : Player
@@ -87,41 +19,182 @@ class GameManager{
     -commandFactory : CommandFactory
     -board : Board
 
-    +GameManager(board : Board, whitePlayer : Player, blackPlayer : Player, lastCommand : ICommand, commandFactory : CommandFactory)
+    +GameManager()
+
     +getCurrentPlayer() : Player
-    +executeCommand(String command) : void
-    +undoCommand() : void
-    +promotePawn(pawn : Pawn, newPiece : Piece)
+    +setBlackTurn(boolean turn) : void
+    +setWhiteTurn(boolean turn) : void
+
+    +isCheckMate() : boolean
     +isPat() : boolean
-    +isPlayerInCheckMate() : boolean
-    +isPlayerInCheck() : boolean
+    +execute(int oldPos, int newPos, Piece piece, Player player, Board board) : void
+    +undoCommand() : void
 }
 
 
 
-class CommandFactory {
-    +CommandFactory(board : Board)
-    +createCommand() : ICommand
+
+
+
+class Board {
+    -board int[]
+    -pieces : List<Piece>
+
+    +Board() : Board
+
+    +getPieces() : List<Piece>
+    +getPieceFromPosition(position : int) : Piece
+
+    +calculateLegalMoves(Piece piece) : LinkedList<Integer>
+    +isPostionOccupied(position : int) : boolean
+    +addPieceToBoard(Piece piece) : void
+    +removePieceToBoard(piece : Piece) : void
+    +initialzeBoard() : void
+    +validateMoveCommon(Piece piece, int newPos) : void
+    +validateSimpleMove(Piece piece, int newPos) : void
+    +validateAttackMove(Piece piece, int newPos) : void
+    +validateCastleMove(Piece piece, int newPos) : void
+    +isPathFree(Piece piece, int newPos) : boolean
+    +isPathFreeVertical(Piece piece, int newPos) : boolean
+    +isPathFreeDiagonal(Piece piece, int newPos) : boolean
+    +move(Piece piece, int position) : void
+    +getWhiteKing() : Piece
+    +getBlackKing() : Piece
+    +getKing(Color color) : King
+    +isCheck(Color color) : boolean
+    +anyValidMove(Color color) : boolean
+
+    +isPat(color : Color)
+    +moveWillCauseCheck(piece : Piece, newPosition : int)
+
+
+    +addObserver(observer : BoardObserver) : void
+    +notifyObserver() : void
 }
 
-interface ICommand{
-    execute() : void
-    undo() : void
+class AttackMove extends Move {
+    +AttackMove(int op, int np, Piece pi, Player pl, Board b) : AttackMove
+
+    +execute() : void
+    +undo() : void
+    -capture(Piece capturedPiece) : void
 }
 
-class CommandMaker {
-    -oldPosition : int
-    -newPosition : int
-    -player : Player
+class castleMove extends Move {
+    +CastleMove(int op, int np, Piece pi, Player pl, Board b) : CastleMove
+
+    +execute() : void
+    +undo() : void
+    -canCastle(Piece king, Piece rook) : boolean
+}
+
+class SimpleMove extends Move {
+    +SimpleMove(int op, int np, Piece pi, Player pl, Board b) : SimpleMove
+
+    +execute() : void
+    +undo() : void
+}
+
+interface IMove
+{
+    +execute() : void
+    +undo() : void
+}
+
+abstract class Move {
+    -oldPos : int
+    -newPos : int
     -piece : Piece
+    -player : Player
     -board : Board
+
+    +Move(int op, int np, Piece pi, Player pl, Board b) : Move
 }
 
-class MoveCommand {
+class MoveFactory {
+    -board : Board
+
+    +MoveFactory(Board b)
+    +createMove(int oldPos, int newPos, Piece piece, Player player, Board board) : IMove
 }
-class AttackCommand {
+
+
+
+
+
+class Bishop {
 }
-class RookKingCommand {
+
+class King {
+    -instance : King
+    -isChecked : boolean
+    -hasMovedOnce : boolean
+    -King()
+    +createInstance() : King
+}
+
+class Knight {
+}
+
+class Pawn {
+    -isPromoted : boolean
+    -isEmpassant : boolean
+    -hasMovedOnce : boolean
+}
+
+class Piece {
+    -color : Color
+    -position : int
+    -context : StrategyMovement
+    -value : float
+    -pieceCode : int
+    +board : int[]
+
+    +Piece(Color2 color, int position, float value, int pieceCode) : Piece
+
+    +getPosition() : int
+    +setPosition(position : int)
+    +setStrategy(StrategyMovement context) : void
+    +getColor() : Color
+    +setValue(float value) : void
+    +setPieceCode(int value) : void
+    +getPieceCode() : int
+    +getValue() : int
+
+    +executeStrategy() : int[]
+    +isWhite : boolean
+    +canCapturePiece(piece : Piece) : boolean
+    +isValidMove(newPosition : int) : boolean
+
+}
+
+class Queen {
+}
+
+class Rook {
+}
+
+class Player {
+    -name : String
+    -urTurn : boolean
+    -capturedPiece : List<Piece>
+    -color : Color
+
+    +Player(Color : color, String : name) : Player
+
+    +getColor() : Color
+    +setUrTurn(boolean turn) : void
+    +isUrTurn() : boolean
+    +changeTurn() : void
+    +getCapturedPieces() : List<Piece>
+    +addCapturedPieces(piece : Piece) : void
+    +move(piece : Piece, newPosition : int) : void
+    +isWhite() : boolean
+}
+
+enum Color {
+    WHITE
+    BLACK
 }
 
 class PieceFactory {
@@ -136,36 +209,11 @@ class PieceFactory {
     +createQueen() : Piece
     +createKing() : Piece
 }
-class Piece {
-    -color : Color
-    -position : int
-    #Piece(color : Color, position : int)
-    +getPosition() : int
-    +setPosition(position : int)
-    +getColor() : Color
-    +isValidMove(newPosition : int) : boolean
-    +canCapturePiece(piece : Piece) : boolean
-}
-class Pawn {
-    -isPromoted : boolean
-    -isEmpassant : boolean
-    -hasMovedOnce : boolean
-}
-class King {
-    -instance : King
-    -isChecked : boolean
-    -hasMovedOnce : boolean
-    -King()
-    +createInstance() : King
-}
-class Queen {
-}
-class Knight {
-}
-class Bishop {
-}
-class Rook {
-}
+
+
+
+
+
 
 Piece "1" *-- "1" StrategyMovement : contains
 Piece "1" *-- "1" Color : contains

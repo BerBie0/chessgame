@@ -28,7 +28,7 @@ public abstract class Piece
      * static 10x12 array, describe the board which is initialised one time at the creation of the first piece,
      * 0 : empty position, -10 : non reachable position.
      */
-    static int[] board;
+    public static int[] board;
 
 
 
