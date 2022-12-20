@@ -5,9 +5,11 @@ import Model.Pieces.Pawn;
 import Model.utils.Color2;
 import Model.Pieces.Piece;
 import Model.utils.PieceFactory;
+import View.IObserver;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Board
@@ -17,6 +19,7 @@ public class Board
 
     private int[] board;
     private ArrayList<Piece> pieces = new ArrayList<>();
+    private List<IBoardObserver> observers;
 
 
 
@@ -29,6 +32,7 @@ public class Board
         {
             board[i] = (i < 20 || i > 100 || i % 10 == 9 || i % 10 == 0) ? -10 : 0;
         }
+        observers = new LinkedList<>();
     }
 
 
@@ -248,6 +252,19 @@ public class Board
         return true;
     }
 
+    /*-----------------------------------------------OBSERVER---------------------------------------------------------*/
+    public void addObserver( IBoardObserver obs)
+    {
+        observers.add(obs);
+    }
+
+    private void notifyObservers()
+    {
+        for ( IBoardObserver obs : observers )
+        {
+            obs.update();
+        }
+    }
 
 
 

@@ -9,7 +9,7 @@ public abstract class Move implements IMove
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
     protected final int oldPos;
-    protected final int newpos;
+    protected final int newPos;
     protected final Piece piece;
     protected final Player player;
     protected final Board board;
@@ -21,7 +21,7 @@ public abstract class Move implements IMove
     public Move(int op, int np, Piece pi, Player pl, Board b)
     {
         oldPos = op;
-        newpos = np;
+        newPos = np;
         piece = pi;
         player = pl;
         board = b;

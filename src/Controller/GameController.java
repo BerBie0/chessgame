@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.Pieces.Piece;
+
 public class GameController
 {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
@@ -10,9 +12,9 @@ public class GameController
 
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
-    public GameController()
+    public GameController( GameManager gmm)
     {
-        gm = new GameManager();
+        gm = gmm;
     }
 
     /*---------------------------------------------GET SET------------------------------------------------------------*/
@@ -20,11 +22,19 @@ public class GameController
     /*-------------------------------------------INTERFACE METHOD-----------------------------------------------------*/
     /*------------------------------------------------METHOD----------------------------------------------------------*/
 
-    public void startGame()
+    public void Game( int oldPos, int newPos, Piece piece )
     {
         while ( !gm.isCheckMate() && !gm.isPat() )
         {
-            System.out.println("hey");
+            do
+            {
+                gm.execute( oldPos, newPos, piece, gm.getCurrentPlayer(), gm.getBoard() );
+                if ( gm.isCurrentPlayerCheck() )
+                    gm.undo();
+            } while ( gm.isCurrentPlayerCheck() );
+
+            gm.setWhiteTurn( !gm.isWhitePlayer() );
+            gm.setBlackTurn( !gm.isBlackPlayer() );
         }
     }
 }

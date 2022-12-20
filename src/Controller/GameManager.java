@@ -47,15 +47,32 @@ public class GameManager
     {
         wPlayer.setUrTurn(turn);
     }
+
+    public Board getBoard() { return board; }
     /*-------------------------------------------OVERRIDE METHOD------------------------------------------------------*/
     /*-------------------------------------------INTERFACE METHOD-----------------------------------------------------*/
     /*------------------------------------------------METHOD----------------------------------------------------------*/
+
+    public boolean isWhitePlayer()
+    {
+        return wPlayer.isUrTurn();
+    }
+
+    public boolean isBlackPlayer()
+    {
+        return bPlayer.isUrTurn();
+    }
 
     public boolean isCheckMate()
     {
         Color2 currentPlayerColor = getCurrentPlayer().getColor();
         King currentPlayerKing = (King) board.getKing(currentPlayerColor);
         return board.isCheck(currentPlayerColor) && !board.anyValidMove(currentPlayerColor);
+    }
+
+    public boolean isCurrentPlayerCheck()
+    {
+        return board.isCheck( board.getKing( getCurrentPlayer().getColor() ).getColor() );
     }
 
     //TODO

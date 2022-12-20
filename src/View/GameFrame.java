@@ -1,5 +1,6 @@
 package View;
 
+import Controller.GameController;
 import Model.Board.Board;
 import Model.Pieces.Piece;
 
@@ -27,14 +28,16 @@ public class GameFrame extends JFrame
     private final GameHistoryPanel gameHistoryPanel;
     private final TakenPiecesPanel takenPiecesPanel;
     private final MoveLog moveLog;
-    private Board chessBoard;
-    private BoardDirection boardDirection;
 
+    private BoardDirection boardDirection;
     private int oldPos;
     private int newPos;
+    private Board chessBoard;
     private Piece humanMovedPiece;
+    private GameController gameController;
 
-    public GameFrame() {
+    public GameFrame(Board board, GameController gameController)
+    {
         //Fixme ERREUR DANS TAKENPIECE
         super(" Chess Game GUI");
         this.setLayout(new BorderLayout());
@@ -44,8 +47,8 @@ public class GameFrame extends JFrame
         this.setLocationRelativeTo(null);
         final JMenuBar tableMenuBar = createTableMenuBar();
         this.setJMenuBar(tableMenuBar);
-        this.chessBoard = new Board();
-        chessBoard.inializeBoard();
+        this.chessBoard = board;
+        this.gameController = gameController;
         this.gameHistoryPanel = new GameHistoryPanel();
         this.takenPiecesPanel = new TakenPiecesPanel();
         this.boardPanel = new BoardPanel();
@@ -174,7 +177,9 @@ public class GameFrame extends JFrame
             return this.positions.remove(position);
         }
 
-    }
+    } // end MoveLog
+
+    
     private class TilePanel extends JPanel
     {
         private final int tileId;
