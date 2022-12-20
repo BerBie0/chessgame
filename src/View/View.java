@@ -69,9 +69,9 @@ public class View implements IObserver{
     }
 
     @Override
-    public void update()
+    public void updateBookTitle(String change)
     {
-        getLabel().setText(model.getTitle());
+        getLabel().setText(change);
         getLabel2().setText(model.getTitle());
         getLabel3().setText(model.getTitle());
     }

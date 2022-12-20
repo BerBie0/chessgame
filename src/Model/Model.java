@@ -18,7 +18,7 @@ public class Model{
 
     private void notifyTitleChange() {
         for ( IObserver obs : observers ) {
-            obs.update();
+            obs.updateBookTitle(valeur);
         }
     }
     public void setTitle( String title )

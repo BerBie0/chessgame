@@ -6,8 +6,9 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
 
 import Model.Model;
+import View.IObserver;
 
-public class Controller {
+public class Controller implements IObserver {
     Model m;
     public Controller(Model m)
     {
@@ -19,7 +20,8 @@ public class Controller {
         m.setTitle(change);
     }
 
-    public String getData(){
-        return m.getTitle();
+    @Override
+    public void updateBookTitle(String change) {
+        m.setTitle(change);
     }
 }
