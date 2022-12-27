@@ -23,21 +23,6 @@ public class EnterNameMenu extends JFrame implements IPlayerObserver {
         this.gameController = gameController;
         this.init();
     }
-    public JButton getButton() {
-        return button;
-    }
-
-    public JLabel getLabel() {
-        return label;
-    }
-
-    public JLabel getLabel2() {
-        return label2;
-    }
-
-    public JLabel getLabel3() {
-        return label3;
-    }
 
     public void init()
     {

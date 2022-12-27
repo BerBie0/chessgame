@@ -44,7 +44,7 @@ public class MainMenu extends JFrame{
         jpMainMenu.add(jpChose);
         this.add(jpMainMenu);
         mainMenu();
-        multiPlayer.addActionListener(this::gameEnterMenu);
+        multiPlayer.addActionListener(this::game2pEnterMenu);
 
     }
 
@@ -107,17 +107,22 @@ public class MainMenu extends JFrame{
         return fontSizeToUse;
     }
 
-    private void gameEnterMenu(ActionEvent event )
+    private void game2pEnterMenu(ActionEvent event )
     {
         //MVC
+        //model
         Player wPlayer = new Player(Color2.WHITE, "");
         Player bPlayer = new Player(Color2.BLACK, "");
         Board board = new Board();
+        //controller
         GameManager gameManager = new GameManager(wPlayer, bPlayer, board);
         GameController gameController = new GameController(gameManager);
+        //view
         EnterNameMenu enterNameMenu = new EnterNameMenu(wPlayer, bPlayer, gameController);
+        //observer
         wPlayer.addObserver(enterNameMenu);
         bPlayer.addObserver(enterNameMenu);
+
         this.setVisible(false);
         enterNameMenu.setVisible(true);
 
