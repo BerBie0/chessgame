@@ -24,7 +24,7 @@ public class CastleMove extends Move
         if( piece.getColor() != player.getColor() )
             throw new IllegalArgumentException("AttackMove.java : The piece is not ur");
 
-        if ( player.isWhite() && newpos == 97 ) {
+        if ( player.isWhite() && newPos == 97 ) {
             Piece king = board.getWhiteKing();
             Piece rook = board.getPieceFromPosition(98);
             if (canCastle(king, rook)) {
@@ -32,7 +32,7 @@ public class CastleMove extends Move
                 board.move(king, 96);
             } else
                 throw new IllegalArgumentException("CastleMove.java : execute() : white can't castle on king side");
-        } else if ( player.isWhite() && newpos == 93 ) {
+        } else if ( player.isWhite() && newPos == 93 ) {
             Piece king = board.getWhiteKing();
             Piece rook = board.getPieceFromPosition(91);
             if (canCastle(king, rook)) {
@@ -40,7 +40,7 @@ public class CastleMove extends Move
                 board.move(king, 93);
             } else
                 throw new IllegalArgumentException("CastleMove.java : execute() : white can't castle on queen side");
-        } else if ( !player.isWhite() && newpos == 27 ) {
+        } else if ( !player.isWhite() && newPos == 27 ) {
             Piece king = board.getBlackKing();
             Piece rook = board.getPieceFromPosition(28);
             if (canCastle(king, rook)) {
@@ -48,7 +48,7 @@ public class CastleMove extends Move
                 board.move(king, 28);
             } else
                 throw new IllegalArgumentException("CastleMove.java : execute() : black can't castle on king side");
-        } else if ( !player.isWhite() && newpos == 23 ) {
+        } else if ( !player.isWhite() && newPos == 23 ) {
             Piece king = board.getBlackKing();
             Piece rook = board.getPieceFromPosition(21);
             if (canCastle(king, rook)) {

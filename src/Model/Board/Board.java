@@ -5,7 +5,6 @@ import Model.Pieces.Pawn;
 import Model.utils.Color2;
 import Model.Pieces.Piece;
 import Model.utils.PieceFactory;
-import View.IObserver;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

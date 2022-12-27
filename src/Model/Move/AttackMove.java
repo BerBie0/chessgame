@@ -27,8 +27,8 @@ public class AttackMove extends Move
         if( piece.getColor() != player.getColor() )
             throw new IllegalArgumentException("AttackMove.java : The piece is not ur");
 
-        Piece capturePiece = board.getPieceFromPosition(newpos);
-        if ( board.isPositionOccupied(newpos) && piece.canCapturePiece(capturePiece) )
+        Piece capturePiece = board.getPieceFromPosition(newPos);
+        if ( board.isPositionOccupied(newPos) && piece.canCapturePiece(capturePiece) )
             capture(capturePiece);
         throw new IllegalArgumentException("AttackMove.java : newPos is empty || can't capture the piece");
     }
@@ -38,7 +38,7 @@ public class AttackMove extends Move
     {
         List<Piece> playerWhoCapturedPiece = player.getCapturedPieces();
         Piece comeBackPiece = playerWhoCapturedPiece.get(playerWhoCapturedPiece.size() - 1);
-        comeBackPiece.setPosition(newpos);
+        comeBackPiece.setPosition(newPos);
         board.move(piece, oldPos);
         board.addPieceToBoard(comeBackPiece);
         player.getCapturedPieces().remove(comeBackPiece);
@@ -50,9 +50,9 @@ public class AttackMove extends Move
 
     private void capture(Piece capturePiece)
     {
-        board.validateAttackMove(piece, newpos);
+        board.validateAttackMove(piece, newPos);
         board.removePieceToBoard(capturePiece);
-        player.move(piece, newpos);
+        player.move(piece, newPos);
         player.addCapturedPiece(capturePiece);
     }
 }

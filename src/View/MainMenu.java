@@ -1,10 +1,15 @@
 package View;
 
+import Controller.GameController;
+import Controller.GameManager;
+import Model.Board.Board;
+import Model.Player.Player;
+import Model.utils.Color2;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
@@ -39,7 +44,8 @@ public class MainMenu extends JFrame{
         jpMainMenu.add(jpChose);
         this.add(jpMainMenu);
         mainMenu();
-        multiPlayer.addActionListener(this::gameMenu);
+        multiPlayer.addActionListener(this::gameEnterMenu);
+
     }
 
 
@@ -101,16 +107,26 @@ public class MainMenu extends JFrame{
         return fontSizeToUse;
     }
 
-    private void gameMenu( ActionEvent event )
+    private void gameEnterMenu(ActionEvent event )
     {
+        //MVC
+        Player wPlayer = new Player(Color2.WHITE, "");
+        Player bPlayer = new Player(Color2.BLACK, "");
+        Board board = new Board();
+        GameManager gameManager = new GameManager(wPlayer, bPlayer, board);
+        GameController gameController = new GameController(gameManager);
+        EnterNameMenu enterNameMenu = new EnterNameMenu(wPlayer, bPlayer, gameController);
+        wPlayer.addObserver(enterNameMenu);
+        bPlayer.addObserver(enterNameMenu);
         this.setVisible(false);
-        new GameFrame().setVisible(true);
+        enterNameMenu.setVisible(true);
 
     }
-
+    /*
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new NimbusLookAndFeel());
         MainMenu c = new MainMenu();
         c.setVisible(true);
     }
+    */
 }

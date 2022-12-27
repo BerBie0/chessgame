@@ -22,12 +22,12 @@ public class GameManager
 
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
-    public GameManager()
+    public GameManager(Player wPlayer, Player bPlayer, Board board)
     {
-        this.board = new Board();
+        this.board = board;
         board.inializeBoard();
-        this.bPlayer = new Player(Color2.BLACK, "nom1");
-        this.wPlayer = new Player(Color2.WHITE, "nom2");
+        this.bPlayer = bPlayer;
+        this.wPlayer = wPlayer;
         this.moveFactory = new MoveFactory(board);
     }
 
@@ -49,6 +49,18 @@ public class GameManager
     }
 
     public Board getBoard() { return board; }
+
+    public void setPlayerName(String name, Player player)
+    {
+        if ( player.isWhite() )
+        {
+            wPlayer.setName(name);
+        }
+        else
+        {
+            bPlayer.setName(name);
+        }
+    }
     /*-------------------------------------------OVERRIDE METHOD------------------------------------------------------*/
     /*-------------------------------------------INTERFACE METHOD-----------------------------------------------------*/
     /*------------------------------------------------METHOD----------------------------------------------------------*/

@@ -36,7 +36,7 @@ public class GameFrame extends JFrame
     private Piece humanMovedPiece;
     private GameController gameController;
 
-    public GameFrame(Board board, GameController gameController)
+    public GameFrame()
     {
         //Fixme ERREUR DANS TAKENPIECE
         super(" Chess Game GUI");
@@ -47,8 +47,6 @@ public class GameFrame extends JFrame
         this.setLocationRelativeTo(null);
         final JMenuBar tableMenuBar = createTableMenuBar();
         this.setJMenuBar(tableMenuBar);
-        this.chessBoard = board;
-        this.gameController = gameController;
         this.gameHistoryPanel = new GameHistoryPanel();
         this.takenPiecesPanel = new TakenPiecesPanel();
         this.boardPanel = new BoardPanel();

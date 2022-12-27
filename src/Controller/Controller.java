@@ -1,14 +1,9 @@
 package Controller;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.lang.reflect.Field;
-
 import Model.Model;
-import View.IObserver;
+import View.IPlayerObserver;
 
-public class Controller implements IObserver {
+public class Controller implements IPlayerObserver {
     Model m;
     public Controller(Model m)
     {
@@ -21,7 +16,7 @@ public class Controller implements IObserver {
     }
 
     @Override
-    public void updateBookTitle(String change) {
-        m.setTitle(change);
+    public void updatePlayerName() {
+
     }
 }

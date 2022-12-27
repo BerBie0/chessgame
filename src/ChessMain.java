@@ -3,7 +3,6 @@ import Controller.GameManager;
 import Model.Board.Board;
 import Model.Player.Player;
 import Model.utils.Color2;
-import View.GameFrame2;
 import View.MainMenu;
 
 public class ChessMain
@@ -14,10 +13,10 @@ public class ChessMain
 
 
         //controller
-        GameController gameController = new GameController();
 
         //view
         MainMenu mainMenu = new MainMenu();
+        mainMenu.setVisible(true);
     }
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/

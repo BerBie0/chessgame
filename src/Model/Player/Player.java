@@ -2,14 +2,17 @@ package Model.Player;
 
 import Model.utils.Color2;
 import Model.Pieces.Piece;
+import View.IPlayerObserver;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
     private String name;
     private boolean urTurn = false;
     private Color2 color;
     private ArrayList<Piece> capturedPiece;
+    List<IPlayerObserver> observers;
 
     public Player(Color2 color, String name)
     {
@@ -19,6 +22,17 @@ public class Player {
         {
             urTurn = true;
         }
+        observers = new ArrayList<>();
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+        notifyObservers();
+    }
+    public String getName()
+    {
+        return name;
     }
 
     public Color2 getColor()
@@ -49,6 +63,19 @@ public class Player {
     public boolean isWhite()
     {
         return color == Color2.WHITE;
+    }
+
+    public void addObserver( IPlayerObserver obs )
+    {
+        observers.add(obs);
+    }
+
+    public void notifyObservers()
+    {
+        for ( IPlayerObserver obs : observers )
+        {
+            obs.updatePlayerName();
+        }
     }
 
 }

@@ -22,8 +22,8 @@ public class SimpleMove extends Move
     {
         if( piece.getColor() != player.getColor() )
             throw new IllegalArgumentException("SimpleMove.java : The piece is not ur");
-        board.validateSimpleMove(piece, newpos);
-        player.move(piece, newpos);
+        board.validateSimpleMove(piece, newPos);
+        player.move(piece, newPos);
     }
 
     @Override
