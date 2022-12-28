@@ -2,6 +2,7 @@ package View;
 
 import Controller.GameController;
 import Model.Board.Board;
+import Model.Board.IBoardObserver;
 import Model.Pieces.Piece;
 
 import javax.imageio.ImageIO;
@@ -21,7 +22,7 @@ import java.util.List;
 import static javax.swing.SwingUtilities.isLeftMouseButton;
 import static javax.swing.SwingUtilities.isRightMouseButton;
 
-public class GameFrame2 extends JFrame {
+public class GameFrame2 extends JFrame implements IBoardObserver {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
     private final static Dimension GLOBAL_DIM = new Dimension(800, 800);
@@ -72,6 +73,11 @@ public class GameFrame2 extends JFrame {
         if (gameFrame2 == null)
             gameFrame2 = new GameFrame2(gameController);
         return gameFrame2;
+    }
+
+    @Override
+    public void updateBoard() {
+        boardPanel.drawBoard(gameController.getBoard());
     }
     /*---------------------------------------------GET SET------------------------------------------------------------*/
     /*-------------------------------------------OVERRIDE METHOD------------------------------------------------------*/
@@ -146,9 +152,8 @@ public class GameFrame2 extends JFrame {
         /*---------------------------------------------GET SET------------------------------------------------------------*/
         /*-------------------------------------------OVERRIDE METHOD------------------------------------------------------*/
         /*-------------------------------------------INTERFACE METHOD-----------------------------------------------------*/
-        /*------------------------------------------------METHOD----------------------------------------------------------*/
 
-        public void drawBoard(final Board board) {
+        public void drawBoard(Board board) {
             removeAll();
             for (final Tile tile : boardDirection.traverse(boardTiles)) {
                 tile.drawTile(board);
@@ -157,9 +162,14 @@ public class GameFrame2 extends JFrame {
             validate();
             repaint();
         }
+
+
+        /*------------------------------------------------METHOD----------------------------------------------------------*/
+
+
     } // end BoardPanel
 
-    public class Tile extends JPanel {
+    private class Tile extends JPanel {
         /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
         private final static Dimension TILE_PANEL_DIM = new Dimension(20, 20);
@@ -224,13 +234,18 @@ public class GameFrame2 extends JFrame {
         }
 
         public void clickTile(MouseEvent e) {
+            //TODO ajouter les observers 
             if (isRightMouseButton(e)) {
+                //reset selected piece
                 oldPos = 0;
                 newPos = 0;
                 movedPiece = null;
+                boardPanel.drawBoard(gameController.getBoard());
 
             } else if (isLeftMouseButton(e)) {
+                //click game
                 if (oldPos == 0) {
+                    //first click
                     try {
                         oldPos = gameController.getBoard().
                                 getPieceFromPosition(tileId).getPosition();
@@ -242,10 +257,12 @@ public class GameFrame2 extends JFrame {
                     } catch (Exception exception) {
                         System.out.println("GameFrame.java : " + "Tile(final BoardPanel boardPanel, final int tileId)2 : " + exception);
                     }
+                    gameController.getBoard().calculateLegalMoves(movedPiece);
                     if (movedPiece == null) {
                         oldPos = 0;
                     }
                 } else {
+                    //second click
                     newPos = tileId;
                     try {
                         gameController.execute(oldPos, newPos, movedPiece, gameController.getCurrentPlayer(), gameController.getBoard());
@@ -259,7 +276,7 @@ public class GameFrame2 extends JFrame {
                     gameController.changeTurn();
                 }
                 //TODO en mvc
-                boardPanel.drawBoard(gameController.getBoard());
+                //boardPanel.drawBoard(gameController.getBoard());
 
             }
         }

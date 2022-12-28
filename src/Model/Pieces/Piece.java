@@ -75,13 +75,17 @@ public abstract class Piece
      */
     public void setPosition( int position )
     {
+        //TODO deja verifier ?
+        /*
         if(position < 0)
             throw new IllegalArgumentException("Model.Pieces.Piece.java : setPosition(int position) : position < 0");
         if ( board[position] == -10 )
             throw new IllegalArgumentException("Model.Pieces.Piece.java : setPosition(int position) : position = -10");
         if ( !isValidMove(position) )
             throw new IllegalArgumentException("Model.Pieces.Piece.java : setPosition(int position) : move not valid");
+        */
         this.position = position;
+
     }
 
     /**

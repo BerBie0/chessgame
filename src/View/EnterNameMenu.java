@@ -78,6 +78,7 @@ public class EnterNameMenu extends JFrame implements IPlayerObserver {
             //GameController
         //view
         GameFrame2 gameFrame2 = GameFrame2.createInstance(gameController);
+        board.addObserver(gameFrame2);
         gameFrame2.setVisible(true);
     }
 }

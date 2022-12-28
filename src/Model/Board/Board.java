@@ -17,7 +17,7 @@ public class Board
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
     private int[] board;
-    private ArrayList<Piece> pieces = new ArrayList<>();
+    private ArrayList<Piece> pieces;
     private List<IBoardObserver> observers;
 
 
@@ -31,6 +31,7 @@ public class Board
         {
             board[i] = (i < 20 || i > 100 || i % 10 == 9 || i % 10 == 0) ? -10 : 0;
         }
+        pieces = new ArrayList<>();
         observers = new LinkedList<>();
     }
 
@@ -49,13 +50,18 @@ public class Board
         {
             throw new IllegalArgumentException("Model.Board.Board.java : getPieceFromPosition(int position) : position < 21 or position > 98");
         }
-        return pieces.stream()
+        Piece piece;
+
+        piece = pieces.stream()
                 .filter( pos -> pos.getPosition() == position)
                 .findFirst()
                 .orElseThrow(
                         () -> {
                             throw new IllegalArgumentException("Model.Board.Board.java : getPieceFromPosition(int position) : can't find piece");
                         } );
+        //notifyObservers();
+        return piece;
+
     }
 
 
@@ -74,6 +80,7 @@ public class Board
                 res.add(i);
             }
         }
+        notifyObservers();
         return res;
     }
 
@@ -177,7 +184,7 @@ public class Board
             throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
                     "seems to be a pawn attack move : use attackMove Move");
 
-
+        notifyObservers();
     }
 
     public void validateAttackMove(Piece piece, int newPos)
@@ -262,7 +269,7 @@ public class Board
     {
         for ( IBoardObserver obs : observers )
         {
-            obs.update();
+            obs.updateBoard();
         }
     }
 
