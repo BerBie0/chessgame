@@ -5,6 +5,7 @@ import java.awt.*;
 
 import Controller.GameController;
 import Model.Board.Board;
+import Model.Player.IPlayerObserver;
 import Model.Player.Player;
 
 public class EnterNameMenu extends JFrame implements IPlayerObserver {
@@ -70,7 +71,13 @@ public class EnterNameMenu extends JFrame implements IPlayerObserver {
         label3.setText("ok ?");
 
         frame.setVisible(false);
-        GameFrame gameFrame = GameFrame.createInstance(wPlayer, bPlayer, board, gameController);
-        gameFrame.setVisible(true);
+        //MVC
+        //model
+            //wPlayer, bplayer, board
+        //controller
+            //GameController
+        //view
+        GameFrame2 gameFrame2 = GameFrame2.createInstance(gameController);
+        gameFrame2.setVisible(true);
     }
 }

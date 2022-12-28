@@ -2,7 +2,6 @@ package Model.Player;
 
 import Model.utils.Color2;
 import Model.Pieces.Piece;
-import View.IPlayerObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +75,11 @@ public class Player {
         {
             obs.updatePlayerName();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "player : " + getColor();
     }
 
 }

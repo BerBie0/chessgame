@@ -1,4 +1,4 @@
-package View;
+package Model.Player;
 
 public interface IPlayerObserver {
 

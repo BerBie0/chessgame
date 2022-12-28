@@ -3,7 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 
-import View.IPlayerObserver;
+import Model.Player.IPlayerObserver;
 
 public class Model{
     String valeur;

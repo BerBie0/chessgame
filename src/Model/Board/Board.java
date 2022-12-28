@@ -78,8 +78,6 @@ public class Board
     }
 
 
-
-
     public boolean isPositionOccupied(int position)
     {
         if(position < 21 && position > 98)
@@ -147,10 +145,13 @@ public class Board
         if ( piece.getPosition() == newPos )
             throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
                     "can't move to the same position");
-
-        if ( piece.getColor() == getPieceFromPosition(newPos).getColor() )
-            throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
-                    "can't capture ur piece");
+        //FixMe les throws
+        if(isPositionOccupied(newPos))
+        {
+            if ( piece.getColor() == getPieceFromPosition(newPos).getColor() )
+                throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
+                        "can't capture ur piece");
+        }
 
         if ( !isPathFree(piece, newPos) )
             throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +

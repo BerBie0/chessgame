@@ -3,6 +3,7 @@ package View;
 import Controller.GameController;
 import Controller.GameManager;
 import Model.Board.Board;
+import Model.Move.Move;
 import Model.Pieces.Piece;
 import Model.Player.Player;
 
@@ -36,6 +37,7 @@ public class GameFrame extends JFrame
     private BoardDirection boardDirection;
     private int oldPos;
     private int newPos;
+    private Move move;
     private Player wPlayer;
     private Player bPlayer;
     private Piece humanMovedPiece;
@@ -240,7 +242,8 @@ public class GameFrame extends JFrame
                             newPos = tileId;
                             try
                             {
-                                humanMovedPiece.setPosition(newPos);
+                                gameController.execute(oldPos, newPos, humanMovedPiece, wPlayer, chessBoard);
+                                //humanMovedPiece.setPosition(newPos);
                             }
                             catch (Exception exception)
                             {

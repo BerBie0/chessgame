@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.Model;
-import View.IPlayerObserver;
+import Model.Player.IPlayerObserver;
 
 public class Controller implements IPlayerObserver {
     Model m;
