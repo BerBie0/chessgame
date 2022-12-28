@@ -256,10 +256,10 @@ public class GameFrame2 extends JFrame {
                     oldPos = 0;
                     newPos = 0;
                     movedPiece = null;
+                    gameController.changeTurn();
                 }
                 //TODO en mvc
                 boardPanel.drawBoard(gameController.getBoard());
-                
 
             }
         }

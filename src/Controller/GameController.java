@@ -30,6 +30,12 @@ public class GameController {
     public Player getCurrentPlayer() {
         return gameManager.getCurrentPlayer();
     }
+
+    public void changeTurn()
+    {
+        gameManager.setWhiteTurn(!gameManager.isWhitePlayer());
+        gameManager.setBlackTurn(!gameManager.isBlackPlayer());
+    }
     /*-------------------------------------------OVERRIDE METHOD------------------------------------------------------*/
     /*-------------------------------------------INTERFACE METHOD-----------------------------------------------------*/
     /*------------------------------------------------METHOD----------------------------------------------------------*/
