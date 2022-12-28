@@ -1,8 +1,10 @@
 package View;
 
 import Controller.GameController;
+import Controller.GameManager;
 import Model.Board.Board;
 import Model.Pieces.Piece;
+import Model.Player.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -22,28 +24,36 @@ public class GameFrame extends JFrame
     private final static Dimension GLOBAL_DIM = new Dimension(800,800);
     private final static Dimension BOARD_PANEL_DIM = new Dimension(600,600);
     private final static Dimension TILE_PANEL_DIM = new Dimension(20,20);
-    private static String pieceIconPath = "img/";
+    private final static String pieceIconPath = "img/";
 
     private final BoardPanel boardPanel;
     private final GameHistoryPanel gameHistoryPanel;
     private final TakenPiecesPanel takenPiecesPanel;
     private final MoveLog moveLog;
 
+    private static GameFrame gameFrame;
+
     private BoardDirection boardDirection;
     private int oldPos;
     private int newPos;
-    private Board chessBoard;
+    private Player wPlayer;
+    private Player bPlayer;
     private Piece humanMovedPiece;
     private GameController gameController;
+    private Board chessBoard;
 
-    public GameFrame()
+    private GameFrame(Player wPlayer, Player bPlayer, Board board, GameController gameController)
     {
         //Fixme ERREUR DANS TAKENPIECE
-        super(" Chess Game GUI");
+        //TODO est un singleton
+        super(" Chess Game GameFrame");
+        this.wPlayer = wPlayer;
+        this.bPlayer = bPlayer;
+        this.chessBoard = board;
+        this.gameController = gameController;
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setSize(GLOBAL_DIM);
-        this.setVisible(true);
         this.setLocationRelativeTo(null);
         final JMenuBar tableMenuBar = createTableMenuBar();
         this.setJMenuBar(tableMenuBar);
@@ -70,6 +80,15 @@ public class GameFrame extends JFrame
                 }
             }
         });
+    }
+
+    public static GameFrame createInstance(Player wPlayer, Player bPlayer, Board board, GameController gameController)
+    {
+        if( gameFrame == null )
+        {
+            gameFrame = new GameFrame(wPlayer, bPlayer, board, gameController);
+        }
+        return gameFrame;
     }
 
     private JMenuBar createTableMenuBar()
@@ -107,16 +126,6 @@ public class GameFrame extends JFrame
         {
             super( new GridLayout(8, 8));
             this.boardTiles = new LinkedList<>();
-            /*
-            for(int i = 0; i < 64; i++)
-            {
-                int posOffset = i;
-                posOffset += 21;
-                final TilePanel tilePanel = new TilePanel(this, i + 21);
-                this.boardTiles.add(tilePanel);
-                add(tilePanel);
-            }
-             */
             for(int i = 21; i < 100; i+=10)
             {
                 for (int j = 0; j < 8; j++)

@@ -25,7 +25,7 @@ public class GameManager
     public GameManager(Player wPlayer, Player bPlayer, Board board)
     {
         this.board = board;
-        board.inializeBoard();
+        //board.inializeBoard();
         this.bPlayer = bPlayer;
         this.wPlayer = wPlayer;
         this.moveFactory = new MoveFactory(board);

@@ -45,7 +45,6 @@ public class MainMenu extends JFrame{
         this.add(jpMainMenu);
         mainMenu();
         multiPlayer.addActionListener(this::game2pEnterMenu);
-
     }
 
 
@@ -114,11 +113,12 @@ public class MainMenu extends JFrame{
         Player wPlayer = new Player(Color2.WHITE, "");
         Player bPlayer = new Player(Color2.BLACK, "");
         Board board = new Board();
+        board.inializeBoard();
         //controller
         GameManager gameManager = new GameManager(wPlayer, bPlayer, board);
         GameController gameController = new GameController(gameManager);
         //view
-        EnterNameMenu enterNameMenu = new EnterNameMenu(wPlayer, bPlayer, gameController);
+        EnterNameMenu enterNameMenu = new EnterNameMenu(wPlayer, bPlayer, board, gameController);
         //observer
         wPlayer.addObserver(enterNameMenu);
         bPlayer.addObserver(enterNameMenu);

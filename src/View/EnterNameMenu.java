@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import Controller.GameController;
+import Model.Board.Board;
 import Model.Player.Player;
 
 public class EnterNameMenu extends JFrame implements IPlayerObserver {
@@ -14,12 +15,14 @@ public class EnterNameMenu extends JFrame implements IPlayerObserver {
     JLabel label, label2, label3;
     Player wPlayer;
     Player bPlayer;
+    Board board;
     GameController gameController;
 
-    public EnterNameMenu(Player wPlayer, Player bPlayer, GameController gameController)
+    public EnterNameMenu(Player wPlayer, Player bPlayer, Board board, GameController gameController)
     {
         this.wPlayer = wPlayer;
         this.bPlayer = bPlayer;
+        this.board = board;
         this.gameController = gameController;
         this.init();
     }
@@ -65,5 +68,9 @@ public class EnterNameMenu extends JFrame implements IPlayerObserver {
         label.setText( wPlayer.getName() );
         label2.setText( bPlayer.getName() );
         label3.setText("ok ?");
+
+        frame.setVisible(false);
+        GameFrame gameFrame = GameFrame.createInstance(wPlayer, bPlayer, board, gameController);
+        gameFrame.setVisible(true);
     }
 }
