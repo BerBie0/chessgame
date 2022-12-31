@@ -21,8 +21,11 @@ public class SimpleMove extends Move
     public void execute()
     {
         //System.out.println("coucou");
+        //FixMe pas besoin du trhow
+        /*
         if( piece.getColor() != player.getColor() )
             throw new IllegalArgumentException("SimpleMove.java : The piece is not ur");
+         */
         board.validateSimpleMove(piece, newPos);
         player.move(piece, newPos);
     }

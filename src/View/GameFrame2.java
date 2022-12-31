@@ -240,7 +240,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver {
                 oldPos = 0;
                 newPos = 0;
                 movedPiece = null;
-                //mvc ???
+                //update
                 boardPanel.drawBoard(gameController.getBoard());
 
             } else if (isLeftMouseButton(e)) {
@@ -258,6 +258,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver {
                     } catch (Exception exception) {
                         System.out.println("GameFrame.java : " + "Tile(final BoardPanel boardPanel, final int tileId)2 : " + exception);
                     }
+                    //mvc update
                     gameController.getBoard().calculateLegalMoves(movedPiece);
                     if (movedPiece == null) {
                         oldPos = 0;
