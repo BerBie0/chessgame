@@ -240,6 +240,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver {
                 oldPos = 0;
                 newPos = 0;
                 movedPiece = null;
+                //mvc ???
                 boardPanel.drawBoard(gameController.getBoard());
 
             } else if (isLeftMouseButton(e)) {
@@ -282,8 +283,8 @@ public class GameFrame2 extends JFrame implements IBoardObserver {
         }
 
         private void highLightLegalsMove(final Board board) {
-            if (true) {
-                for (final int position : pieceLegalMoves(board)) {
+            if (!gameController.getBoard().getHighLightMove().isEmpty()) {
+                for ( final int position : gameController.getBoard().getHighLightMove() ) {
                     if (position == this.tileId) {
                         try {
                             add(new JLabel(new ImageIcon(ImageIO.read(new File(pieceIconPath + "greenDot.png")))));
@@ -295,11 +296,6 @@ public class GameFrame2 extends JFrame implements IBoardObserver {
             }
         }
 
-        private LinkedList<Integer> pieceLegalMoves(final Board board) {
-            if (movedPiece != null)
-                return board.calculateLegalMoves(movedPiece);
-            return new LinkedList<>();
-        }
 
     }// end Tile
 

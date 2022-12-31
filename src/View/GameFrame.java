@@ -305,7 +305,7 @@ public class GameFrame extends JFrame
         {
             assignTileColor();
             assignTilePieceImg(board);
-            highLightLegalsMove(board);
+            //highLightLegalsMove(board);
             validate();
             repaint();
         }
@@ -328,7 +328,7 @@ public class GameFrame extends JFrame
                 }
             }
         }
-
+        /*
         private void highLightLegalsMove(final Board board)
         {
             if(true)
@@ -349,13 +349,15 @@ public class GameFrame extends JFrame
                 }
             }
         }
-
+        /*
         private LinkedList<Integer> pieceLegalMoves(final Board board)
         {
             if(humanMovedPiece != null)
                 return board.calculateLegalMoves(humanMovedPiece);
             return new LinkedList<>();
         }
+
+         */
 
     } // end TilePanel class
 

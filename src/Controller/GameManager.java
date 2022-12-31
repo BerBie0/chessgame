@@ -8,12 +8,13 @@ import Model.Pieces.Piece;
 import Model.utils.Color2;
 import Model.Player.Player;
 
-public class GameManager
-{
+import java.util.LinkedList;
+
+public class GameManager {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
     private final Board board;
-    private final  Player bPlayer;
+    private final Player bPlayer;
     private final Player wPlayer;
     private IMove lastMove;
     private final MoveFactory moveFactory;
@@ -22,8 +23,7 @@ public class GameManager
 
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
-    public GameManager(Player wPlayer, Player bPlayer, Board board)
-    {
+    public GameManager(Player wPlayer, Player bPlayer, Board board) {
         this.board = board;
         //board.inializeBoard();
         this.bPlayer = bPlayer;
@@ -33,75 +33,64 @@ public class GameManager
 
     /*---------------------------------------------GET SET------------------------------------------------------------*/
 
-    public Player getCurrentPlayer()
-    {
+    public Player getCurrentPlayer() {
         return wPlayer.isUrTurn() ? wPlayer : bPlayer;
     }
 
-    public void setBlackTurn( boolean turn )
-    {
+    public void setBlackTurn(boolean turn) {
         bPlayer.setUrTurn(turn);
     }
 
-    public void setWhiteTurn( boolean turn )
-    {
+    public void setWhiteTurn(boolean turn) {
         wPlayer.setUrTurn(turn);
     }
 
-    public Board getBoard() { return board; }
+    public Board getBoard() {
+        return board;
+    }
 
-    public void setPlayerName(String name, Player player)
-    {
-        if ( player.isWhite() )
-        {
+    public void setPlayerName(String name, Player player) {
+        if (player.isWhite()) {
             wPlayer.setName(name);
-        }
-        else
-        {
+        } else {
             bPlayer.setName(name);
         }
     }
+
     /*-------------------------------------------OVERRIDE METHOD------------------------------------------------------*/
     /*-------------------------------------------INTERFACE METHOD-----------------------------------------------------*/
     /*------------------------------------------------METHOD----------------------------------------------------------*/
 
-    public boolean isWhitePlayer()
-    {
+    public boolean isWhitePlayer() {
         return wPlayer.isUrTurn();
     }
 
-    public boolean isBlackPlayer()
-    {
+    public boolean isBlackPlayer() {
         return bPlayer.isUrTurn();
     }
 
-    public boolean isCheckMate()
-    {
+    public boolean isCheckMate() {
         Color2 currentPlayerColor = getCurrentPlayer().getColor();
         King currentPlayerKing = (King) board.getKing(currentPlayerColor);
         return board.isCheck(currentPlayerColor) && !board.anyValidMove(currentPlayerColor);
     }
 
-    public boolean isCurrentPlayerCheck()
-    {
-        return board.isCheck( board.getKing( getCurrentPlayer().getColor() ).getColor() );
+    public boolean isCurrentPlayerCheck() {
+        return board.isCheck(board.getKing(getCurrentPlayer().getColor()).getColor());
     }
 
     //TODO
-    public boolean isPat()
-    {
+    public boolean isPat() {
         return false;
     }
 
-    public void execute(int oldPos, int newPos, Piece piece, Player player, Board board)
-    {
+    public void execute(int oldPos, int newPos, Piece piece, Player player, Board board) {
         IMove move = moveFactory.createMove(oldPos, newPos, piece, player, board);
         move.execute();
         lastMove = move;
     }
 
-    public void undo()
-    {
+    public void undo() {
         lastMove.undo();
     }
 
