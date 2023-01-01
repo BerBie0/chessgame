@@ -74,7 +74,7 @@ public class Board {
     public void calculateLegalMoves(Piece piece) {
         LinkedList<Integer> res = new LinkedList<>();
         for (int i = 0; i < board.length; i++) {
-            if (piece.isValidMove(i) && !this.isPositionOccupied(i)) {
+            if ( piece.isValidMove(i) && !this.isPositionOccupied(i) && isPathFree(piece, i) ) {
                 res.add(i);
             }
         }
@@ -142,13 +142,11 @@ public class Board {
                 throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
                         "can't capture ur piece");
         }
-
-        if (!isPathFree(piece, newPos))
-            throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
-                    "there a piece(s) in path");
     }
 
     public void validateSimpleMove(Piece piece, int newPos) {
+        this.displayBoard();
+        System.out.println("\n\n");
         validateMoveCommon(piece, newPos);
 
         if (!isPathFree(piece, newPos))
@@ -175,7 +173,6 @@ public class Board {
 
     //TODO validateCastleMove
 
-    //TODO isPathFree and axis and diagonal !
     public boolean isPathFree(Piece piece, int newPos) {
         int oldPos = piece.getPosition();
         int[] offset = piece.executeStrategy();
@@ -187,16 +184,6 @@ public class Board {
             }
         }
         return false;
-    }
-
-    //TODO isPathFree and axis and diagonal !
-    public boolean isPathFreeHorizontalVertical(Piece piece, int newPos) {
-        return true;
-    }
-
-    //TODO isPathFree and axis and diagonal !
-    public boolean isPathFreeDiagonal(Piece piece, int newPos) {
-        return true;
     }
 
     public void move(Piece piece, int position) {
