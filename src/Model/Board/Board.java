@@ -43,9 +43,6 @@ public class Board {
     }
 
     public Piece getPieceFromPosition(int position) {
-        if (position < 21 && position > 98) {
-            throw new IllegalArgumentException("Model.Board.Board.java : getPieceFromPosition(int position) : position < 21 or position > 98");
-        }
         Piece piece;
 
         piece = pieces.stream()
@@ -82,9 +79,6 @@ public class Board {
 
 
     public boolean isPositionOccupied(int position) {
-        if (position < 21 && position > 98) {
-            throw new IllegalArgumentException("Model.Board.Board.java : isPositionOccupied : position < 21 or position > 98");
-        }
         return pieces.stream().anyMatch(piece -> piece.getPosition() == position);
     }
 
@@ -99,7 +93,7 @@ public class Board {
 
     public void removePieceToBoard(Piece piece) {
         pieces.remove(piece);
-        board[piece.getPosition()] = piece.getPosition();
+        board[piece.getPosition()] = 0;
     }
 
     public void inializeBoard() {
@@ -242,7 +236,7 @@ public class Board {
 
     private void notifyObservers() {
         for (IBoardObserver obs : observers) {
-            obs.updateBoard();
+            obs.updateBoardAndLegalMoves();
         }
     }
 

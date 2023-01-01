@@ -27,7 +27,12 @@ public class SimpleMove extends Move
             throw new IllegalArgumentException("SimpleMove.java : The piece is not ur");
          */
         board.validateSimpleMove(piece, newPos);
+        //todo pas la bonne classe qui fait le mouvement chnger observer
+        //board.move pour modifier le tableau
+        //player.move pour faire le mouvement et notifie observer mais ne connais pas la position et la grille
+        board.move(piece, newPos);
         player.move(piece, newPos);
+
     }
 
     @Override
