@@ -31,6 +31,8 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
     private final static Dimension BOARD_PANEL_DIM = new Dimension(600, 600);
     private final static Dimension TILE_PANEL_DIM = new Dimension(20, 20);
     private final static String pieceIconPath = "img/";
+    private final static Color whiteTile = new Color(240,217,181);
+    private final static Color blackTile = new Color(180,136,99);
 
     private final BoardPanel boardPanel;
 
@@ -224,9 +226,9 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
                     || ligne == 4
                     || ligne == 6
                     || ligne == 8)
-                setBackground(this.tileId % 2 != 0 ? Color.WHITE : Color.GREEN);
+                setBackground(this.tileId % 2 != 0 ? whiteTile : blackTile);
             else
-                setBackground(this.tileId % 2 == 0 ? Color.WHITE : Color.GREEN);
+                setBackground(this.tileId % 2 == 0 ? whiteTile : blackTile);
         }
 
         public void assignTilePieceImg(final Board board) {
