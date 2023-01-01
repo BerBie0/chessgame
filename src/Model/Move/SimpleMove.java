@@ -20,7 +20,6 @@ public class SimpleMove extends Move
     @Override
     public void execute()
     {
-        //System.out.println("coucou");
         //FixMe pas besoin du trhow
         /*
         if( piece.getColor() != player.getColor() )
@@ -38,6 +37,7 @@ public class SimpleMove extends Move
     @Override
     public void undo()
     {
+        board.move(piece, oldPos);
         player.move(piece, oldPos);
     }
     /*------------------------------------------------METHOD----------------------------------------------------------*/

@@ -1,5 +1,6 @@
 package Model.Player;
 
+import Model.Pieces.Pawn;
 import Model.utils.Color2;
 import Model.Pieces.Piece;
 
@@ -60,6 +61,9 @@ public class Player {
     }
 
     public void move(Piece piece, int position) {
+        if(piece instanceof Pawn && !((Pawn) piece).getHasMovedOnce()) {
+            ((Pawn) piece).setHasMovedOnce(true);
+        }
         piece.setPosition(position);
         notifyObserversGame();
     }

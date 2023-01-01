@@ -162,8 +162,10 @@ public abstract class Piece
             throw new IllegalArgumentException("Model.Pieces.Piece.java : canCapturePiece : trying to capture ur own piece ");
         if(piece.getPosition() == this.getPosition())
             return false;
-        if ( !this.isValidMove(piece.getPosition()) )
+        if ( !this.isValidMove(piece.getPosition()) ) {
             return false;
+        }
+
         return true;
     }
 

@@ -56,4 +56,7 @@ public class GameController {
     public void execute(int oldPos, int newPos, Piece piece, Player player, Board board) {
         gameManager.execute(oldPos, newPos, piece, player, board);
     }
+    public void undo() {
+        gameManager.undo();
+    }
 }

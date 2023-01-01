@@ -57,7 +57,6 @@ public class Board {
             return piece;
 
          */
-        //notifyObservers();
         return piece;
     }
 
@@ -153,9 +152,14 @@ public class Board {
                         "can't capture ur piece");
         }
 
-        if (!isPathFree(piece, newPos))
+        if (!isPathFree(piece, newPos)) {
+            System.out.println("piece a bouger : " + piece.getPosition());
+            System.out.println("piece a suppprimer : " + newPos);
             throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
                     "there a piece(s) in path");
+        }
+
+
     }
 
     public void validateSimpleMove(Piece piece, int newPos) {
@@ -182,18 +186,24 @@ public class Board {
     //TODO validateCastleMove
 
     public boolean isPathFree(Piece piece, int newPos) {
-        int oldPos = piece.getPosition();
-        int[] offset = piece.executeStrategy();
-        for (int j : offset) {
-            int positionCalcul = oldPos;
-            //cpt pour affichage des coups
-            int cpt = 0;
-            while ( board[positionCalcul + j] != -10 && cpt <1 ) {
-                positionCalcul += j;
-                if( board[positionCalcul] != 0 ) cpt++;
-                if (positionCalcul == newPos) return true;
+        //todo ??????????
+        if ( piece instanceof Pawn && isPositionOccupied( newPos ) && (Math.abs(piece.getPosition() - newPos) == 9) || (Math.abs(piece.getPosition() - newPos)) == 11 && isPositionOccupied( newPos )) {
+            return true;
+        } else {
+            int oldPos = piece.getPosition();
+            int[] offset = piece.executeStrategy();
+            for (int j : offset) {
+                int positionCalcul = oldPos;
+                //cpt pour affichage des coups
+                int cpt = 0;
+                while ( board[positionCalcul + j] != -10 && cpt <1 ) {
+                    positionCalcul += j;
+                    if( board[positionCalcul] != 0 ) cpt++;
+                    if (positionCalcul == newPos) return true;
+                }
             }
         }
+
         return false;
     }
 
@@ -223,12 +233,16 @@ public class Board {
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Board.java : Piece getKing(Color2 color) : king not found"));
     }
+    public int getKingPosition(Color2 color) {
+        return getKing(color).getPosition();
+    }
 
     public Boolean isCheck(Color2 color) {
         Color2 attackColor = color == Color2.WHITE ? Color2.BLACK : Color2.WHITE;
         King king = getKing(color);
+
         Boolean check = pieces.stream()
-                .filter(piece -> piece.getColor() != attackColor)
+                .filter(piece -> piece.getColor() == attackColor)
                 .anyMatch(piece -> piece.canCapturePiece(king) && isPathFree(piece, king.getPosition()));
         if (!king.getIsChecked() && check) {
             king.setIsChecked(true);

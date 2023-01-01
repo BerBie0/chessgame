@@ -6,6 +6,7 @@ import Model.Board.IBoardObserver;
 import Model.Pieces.Piece;
 import Model.Player.IPlayerObserver;
 import Model.Player.IPlayerObserverGame;
+import Model.utils.Color2;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -245,11 +246,32 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
                 }
             }
         }
+        public void assignCheckToTile(final Board board) {
+            if (gameController.getBoard().isCheck(Color2.WHITE)) {
+                if (board.getKingPosition(Color2.WHITE) == this.tileId) {
+                    try {
+                        add(new JLabel(new ImageIcon(ImageIO.read(new File(pieceIconPath + "redDot.png")))));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else if (gameController.getBoard().isCheck(Color2.BLACK)) {
+                if (board.getKingPosition(Color2.BLACK) == this.tileId) {
+                    try {
+                        add(new JLabel(new ImageIcon(ImageIO.read(new File(pieceIconPath + "redDot.png")))));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
 
         public void drawTile(final Board board) {
             assignTileColor();
             assignTilePieceImg(board);
             //highLightLegalsMove(board);
+            assignCheckToTile(board);
             validate();
             repaint();
         }
@@ -258,6 +280,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
             assignTileColor();
             assignTilePieceImg(board);
             highLightLegalsMove(board);
+            assignCheckToTile(board);
             validate();
             repaint();
         }
@@ -295,7 +318,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
                     } else {
                         if (movedPiece.getColor() != gameController.getCurrentPlayer().getColor()) {
                             oldPos = 0;
-                            System.out.println("not ur turn");
+                            JOptionPane.showMessageDialog(null, "pas votre tour");
                         } else {
                             gameController.getBoard().calculateLegalMoves(movedPiece);
                         }
@@ -306,6 +329,14 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
                     try {
                         //update mvc
                         gameController.execute(oldPos, newPos, movedPiece, gameController.getCurrentPlayer(), gameController.getBoard());
+                        if ( gameController.getBoard().isCheck(gameController.getCurrentPlayer().getColor()) ) {
+                            gameController.undo();
+                            JOptionPane.showMessageDialog(null, "coup invalide cause echec");
+                            oldPos = 0;
+                            newPos = 0;
+                            movedPiece = null;
+                            return;
+                        }
                         oldPos = 0;
                         newPos = 0;
                         movedPiece = null;
