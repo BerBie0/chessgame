@@ -52,6 +52,11 @@ public class Board {
                         () -> {
                             throw new IllegalArgumentException("Model.Board.Board.java : getPieceFromPosition(int position) : can't find piece");
                         });
+        /*
+        if( (board[position]) != - 10 && (board[position]) != 0 )
+            return piece;
+
+         */
         //notifyObservers();
         return piece;
     }
@@ -172,11 +177,20 @@ public class Board {
 
     //TODO isPathFree and axis and diagonal !
     public boolean isPathFree(Piece piece, int newPos) {
-        return true;
+        int oldPos = piece.getPosition();
+        int[] offset = piece.executeStrategy();
+        for (int j : offset) {
+            int positionCalcul = oldPos;
+            while ( board[positionCalcul + j] == 0 ) {
+                positionCalcul += j;
+                if (positionCalcul == newPos) return true;
+            }
+        }
+        return false;
     }
 
     //TODO isPathFree and axis and diagonal !
-    public boolean isPathFreeVertical(Piece piece, int newPos) {
+    public boolean isPathFreeHorizontalVertical(Piece piece, int newPos) {
         return true;
     }
 

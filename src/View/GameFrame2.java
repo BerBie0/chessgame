@@ -315,8 +315,8 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
                 }
                 //TODO en mvc
                 //boardPanel.drawBoard(gameController.getBoard());
-                System.out.println("\n\n");
-                gameController.getBoard().displayBoard();
+                //System.out.println("\n\n");
+                //gameController.getBoard().displayBoard();
 
             }
         }
