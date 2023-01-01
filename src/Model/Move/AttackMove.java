@@ -24,8 +24,10 @@ public class AttackMove extends Move
     @Override
     public void execute()
     {
+        /*
         if( piece.getColor() != player.getColor() )
             throw new IllegalArgumentException("AttackMove.java : The piece is not ur");
+         */
 
         Piece capturePiece = board.getPieceFromPosition(newPos);
         if ( board.isPositionOccupied(newPos) && piece.canCapturePiece(capturePiece) )

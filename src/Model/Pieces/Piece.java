@@ -150,11 +150,6 @@ public abstract class Piece
         return context.offset();
     }
 
-    /**
-     * valid a move, calculate all possible move.
-     * @param position piece's position in the board.
-     * @return true if the move is valid, false else.
-     */
 
     public boolean isWhite()
     {
@@ -175,6 +170,12 @@ public abstract class Piece
 
 
     /*-----------------------------------------------ABSTRACT---------------------------------------------------------*/
+
+    /**
+     * valid a move, calculate all possible move.
+     * @param position piece's position in the board.
+     * @return true if the move is valid, false else.
+     */
 
     public abstract boolean isValidMove(int position);
 

@@ -159,8 +159,6 @@ public class Board {
     }
 
     public void validateSimpleMove(Piece piece, int newPos) {
-        this.displayBoard();
-        System.out.println("\n\n");
         validateMoveCommon(piece, newPos);
 
         if (isPositionOccupied(newPos))
@@ -188,6 +186,7 @@ public class Board {
         int[] offset = piece.executeStrategy();
         for (int j : offset) {
             int positionCalcul = oldPos;
+            //cpt pour affichage des coups
             int cpt = 0;
             while ( board[positionCalcul + j] != -10 && cpt <1 ) {
                 positionCalcul += j;
