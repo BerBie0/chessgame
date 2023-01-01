@@ -262,6 +262,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
 
         public void clickTile(MouseEvent e) {
             //TODO ajouter les observers
+            //TODO apres les catch reset des coups valide ?
             if (isRightMouseButton(e)) {
                 //reset selected piece
                 oldPos = 0;

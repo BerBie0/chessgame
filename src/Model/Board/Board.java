@@ -73,13 +73,23 @@ public class Board {
 
     public void calculateLegalMoves(Piece piece) {
         LinkedList<Integer> res = new LinkedList<>();
+
+        Piece targetPiece;
         for (int i = 0; i < board.length; i++) {
-            if ( piece.isValidMove(i) && !this.isPositionOccupied(i) && isPathFree(piece, i) ) {
-                res.add(i);
+            try {
+                targetPiece = getPieceFromPosition(i);
+                if ( piece.isValidMove(i) &&  isPathFree(piece, i) && targetPiece.getColor() != piece.getColor() ) {
+                    res.add(i);
+                }
+            } catch (Exception e) {
+                if ( piece.isValidMove(i) && isPathFree(piece, i) ) {
+                    res.add(i);
+                }
             }
         }
         highlightMove = res;
         notifyObservers();
+
     }
 
 
@@ -142,16 +152,16 @@ public class Board {
                 throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
                         "can't capture ur piece");
         }
+
+        if (!isPathFree(piece, newPos))
+            throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
+                    "there a piece(s) in path");
     }
 
     public void validateSimpleMove(Piece piece, int newPos) {
         this.displayBoard();
         System.out.println("\n\n");
         validateMoveCommon(piece, newPos);
-
-        if (!isPathFree(piece, newPos))
-            throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
-                    "there a piece(s) in path");
 
         if (isPositionOccupied(newPos))
             throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
@@ -178,8 +188,10 @@ public class Board {
         int[] offset = piece.executeStrategy();
         for (int j : offset) {
             int positionCalcul = oldPos;
-            while ( board[positionCalcul + j] == 0 ) {
+            int cpt = 0;
+            while ( board[positionCalcul + j] != -10 && cpt <1 ) {
                 positionCalcul += j;
+                if( board[positionCalcul] != 0 ) cpt++;
                 if (positionCalcul == newPos) return true;
             }
         }
