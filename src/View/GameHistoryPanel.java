@@ -2,6 +2,8 @@ package View;
 
 import Controller.GameController;
 import Model.Board.Board;
+import Model.Move.IMove;
+import Model.Move.Move;
 import Model.utils.Color2;
 
 import javax.swing.*;
@@ -41,47 +43,17 @@ public class GameHistoryPanel extends JPanel {
     void redo(final Board board, final MoveLog moveLog) {
         int currentRow = 0;
         this.model.clear();
-        int whiteOrblack = 0;
-        for (final Integer position : moveLog.getMoves()) {
-
-            final String moveText = position + "";
-
-            boolean white = false;
-            boolean black = false;
-            try {
-                white = board.getPieceFromPosition(position).getColor() == Color2.WHITE;
-            } catch (Exception e) {
-                System.out.println("GameHistoryPanel : redo(final Board board, final MoveLog moveLog)1");
-            }
-            try {
-                black = board.getPieceFromPosition(position).getColor() == Color2.BLACK;
-            } catch (Exception e) {
-                System.out.println("GameHistoryPanel : redo(final Board board, final MoveLog moveLog)1");
-            }
-            if (white) {
+        for (final IMove move : moveLog.getMoves()) {
+            final String moveText = move.getNewPos()+"";
+            if(move.getPiece().isWhite()) {
                 this.model.setValueAt(moveText, currentRow, 0);
-            } else if (black) {
-                this.model.setValueAt(moveText, currentRow, 1);
-                currentRow++;
-            } else if (whiteOrblack % 2 == 0) {
-                this.model.setValueAt(moveText, currentRow, 0);
-            } else if (whiteOrblack % 2 == 1) {
+            } else if (!move.getPiece().isWhite()) {
                 this.model.setValueAt(moveText, currentRow, 1);
                 currentRow++;
             }
-            whiteOrblack++;
         }
 
-        if (moveLog.getMoves().size() > 0) {
-            final Integer lastMove = moveLog.getMoves().get(moveLog.size() - 1);
-            final String moveText = lastMove.toString();
-
-
-            if (board.getPieceFromPosition(lastMove).getColor() == Color2.WHITE) {
-                this.model.setValueAt(moveText, currentRow, 0);
-            } else if (board.getPieceFromPosition(lastMove).getColor() == Color2.BLACK)
-                this.model.setValueAt(moveText, currentRow - 1, 1);
-        }
+        
         final JScrollBar vertical = scrollPane.getVerticalScrollBar();
         vertical.setValue(vertical.getMaximum());
     }

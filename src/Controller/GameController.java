@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Board.Board;
+import Model.Move.IMove;
 import Model.Pieces.Piece;
 import Model.Player.Player;
 import Model.utils.Color2;
@@ -58,8 +59,9 @@ public class GameController {
         }
     }
 
-    public void execute(int oldPos, int newPos, Piece piece, Player player, Board board) {
-        gameManager.execute(oldPos, newPos, piece, player, board);
+    public IMove execute(int oldPos, int newPos, Piece piece, Player player, Board board) {
+        IMove move = gameManager.execute(oldPos, newPos, piece, player, board);
+        return move;
     }
     public void undo() {
         gameManager.undo();

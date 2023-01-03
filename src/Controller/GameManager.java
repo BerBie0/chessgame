@@ -91,10 +91,11 @@ public class GameManager {
         return false;
     }
 
-    public void execute(int oldPos, int newPos, Piece piece, Player player, Board board) {
+    public IMove execute(int oldPos, int newPos, Piece piece, Player player, Board board) {
         IMove move = moveFactory.createMove(oldPos, newPos, piece, player, board);
         move.execute();
         lastMove = move;
+        return move;
     }
 
     public void undo() {

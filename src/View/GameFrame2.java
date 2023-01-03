@@ -3,6 +3,8 @@ package View;
 import Controller.GameController;
 import Model.Board.Board;
 import Model.Board.IBoardObserver;
+import Model.Move.IMove;
+import Model.Move.Move;
 import Model.Pieces.Piece;
 import Model.Player.IPlayerObserver;
 import Model.Player.IPlayerObserverGame;
@@ -337,7 +339,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
                     newPos = tileId;
                     try {
                         //update mvc
-                        gameController.execute(oldPos, newPos, movedPiece, gameController.getCurrentPlayer(), gameController.getBoard());
+                        IMove move = gameController.execute(oldPos, newPos, movedPiece, gameController.getCurrentPlayer(), gameController.getBoard());
                         if ( gameController.getBoard().isCheck(gameController.getCurrentPlayer().getColor()) ) {
                             gameController.undo();
                             JOptionPane.showMessageDialog(null, "coup invalide cause echec");
@@ -346,7 +348,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
                             movedPiece = null;
                             return;
                         }
-                        moveLog.addMove(newPos);
+                        moveLog.addMove(move);
                         gameHistoryPanel.redo(gameController.getBoard(), moveLog);
                         oldPos = 0;
                         newPos = 0;
@@ -378,7 +380,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
 
     public static class MoveLog
     {
-        private final List<Integer> positions;
+        private final List<IMove> positions;
         private final Board board;
 
         MoveLog(Board board)
@@ -386,14 +388,13 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
             this.positions = new ArrayList<>();
             this.board = board;
         }
-        public List<Integer> getMoves()
+        public List<IMove> getMoves()
         {
             return this.positions;
         }
-        public void addMove(final Integer position)
+        public void addMove(final IMove move)
         {
-            this.positions.add(position);
-            System.out.println(positions);
+            this.positions.add(move);
         }
 
         public int size()
@@ -404,9 +405,9 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
         {
             this.positions.clear();
         }
-        public boolean removeMove(final Integer position)
+        public boolean removeMove(final Move move)
         {
-            return this.positions.remove(position);
+            return this.positions.remove(move);
         }
 
     } // end MoveLog

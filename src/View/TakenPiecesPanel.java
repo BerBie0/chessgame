@@ -51,7 +51,7 @@ public class TakenPiecesPanel extends JPanel
     {
         this.southPanel.removeAll();
         this.northPanel.removeAll();
-
+            /*
         final List<Piece> whiteTakenPieces = new ArrayList<>();
         final List<Piece> blackTakenPieces = new ArrayList<>();
 
@@ -114,6 +114,7 @@ public class TakenPiecesPanel extends JPanel
             }
         }
         validate();
+        */
     }
 
 
