@@ -1,5 +1,6 @@
 package View;
 
+import Controller.GameController;
 import Model.Board.Board;
 import Model.utils.Color2;
 import Model.Pieces.Piece;
@@ -18,8 +19,7 @@ import java.util.List;
 
 import static View.GameFrame2.*;
 
-public class TakenPiecesPanel extends JPanel
-{
+public class TakenPiecesPanel extends JPanel {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
     private static final EtchedBorder PANEL_BORDER = new EtchedBorder(EtchedBorder.RAISED);
@@ -27,50 +27,37 @@ public class TakenPiecesPanel extends JPanel
     private static final Dimension TAKEN_PIECES_DIM = new Dimension(80, 80);
     private final JPanel northPanel;
     private final JPanel southPanel;
+    private GameController gameController;
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
     /*---------------------------------------------GET SET------------------------------------------------------------*/
     /*-------------------------------------------OVERRIDE METHOD------------------------------------------------------*/
     /*-------------------------------------------INTERFACE METHOD-----------------------------------------------------*/
     /*------------------------------------------------METHOD----------------------------------------------------------*/
 
-    public TakenPiecesPanel()
-    {
+    public TakenPiecesPanel(GameController gameController) {
         super(new BorderLayout());
         this.setBackground(PANEL_COLOR);
         this.setBorder(PANEL_BORDER);
-        this.northPanel  = new JPanel(new GridLayout(8, 2));
+        this.northPanel = new JPanel(new GridLayout(8, 2));
         this.southPanel = new JPanel(new GridLayout(8, 2));
         this.northPanel.setBackground(PANEL_COLOR);
         this.southPanel.setBackground(PANEL_COLOR);
+        this.gameController = gameController;
         add(this.northPanel, BorderLayout.NORTH);
         add(this.southPanel, BorderLayout.SOUTH);
         setPreferredSize(TAKEN_PIECES_DIM);
     }
 
-    public void redo(final MoveLog moveLog, final Board board)
-    {
+    public void redo() {
         this.southPanel.removeAll();
         this.northPanel.removeAll();
-            /*
-        final List<Piece> whiteTakenPieces = new ArrayList<>();
-        final List<Piece> blackTakenPieces = new ArrayList<>();
 
-        for (final Integer position : moveLog.getMoves())
-        {
-            final Piece takenPiece = board.getPieceFromPosition(position);
-            if(takenPiece.getColor() == Color2.WHITE)
-                whiteTakenPieces.add(takenPiece);
-            else if (takenPiece.getColor() == Color2.BLACK)
-                blackTakenPieces.add(takenPiece);
-            else
-                throw new RuntimeException("TakenPiecesPanel.java : redo(final MoveLog moveLog, final Board board) : no whithe no black piece");
-        }
+        final List<Piece> whiteTakenPieces = gameController.getWhitePlayer().getCapturedPieces();
+        final List<Piece> blackTakenPieces = gameController.getBlackPlayer().getCapturedPieces();
 
-        Collections.sort(whiteTakenPieces, new Comparator<Piece>()
-        {
+        Collections.sort(whiteTakenPieces, new Comparator<Piece>() {
             @Override
-            public int compare(Piece o1, Piece o2)
-            {
+            public int compare(Piece o1, Piece o2) {
                 return Integer.compare(o1.getPieceCode(), o2.getPieceCode());
             }
         });
@@ -82,39 +69,34 @@ public class TakenPiecesPanel extends JPanel
             }
         });
 
-        for (final Piece takenPiece : whiteTakenPieces)
-        {
-            try
-            {
+        for (final Piece takenPiece : whiteTakenPieces) {
+            try {
                 //System.out.println(takenPiece.toString());
                 final BufferedImage image = ImageIO.read(new File("img/" + takenPiece.toString() + ".gif"));
                 //final BufferedImage image = ImageIO.read(new File("img/WHITEpawn"));
                 final ImageIcon icon = new ImageIcon(image);
-                final JLabel imageLabel = new JLabel();
+                final JLabel imageLabel = new JLabel(icon);
                 this.southPanel.add(imageLabel);
-            } catch (final IOException e)
-            {
+                System.out.println(takenPiece.toString());
+            } catch (final IOException e) {
                 e.printStackTrace();
                 System.out.println("TakenPiecePanel.java : redo(final MoveLog moveLog, final Board board) : pb image");
             }
         }
 
-        for (final Piece takenPiece : blackTakenPieces)
-        {
-            try
-            {
+        for (final Piece takenPiece : blackTakenPieces) {
+            try {
                 final BufferedImage image = ImageIO.read(new File("img/" + takenPiece.toString() + ".gif"));
                 final ImageIcon icon = new ImageIcon(image);
-                final JLabel imageLabel = new JLabel();
-                this.southPanel.add(imageLabel);
-            } catch (final IOException e)
-            {
+                final JLabel imageLabel = new JLabel(icon);
+                this.northPanel.add(imageLabel);
+            } catch (final IOException e) {
                 e.printStackTrace();
                 System.out.println("TakenPiecePanel.java : redo(final MoveLog moveLog, final Board board) : pb image");
             }
         }
+
         validate();
-        */
     }
 
 

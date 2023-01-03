@@ -63,6 +63,12 @@ public class GameManager {
     public String getBlackName() {
         return bPlayer.getName();
     }
+    public Player getBlackPlayer() {
+        return bPlayer;
+    }
+    public Player getWhitePlayer() {
+        return wPlayer;
+    }
 
     /*-------------------------------------------OVERRIDE METHOD------------------------------------------------------*/
     /*-------------------------------------------INTERFACE METHOD-----------------------------------------------------*/

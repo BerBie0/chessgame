@@ -37,10 +37,17 @@ public class GameController {
         return gameManager.getCurrentPlayer();
     }
 
-    public void changeTurn()
-    {
+    public void changeTurn() {
         gameManager.setWhiteTurn(!gameManager.isWhitePlayer());
         gameManager.setBlackTurn(!gameManager.isBlackPlayer());
+    }
+
+    public Player getBlackPlayer() {
+        return gameManager.getBlackPlayer();
+    }
+
+    public Player getWhitePlayer() {
+        return gameManager.getWhitePlayer();
     }
     /*-------------------------------------------OVERRIDE METHOD------------------------------------------------------*/
     /*-------------------------------------------INTERFACE METHOD-----------------------------------------------------*/
@@ -63,6 +70,7 @@ public class GameController {
         IMove move = gameManager.execute(oldPos, newPos, piece, player, board);
         return move;
     }
+
     public void undo() {
         gameManager.undo();
     }

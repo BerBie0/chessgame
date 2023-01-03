@@ -64,12 +64,12 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
         JMenuBar jMenuBar = new Menu();
         this.setJMenuBar(jMenuBar);
         this.gameHistoryPanel = new GameHistoryPanel(gameController);
-        this.takenPiecesPanel = new TakenPiecesPanel();
+        this.takenPiecesPanel = new TakenPiecesPanel(gameController);
         boardPanel = new BoardPanel();
         this.moveLog = new MoveLog(gameController.getBoard());
         this.add(this.boardPanel, BorderLayout.CENTER);
         this.add(this.gameHistoryPanel, BorderLayout.EAST);
-        this.add(this.takenPiecesPanel, BorderLayout.SOUTH);
+        this.add(this.takenPiecesPanel, BorderLayout.WEST);
         this.boardDirection = BoardDirection2.NORMAL;
         this.add(boardPanel, BorderLayout.CENTER);
 
@@ -350,6 +350,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
                         }
                         moveLog.addMove(move);
                         gameHistoryPanel.redo(gameController.getBoard(), moveLog);
+                        takenPiecesPanel.redo();
                         oldPos = 0;
                         newPos = 0;
                         movedPiece = null;
