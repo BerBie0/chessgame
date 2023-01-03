@@ -196,8 +196,10 @@ public class Board {
                 int positionCalcul = oldPos;
                 //cpt pour affichage des coups
                 int cpt = 0;
-                while ( board[positionCalcul + j] != -10 && cpt <1 ) {
+                while ( board[positionCalcul + j] != -10 && cpt < 1 ) {
                     positionCalcul += j;
+                    //pion en face d'un pion corrige l'affichage
+                    if ( piece instanceof Pawn && board[positionCalcul] == Math.abs(1) ) break;
                     if( board[positionCalcul] != 0 ) cpt++;
                     if (positionCalcul == newPos) return true;
                 }

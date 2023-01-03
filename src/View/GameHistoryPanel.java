@@ -1,14 +1,16 @@
 package View;
 
+import Controller.GameController;
 import Model.Board.Board;
 import Model.utils.Color2;
-import View.GameFrame.MoveLog;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static View.GameFrame2.*;
 
 public class GameHistoryPanel extends JPanel {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
@@ -20,12 +22,13 @@ public class GameHistoryPanel extends JPanel {
 
     private final DataModel model;
     private final JScrollPane scrollPane;
-    private static final Dimension HISTORY_PANEL_DIM = new Dimension(100, 400);
+    private GameController gameController;
+    private static final Dimension HISTORY_PANEL_DIM = new Dimension(200, 400);
 
-    GameHistoryPanel()
-    {
+    GameHistoryPanel(GameController gameController) {
         this.setLayout(new BorderLayout());
-        this.model = new DataModel();
+        this.gameController = gameController;
+        this.model = new DataModel(gameController.getPlayerName(Color2.WHITE), gameController.getPlayerName(Color2.BLACK));
         final JTable table = new JTable(model);
         table.setRowHeight(15);
         this.scrollPane = new JScrollPane(table);
@@ -35,107 +38,84 @@ public class GameHistoryPanel extends JPanel {
         this.setVisible(true);
     }
 
-    void redo(final Board board, final MoveLog moveLog)
-    {
+    void redo(final Board board, final MoveLog moveLog) {
         int currentRow = 0;
         this.model.clear();
         int whiteOrblack = 0;
-        for(final Integer position : moveLog.getMoves())
-        {
+        for (final Integer position : moveLog.getMoves()) {
 
-            final String moveText = position+"";
+            final String moveText = position + "";
 
             boolean white = false;
             boolean black = false;
-            try
-            {
-               white = board.getPieceFromPosition(position).getColor() == Color2.WHITE;
+            try {
+                white = board.getPieceFromPosition(position).getColor() == Color2.WHITE;
+            } catch (Exception e) {
+                System.out.println("GameHistoryPanel : redo(final Board board, final MoveLog moveLog)1");
             }
-            catch (Exception e)
-            {
-                System.out.println("hey");
-            }
-            try
-            {
+            try {
                 black = board.getPieceFromPosition(position).getColor() == Color2.BLACK;
+            } catch (Exception e) {
+                System.out.println("GameHistoryPanel : redo(final Board board, final MoveLog moveLog)1");
             }
-            catch (Exception e)
-            {
-                System.out.println("hey");
-            }
-            if(white)
-            {
+            if (white) {
                 this.model.setValueAt(moveText, currentRow, 0);
-            }
-            else if (black)
-            {
+            } else if (black) {
                 this.model.setValueAt(moveText, currentRow, 1);
                 currentRow++;
-            }
-            else if(whiteOrblack % 2 == 0)
-            {
+            } else if (whiteOrblack % 2 == 0) {
                 this.model.setValueAt(moveText, currentRow, 0);
-            }
-            else if (whiteOrblack % 2 == 1)
-            {
+            } else if (whiteOrblack % 2 == 1) {
                 this.model.setValueAt(moveText, currentRow, 1);
                 currentRow++;
             }
             whiteOrblack++;
-
-
         }
 
-        if(moveLog.getMoves().size() > 0)
-        {
+        if (moveLog.getMoves().size() > 0) {
             final Integer lastMove = moveLog.getMoves().get(moveLog.size() - 1);
             final String moveText = lastMove.toString();
 
 
-            if( board.getPieceFromPosition(lastMove).getColor() == Color2.WHITE )
-            {
+            if (board.getPieceFromPosition(lastMove).getColor() == Color2.WHITE) {
                 this.model.setValueAt(moveText, currentRow, 0);
-            }
-            else if ( board.getPieceFromPosition(lastMove).getColor() == Color2.BLACK )
-                this.model.setValueAt(moveText, currentRow -1, 1);
+            } else if (board.getPieceFromPosition(lastMove).getColor() == Color2.BLACK)
+                this.model.setValueAt(moveText, currentRow - 1, 1);
         }
         final JScrollBar vertical = scrollPane.getVerticalScrollBar();
-        vertical.setValue(vertical.getMaximum() );
+        vertical.setValue(vertical.getMaximum());
     }
 
-    private static class DataModel extends DefaultTableModel
-    {
+    private static class DataModel extends DefaultTableModel {
         private final List<Row> values;
-        private final static String[] NAMES = {"White", "Black"};
+        //private final static String[] NAMES = {"White", "Black"};
+        private final String[] NAMES;
 
-        DataModel()
-        {
+        DataModel(String whiteName, String blackName) {
             this.values = new ArrayList<>();
+            NAMES = new String[]{whiteName, blackName};
         }
-        public void clear()
-        {
+
+        public void clear() {
             this.values.clear();
         }
 
         @Override
-        public int getRowCount()
-        {
-            if(this.values == null)
+        public int getRowCount() {
+            if (this.values == null)
                 return 0;
             return this.values.size();
         }
 
         @Override
-        public int getColumnCount()
-        {
+        public int getColumnCount() {
             return NAMES.length;
         }
 
         @Override
-        public Object getValueAt(final int row, final int col)
-        {
+        public Object getValueAt(final int row, final int col) {
             final Row currentRow = this.values.get(row);
-            if(col == 0)
+            if (col == 0)
                 return currentRow.getWhiteMove();
             else if (col == 1)
                 return currentRow.getBlackMove();
@@ -143,28 +123,21 @@ public class GameHistoryPanel extends JPanel {
         }
 
         @Override
-        public void setValueAt(final Object aValue, final int row, final int col)
-        {
+        public void setValueAt(final Object aValue, final int row, final int col) {
             final Row currentRow;
 
-            if(this.values.size() <= row)
-            {
+            if (this.values.size() <= row) {
                 currentRow = new Row();
                 this.values.add(currentRow);
-            }
-            else
-            {
+            } else {
                 currentRow = this.values.get(row);
             }
-            if(col == 0)
-            {
-                currentRow.setWhiteMove( (String) aValue);
-                fireTableRowsInserted(row,row);
-            }
-            else if (col == 1)
-            {
-                currentRow.setBlackMove( (String) aValue);
-                fireTableCellUpdated(row,col);
+            if (col == 0) {
+                currentRow.setWhiteMove((String) aValue);
+                fireTableRowsInserted(row, row);
+            } else if (col == 1) {
+                currentRow.setBlackMove((String) aValue);
+                fireTableCellUpdated(row, col);
             }
             //fireTableCellUpdated(row,col);
         }
@@ -175,36 +148,32 @@ public class GameHistoryPanel extends JPanel {
         }
 
         @Override
-        public String getColumnName(final int column)
-        {
+        public String getColumnName(final int column) {
             return NAMES[column];
         }
     } //end datamodel
 
-    private static class Row
-    {
+    private static class Row {
         private String whiteMove;
         private String blackMove;
 
-        Row()
-        {
+        Row() {
 
         }
 
-        public String getWhiteMove()
-        {
+        public String getWhiteMove() {
             return this.whiteMove;
         }
-        public String getBlackMove()
-        {
+
+        public String getBlackMove() {
             return this.blackMove;
         }
-        public void setWhiteMove(final String move)
-        {
+
+        public void setWhiteMove(final String move) {
             this.whiteMove = move;
         }
-        public void setBlackMove(final String move)
-        {
+
+        public void setBlackMove(final String move) {
             this.blackMove = move;
         }
     }//end Row

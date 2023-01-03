@@ -2,6 +2,7 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Scanner;
 
 import Controller.GameController;
 import Model.Board.Board;
@@ -18,6 +19,7 @@ public class EnterNameMenu extends JFrame implements IPlayerObserver {
     Player bPlayer;
     Board board;
     GameController gameController;
+    private int cpt = 0;
 
     public EnterNameMenu(Player wPlayer, Player bPlayer, Board board, GameController gameController)
     {
@@ -45,8 +47,8 @@ public class EnterNameMenu extends JFrame implements IPlayerObserver {
         frame.getContentPane().add(blackName);
         frame.getContentPane().add(button);
         button.addActionListener(e -> {
-            setPlayerName(whiteName.getText(), wPlayer);
             setPlayerName(blackName.getText(), bPlayer);
+            setPlayerName(whiteName.getText(), wPlayer);
         });
         frame.getContentPane().add(label);
         frame.getContentPane().add(label2);
@@ -63,13 +65,16 @@ public class EnterNameMenu extends JFrame implements IPlayerObserver {
         gameController.setPlayerName(name, player);
     }
 
+    public void startGame() {
+
+    }
+
     @Override
     public void updatePlayerName()
     {
+        cpt++;
         label.setText( wPlayer.getName() );
         label2.setText( bPlayer.getName() );
-        label3.setText("ok ?");
-
         frame.setVisible(false);
         //MVC
         //model
@@ -77,10 +82,14 @@ public class EnterNameMenu extends JFrame implements IPlayerObserver {
         //controller
             //GameController
         //view
-        GameFrame2 gameFrame2 = GameFrame2.createInstance(gameController);
-        board.addObserver(gameFrame2);
-        bPlayer.addObserverGame(gameFrame2);
-        wPlayer.addObserverGame(gameFrame2);
-        gameFrame2.setVisible(true);
+
+        //TODO une gameframe revoir condition
+        if(cpt>1) {
+            GameFrame2 gameFrame2 = GameFrame2.createInstance(gameController);
+            board.addObserver(gameFrame2);
+            bPlayer.addObserverGame(gameFrame2);
+            wPlayer.addObserverGame(gameFrame2);
+            gameFrame2.setVisible(true);
+        }
     }
 }

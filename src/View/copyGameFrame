@@ -59,7 +59,7 @@ public class GameFrame extends JFrame
         this.setLocationRelativeTo(null);
         final JMenuBar tableMenuBar = createTableMenuBar();
         this.setJMenuBar(tableMenuBar);
-        this.gameHistoryPanel = new GameHistoryPanel(gameController);
+        this.gameHistoryPanel = new GameHistoryPanel();
         this.takenPiecesPanel = new TakenPiecesPanel();
         this.boardPanel = new BoardPanel();
         this.moveLog = new MoveLog(chessBoard);
@@ -257,7 +257,7 @@ public class GameFrame extends JFrame
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
                             public void run() {
-                                //gameHistoryPanel.redo(chessBoard, moveLog);
+                                gameHistoryPanel.redo(chessBoard, moveLog);
                                 //takenPiecesPanel.redo(moveLog, chessBoard);
                                 boardPanel.drawBoard(chessBoard);
                             }
@@ -293,9 +293,9 @@ public class GameFrame extends JFrame
         {
             int ligne = this.tileId / 10;
             if( ligne == 2
-                    || ligne == 4
-                    || ligne == 6
-                    || ligne == 8 )
+                || ligne == 4
+                || ligne == 6
+                || ligne == 8 )
                 setBackground(this.tileId % 2 != 0 ? Color.WHITE : Color.GREEN);
             else
                 setBackground(this.tileId % 2 == 0 ? Color.WHITE : Color.GREEN);

@@ -18,6 +18,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,6 +37,9 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
     private final static Color blackTile = new Color(180,136,99);
 
     private final BoardPanel boardPanel;
+    private final GameHistoryPanel gameHistoryPanel;
+    private final TakenPiecesPanel takenPiecesPanel;
+    private final MoveLog moveLog;
 
     private static GameFrame2 gameFrame2;
 
@@ -57,9 +61,14 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
         this.setLocationRelativeTo(null);
         JMenuBar jMenuBar = new Menu();
         this.setJMenuBar(jMenuBar);
+        this.gameHistoryPanel = new GameHistoryPanel(gameController);
+        this.takenPiecesPanel = new TakenPiecesPanel();
         boardPanel = new BoardPanel();
+        this.moveLog = new MoveLog(gameController.getBoard());
+        this.add(this.boardPanel, BorderLayout.CENTER);
+        this.add(this.gameHistoryPanel, BorderLayout.EAST);
+        this.add(this.takenPiecesPanel, BorderLayout.SOUTH);
         this.boardDirection = BoardDirection2.NORMAL;
-
         this.add(boardPanel, BorderLayout.CENTER);
 
         this.addWindowListener(new WindowAdapter() {
@@ -337,6 +346,8 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
                             movedPiece = null;
                             return;
                         }
+                        moveLog.addMove(newPos);
+                        gameHistoryPanel.redo(gameController.getBoard(), moveLog);
                         oldPos = 0;
                         newPos = 0;
                         movedPiece = null;
@@ -347,11 +358,6 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
                     }
 
                 }
-                //TODO en mvc
-                //boardPanel.drawBoard(gameController.getBoard());
-                //System.out.println("\n\n");
-                //gameController.getBoard().displayBoard();
-
             }
         }
 
@@ -368,9 +374,42 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
                 }
             }
         }
-
-
     }// end Tile
+
+    public static class MoveLog
+    {
+        private final List<Integer> positions;
+        private final Board board;
+
+        MoveLog(Board board)
+        {
+            this.positions = new ArrayList<>();
+            this.board = board;
+        }
+        public List<Integer> getMoves()
+        {
+            return this.positions;
+        }
+        public void addMove(final Integer position)
+        {
+            this.positions.add(position);
+            System.out.println(positions);
+        }
+
+        public int size()
+        {
+            return this.positions.size();
+        }
+        public void clear()
+        {
+            this.positions.clear();
+        }
+        public boolean removeMove(final Integer position)
+        {
+            return this.positions.remove(position);
+        }
+
+    } // end MoveLog
 
     public enum BoardDirection2 {
         NORMAL {

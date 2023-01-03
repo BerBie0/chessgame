@@ -3,6 +3,7 @@ package Controller;
 import Model.Board.Board;
 import Model.Pieces.Piece;
 import Model.Player.Player;
+import Model.utils.Color2;
 
 public class GameController {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
@@ -21,6 +22,10 @@ public class GameController {
 
     public void setPlayerName(String name, Player player) {
         gameManager.setPlayerName(name, player);
+    }
+
+    public String getPlayerName(Color2 color) {
+        return color == Color2.WHITE ? gameManager.getWhiteName() : gameManager.getBlackName();
     }
 
     public Board getBoard() {

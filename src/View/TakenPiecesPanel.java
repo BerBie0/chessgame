@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static View.GameFrame.*;
+import static View.GameFrame2.*;
 
 public class TakenPiecesPanel extends JPanel
 {
