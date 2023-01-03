@@ -66,8 +66,6 @@ public class Pawn extends Piece
         //get the offset of movement
         int[] offset = executeStrategy();
         int positionCalcul = this.getPosition();
-        if( (Math.abs(this.getPosition() - position) == 9) || (Math.abs(this.getPosition() - position)) == 11 )
-            return true;
         if( this.getColor() == Color2.BLACK )
             if( hasNmovedOnce )
                 return ( position == positionCalcul + offset[1] && board[positionCalcul] != -10 );
