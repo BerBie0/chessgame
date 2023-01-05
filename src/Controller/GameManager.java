@@ -1,4 +1,4 @@
-package Controller;
+package Model;
 
 import Model.Board.Board;
 import Model.Move.IMove;
