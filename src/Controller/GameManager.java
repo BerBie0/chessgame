@@ -32,7 +32,6 @@ public class GameManager {
 
     public GameManager(Player wPlayer, Player bPlayer, Board board) {
         this.board = board;
-        //board.inializeBoard();
         this.bPlayer = bPlayer;
         this.wPlayer = wPlayer;
         this.moveFactory = new MoveFactory(board);
@@ -52,29 +51,12 @@ public class GameManager {
         wPlayer.setUrTurn(turn);
     }
 
-    public Board getBoard() {
-        return board;
-    }
-
     public void setPlayerName(String name, Player player) {
         if (player.isWhite()) {
             wPlayer.setName(name);
         } else {
             bPlayer.setName(name);
         }
-    }
-
-    public String getWhiteName() {
-        return wPlayer.getName();
-    }
-    public String getBlackName() {
-        return bPlayer.getName();
-    }
-    public Player getBlackPlayer() {
-        return bPlayer;
-    }
-    public Player getWhitePlayer() {
-        return wPlayer;
     }
 
     /*-------------------------------------------OVERRIDE METHOD------------------------------------------------------*/
@@ -131,13 +113,13 @@ public class GameManager {
             if (oldPos == 0) {
                 //first click
                 try {
-                    oldPos = this.getBoard().
+                    oldPos = board.
                             getPieceFromPosition(tileId).getPosition();
                 } catch (Exception exception) {
                     System.out.println("GameFrame.java : " + "Tile(final BoardPanel boardPanel, final int tileId)1 : " + exception);
                 }
                 try {
-                    movedPiece = this.getBoard().getPieceFromPosition(oldPos);
+                    movedPiece = board.getPieceFromPosition(oldPos);
                 } catch (Exception exception) {
                     System.out.println("GameFrame.java : " + "Tile(final BoardPanel boardPanel, final int tileId)2 : " + exception);
                 }
@@ -149,7 +131,7 @@ public class GameManager {
                         oldPos = 0;
                         JOptionPane.showMessageDialog(null, "pas votre tour");
                     } else {
-                        this.getBoard().calculateLegalMoves(movedPiece);
+                        board.calculateLegalMoves(movedPiece);
                     }
                 }
             } else {
@@ -157,8 +139,8 @@ public class GameManager {
                 newPos = tileId;
                 try {
                     //update mvc
-                    IMove move = this.execute(oldPos, newPos, movedPiece, this.getCurrentPlayer(), this.getBoard());
-                    if ( this.getBoard().isCheck(this.getCurrentPlayer().getColor()) ) {
+                    IMove move = this.execute(oldPos, newPos, movedPiece, this.getCurrentPlayer(), board);
+                    if ( board.isCheck(this.getCurrentPlayer().getColor()) ) {
                         this.undo();
                         JOptionPane.showMessageDialog(null, "coup invalide cause echec");
                         oldPos = 0;

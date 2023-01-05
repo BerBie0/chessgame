@@ -1,8 +1,5 @@
 package View;
 
-import Controller.GameController;
-import Model.Board.Board;
-import Model.utils.Color2;
 import Model.Pieces.Piece;
 
 import javax.imageio.ImageIO;
@@ -12,12 +9,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import static View.GameFrame2.*;
 
 public class TakenPiecesPanel extends JPanel {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/

@@ -25,9 +25,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import static javax.swing.SwingUtilities.isLeftMouseButton;
-import static javax.swing.SwingUtilities.isRightMouseButton;
-
 public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserverGame {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
@@ -72,7 +69,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
         this.gameHistoryPanel = new GameHistoryPanel(wPlayer.getName(), bPlayer.getName());
         this.takenPiecesPanel = new TakenPiecesPanel(wPlayer.getCapturedPieces(), bPlayer.getCapturedPieces());
         boardPanel = new BoardPanel();
-        this.moveLog = new MoveLog(this.gameManager.getBoard());
+        this.moveLog = new MoveLog(board);
         this.add(this.boardPanel, BorderLayout.CENTER);
         this.add(this.gameHistoryPanel, BorderLayout.EAST);
         this.add(this.takenPiecesPanel, BorderLayout.WEST);
@@ -104,12 +101,12 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
 
     @Override
     public void updateBoard() {
-        boardPanel.drawBoard(gameManager.getBoard());
+        boardPanel.drawBoard(board.getBoard());
     }
 
     @Override
     public void updateBoardAndLegalMoves() {
-        boardPanel.drawBoardAndLegalMoves(gameManager.getBoard());
+        boardPanel.drawBoardAndLegalMoves(board.getBoard());
     }
     /*------------------------------------------------METHOD----------------------------------------------------------*/
     /*-----------------------------------------------CLASSE INTERNE---------------------------------------------------*/
@@ -171,7 +168,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
             boardTiles = new LinkedList<>();
             for (int i = 21; i < 100; i += 10) {
                 for (int j = 0; j < 8; j++) {
-                    final Tile tile = new Tile(this, i + j);
+                    final Tile tile = new Tile(i + j);
                     this.boardTiles.add(tile);
                     this.add(tile);
                 }
@@ -183,6 +180,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
         /*---------------------------------------------GET SET------------------------------------------------------------*/
         /*-------------------------------------------OVERRIDE METHOD------------------------------------------------------*/
         /*-------------------------------------------INTERFACE METHOD-----------------------------------------------------*/
+        /*------------------------------------------------METHOD----------------------------------------------------------*/
 
         public void drawBoardAndLegalMoves(Board board) {
             removeAll();
@@ -205,9 +203,6 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
         }
 
 
-        /*------------------------------------------------METHOD----------------------------------------------------------*/
-
-
     } // end BoardPanel
 
     private class Tile extends JPanel {
@@ -220,12 +215,12 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
 
         /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
-        Tile(final BoardPanel boardPanel, final int tileId) {
+        Tile(final int tileId) {
             super(new GridBagLayout());
             this.tileId = tileId;
             setPreferredSize(TILE_PANEL_DIM);
             assignTileColor();
-            assignTilePieceImg(gameManager.getBoard());
+            assignTilePieceImg(board.getBoard());
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -266,7 +261,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
             }
         }
         public void assignCheckToTile(final Board board) {
-            if (gameManager.getBoard().isCheck(Color2.WHITE)) {
+            if (board.getBoard().isCheck(Color2.WHITE)) {
                 if (board.getKingPosition(Color2.WHITE) == this.tileId) {
                     try {
                         add(new JLabel(new ImageIcon(ImageIO.read(new File(pieceIconPath + "redDot.png")))));
@@ -274,7 +269,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
                         e.printStackTrace();
                     }
                 }
-            } else if (gameManager.getBoard().isCheck(Color2.BLACK)) {
+            } else if (board.getBoard().isCheck(Color2.BLACK)) {
                 if (board.getKingPosition(Color2.BLACK) == this.tileId) {
                     try {
                         add(new JLabel(new ImageIcon(ImageIO.read(new File(pieceIconPath + "redDot.png")))));
@@ -283,13 +278,25 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
                     }
                 }
             }
+        }
 
+        private void highLightLegalsMove(final Board board) {
+            if (!board.getBoard().getHighLightMove().isEmpty()) {
+                for (final int position : board.getBoard().getHighLightMove()) {
+                    if (position == this.tileId) {
+                        try {
+                            add(new JLabel(new ImageIcon(ImageIO.read(new File(pieceIconPath + "greenDot.png")))));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
         }
 
         public void drawTile(final Board board) {
             assignTileColor();
             assignTilePieceImg(board);
-            //highLightLegalsMove(board);
             assignCheckToTile(board);
             validate();
             repaint();
@@ -308,19 +315,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
             gameManager.game(e, tileId);
         }
 
-        private void highLightLegalsMove(final Board board) {
-            if (!gameManager.getBoard().getHighLightMove().isEmpty()) {
-                for (final int position : gameManager.getBoard().getHighLightMove()) {
-                    if (position == this.tileId) {
-                        try {
-                            add(new JLabel(new ImageIcon(ImageIO.read(new File(pieceIconPath + "greenDot.png")))));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        }
+
     }// end Tile
 
     public static class MoveLog

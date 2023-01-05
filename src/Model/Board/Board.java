@@ -52,16 +52,15 @@ public class Board {
                         () -> {
                             throw new IllegalArgumentException("Model.Board.Board.java : getPieceFromPosition(int position) : can't find piece");
                         });
-        /*
-        if( (board[position]) != - 10 && (board[position]) != 0 )
-            return piece;
-
-         */
         return piece;
     }
 
     public LinkedList<Integer> getHighLightMove() {
         return highlightMove;
+    }
+
+    public Board getBoard() {
+        return this;
     }
 
 
@@ -186,7 +185,6 @@ public class Board {
     //TODO validateCastleMove
 
     public boolean isPathFree(Piece piece, int newPos) {
-        //todo ??????????
         if ( piece instanceof Pawn && isPositionOccupied( newPos ) && (Math.abs(piece.getPosition() - newPos) == 9) || (Math.abs(piece.getPosition() - newPos)) == 11 && isPositionOccupied( newPos )) {
             return true;
         } else {

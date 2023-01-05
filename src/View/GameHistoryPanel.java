@@ -1,10 +1,7 @@
 package View;
 
-import Controller.GameController;
-import Controller.GameManager;
 import Model.Board.Board;
 import Model.Move.IMove;
-import Model.utils.Color2;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
