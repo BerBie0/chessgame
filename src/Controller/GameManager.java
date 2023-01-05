@@ -1,4 +1,4 @@
-package Model;
+package Controller;
 
 import Model.Board.Board;
 import Model.Move.IMove;
@@ -8,7 +8,11 @@ import Model.Pieces.Piece;
 import Model.utils.Color2;
 import Model.Player.Player;
 
-import java.util.LinkedList;
+import javax.swing.*;
+import java.awt.event.MouseEvent;
+
+import static javax.swing.SwingUtilities.isLeftMouseButton;
+import static javax.swing.SwingUtilities.isRightMouseButton;
 
 public class GameManager {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
@@ -16,6 +20,9 @@ public class GameManager {
     private final Board board;
     private final Player bPlayer;
     private final Player wPlayer;
+    private int oldPos;
+    private int newPos;
+    private Piece movedPiece;
     private IMove lastMove;
     private final MoveFactory moveFactory;
 
@@ -104,21 +111,73 @@ public class GameManager {
         return move;
     }
 
+    public void changeTurn() {
+        this.setWhiteTurn(!this.isWhitePlayer());
+        this.setBlackTurn(!this.isBlackPlayer());
+    }
+
     public void undo() {
         lastMove.undo();
     }
 
-    /*TEST*/
-    public static void main(String[] args) {
-        Board b = new Board();
-        Player bPlayer = new Player(Color2.BLACK, "nom1");
-        Player wPlayer = new Player(Color2.WHITE, "nom2");
-        //b.displayBoard();
-        b.inializeBoard();
-        b.displayBoard();
-        b.move(b.getPieces().get(0), 71);
-        b.displayBoard();
-        System.out.println();
-        System.out.println(b.getPieces());
+    public void game(MouseEvent e, int tileId) {
+        if (isRightMouseButton(e)) {
+            oldPos = 0;
+            newPos = 0;
+            movedPiece = null;
+            wPlayer.notifyObserversGame();
+        } else if (isLeftMouseButton(e)) {
+            //click game
+            if (oldPos == 0) {
+                //first click
+                try {
+                    oldPos = this.getBoard().
+                            getPieceFromPosition(tileId).getPosition();
+                } catch (Exception exception) {
+                    System.out.println("GameFrame.java : " + "Tile(final BoardPanel boardPanel, final int tileId)1 : " + exception);
+                }
+                try {
+                    movedPiece = this.getBoard().getPieceFromPosition(oldPos);
+                } catch (Exception exception) {
+                    System.out.println("GameFrame.java : " + "Tile(final BoardPanel boardPanel, final int tileId)2 : " + exception);
+                }
+                //update mvc
+                if (movedPiece == null) {
+                    oldPos = 0;
+                } else {
+                    if (movedPiece.getColor() != this.getCurrentPlayer().getColor()) {
+                        oldPos = 0;
+                        JOptionPane.showMessageDialog(null, "pas votre tour");
+                    } else {
+                        this.getBoard().calculateLegalMoves(movedPiece);
+                    }
+                }
+            } else {
+                //second click
+                newPos = tileId;
+                try {
+                    //update mvc
+                    IMove move = this.execute(oldPos, newPos, movedPiece, this.getCurrentPlayer(), this.getBoard());
+                    if ( this.getBoard().isCheck(this.getCurrentPlayer().getColor()) ) {
+                        this.undo();
+                        JOptionPane.showMessageDialog(null, "coup invalide cause echec");
+                        oldPos = 0;
+                        newPos = 0;
+                        movedPiece = null;
+                        return;
+                    }
+                    //moveLog.addMove(move);
+                    //gameHistoryPanel.redo(gameManager.getBoard(), moveLog);
+                    //takenPiecesPanel.redo();
+                    oldPos = 0;
+                    newPos = 0;
+                    movedPiece = null;
+                    this.changeTurn();
+                } catch (Exception exception) {
+                    System.out.println("GameFrame.java : Tile(final BoardPanel boardPanel, final int tileId)3 : " + exception);
+                }
+
+            }
+        }
     }
 }

@@ -59,8 +59,8 @@ public class GameFrame extends JFrame
         this.setLocationRelativeTo(null);
         final JMenuBar tableMenuBar = createTableMenuBar();
         this.setJMenuBar(tableMenuBar);
-        this.gameHistoryPanel = new GameHistoryPanel(gameController);
-        this.takenPiecesPanel = new TakenPiecesPanel(gameController);
+        this.gameHistoryPanel = new GameHistoryPanel(wPlayer.getName(), bPlayer.getName());
+        this.takenPiecesPanel = new TakenPiecesPanel(wPlayer.getCapturedPieces(), bPlayer.getCapturedPieces());
         this.boardPanel = new BoardPanel();
         this.moveLog = new MoveLog(chessBoard);
         this.boardDirection = BoardDirection.NORMAL;

@@ -28,14 +28,15 @@ public class TakenPiecesPanel extends JPanel {
     private static final Dimension TAKEN_PIECES_DIM_ICON = new Dimension(40, 40);
     private final JPanel northPanel;
     private final JPanel southPanel;
-    private final GameController gameController;
+    private List<Piece> whiteTakenPieces;
+    private List<Piece> blackTakenPieces;
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
     /*---------------------------------------------GET SET------------------------------------------------------------*/
     /*-------------------------------------------OVERRIDE METHOD------------------------------------------------------*/
     /*-------------------------------------------INTERFACE METHOD-----------------------------------------------------*/
     /*------------------------------------------------METHOD----------------------------------------------------------*/
 
-    public TakenPiecesPanel(GameController gameController) {
+    public TakenPiecesPanel(List<Piece> whiteTakenPieces, List<Piece> blackTakenPieces) {
         super(new BorderLayout());
         this.setBackground(PANEL_COLOR);
         this.setBorder(PANEL_BORDER);
@@ -47,7 +48,8 @@ public class TakenPiecesPanel extends JPanel {
         northPanel.setBorder(BorderFactory.createEmptyBorder(0,0,20,0));
         southPanel.setBorder(BorderFactory.createEmptyBorder(0,0,20,0));
         this.southPanel.setBackground(PANEL_COLOR);
-        this.gameController = gameController;
+        this.whiteTakenPieces = whiteTakenPieces;
+        this.blackTakenPieces = blackTakenPieces;
         this.add(northPanel, BorderLayout.NORTH);
         this.add(southPanel, BorderLayout.SOUTH);
         setPreferredSize(TAKEN_PIECES_DIM);
@@ -56,9 +58,6 @@ public class TakenPiecesPanel extends JPanel {
     public void redo() {
         this.southPanel.removeAll();
         this.northPanel.removeAll();
-
-        final List<Piece> whiteTakenPieces = gameController.getWhitePlayer().getCapturedPieces();
-        final List<Piece> blackTakenPieces = gameController.getBlackPlayer().getCapturedPieces();
 
         whiteTakenPieces.sort(Comparator.comparingInt(Piece::getPieceCode));
 

@@ -2,9 +2,8 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Scanner;
 
-import Controller.GameController;
+import Controller.GameManager;
 import Model.Board.Board;
 import Model.Player.IPlayerObserver;
 import Model.Player.Player;
@@ -18,20 +17,18 @@ public class EnterNameMenu extends JFrame implements IPlayerObserver {
     Player wPlayer;
     Player bPlayer;
     Board board;
-    GameController gameController;
+    GameManager gameManager;
     private int cpt = 0;
 
-    public EnterNameMenu(Player wPlayer, Player bPlayer, Board board, GameController gameController)
-    {
+    public EnterNameMenu(Player wPlayer, Player bPlayer, Board board, GameManager GameManager) {
         this.wPlayer = wPlayer;
         this.bPlayer = bPlayer;
         this.board = board;
-        this.gameController = gameController;
+        this.gameManager = GameManager;
         this.init();
     }
 
-    public void init()
-    {
+    public void init() {
         frame = new JFrame("exemple poo");
         whiteName = new JTextField("white");
         whiteName.setColumns(10);
@@ -60,32 +57,19 @@ public class EnterNameMenu extends JFrame implements IPlayerObserver {
         frame.setLocationRelativeTo(null);
     }
 
-    public void setPlayerName(String name, Player player)
-    {
-        gameController.setPlayerName(name, player);
-    }
-
-    public void startGame() {
-
+    public void setPlayerName(String name, Player player) {
+        gameManager.setPlayerName(name, player);
     }
 
     @Override
-    public void updatePlayerName()
-    {
+    public void updatePlayerName() {
         cpt++;
-        label.setText( wPlayer.getName() );
-        label2.setText( bPlayer.getName() );
+        label.setText(wPlayer.getName());
+        label2.setText(bPlayer.getName());
         frame.setVisible(false);
-        //MVC
-        //model
-            //wPlayer, bplayer, board
-        //controller
-            //GameController
-        //view
 
-        //TODO une gameframe revoir condition
-        if(cpt>1) {
-            GameFrame2 gameFrame2 = GameFrame2.createInstance(gameController);
+        if (cpt > 1) {
+            GameFrame2 gameFrame2 = GameFrame2.createInstance(wPlayer, bPlayer, board, gameManager);
             board.addObserver(gameFrame2);
             bPlayer.addObserverGame(gameFrame2);
             wPlayer.addObserverGame(gameFrame2);

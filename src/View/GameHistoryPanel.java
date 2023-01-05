@@ -1,9 +1,9 @@
 package View;
 
 import Controller.GameController;
+import Controller.GameManager;
 import Model.Board.Board;
 import Model.Move.IMove;
-import Model.Move.Move;
 import Model.utils.Color2;
 
 import javax.swing.*;
@@ -24,13 +24,13 @@ public class GameHistoryPanel extends JPanel {
 
     private final DataModel model;
     private final JScrollPane scrollPane;
-    private GameController gameController;
+    private String whiteName;
+    private String blackName;
     private static final Dimension HISTORY_PANEL_DIM = new Dimension(200, 400);
 
-    GameHistoryPanel(GameController gameController) {
+    GameHistoryPanel(String whiteName, String blackName) {
         this.setLayout(new BorderLayout());
-        this.gameController = gameController;
-        this.model = new DataModel(gameController.getPlayerName(Color2.WHITE), gameController.getPlayerName(Color2.BLACK));
+        this.model = new DataModel(whiteName, blackName);
         final JTable table = new JTable(model);
         table.setRowHeight(15);
         this.scrollPane = new JScrollPane(table);
