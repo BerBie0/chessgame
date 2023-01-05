@@ -10,6 +10,7 @@ import Model.Pieces.Piece;
 import Model.Player.IPlayerObserverGame;
 import Model.Player.Player;
 import Model.utils.Color2;
+import Model.utils.IObserverMoveLog;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,7 +26,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserverGame {
+public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserverGame, IObserverMoveLog {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
     private final static Dimension GLOBAL_DIM = new Dimension(800, 800);
@@ -108,6 +109,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
     public void updateTakenPiecePanel() {
         takenPiecesPanel.redo();
     }
+
     @Override
     public void updateGameHistoryPanel() {
         gameHistoryPanel.redo(moveLog);

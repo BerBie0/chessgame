@@ -2,7 +2,9 @@ package Controller;
 
 import Model.Board.Board;
 import Model.Move.IMove;
+import Model.Move.Move;
 import Model.Move.MoveFactory;
+import Model.Move.SimpleMove;
 import Model.MoveLog;
 import Model.Pieces.King;
 import Model.Pieces.Piece;
@@ -44,6 +46,9 @@ public class GameManager {
 
     public Player getCurrentPlayer() {
         return wPlayer.isUrTurn() ? wPlayer : bPlayer;
+    }
+    public Player getOppositePlayer()  {
+        return wPlayer.isUrTurn() ? bPlayer : wPlayer;
     }
 
     public void setBlackTurn(boolean turn) {
@@ -106,6 +111,10 @@ public class GameManager {
     }
 
     public void game(MouseEvent e, int tileId) {
+        if ( isCheckMate() || isPat() ) {
+            System.out.println("echec et mat");
+            return;
+        }
         if (isRightMouseButton(e)) {
             oldPos = 0;
             newPos = 0;
@@ -142,7 +151,11 @@ public class GameManager {
                 newPos = tileId;
                 try {
                     //update mvc
+                    System.out.println(getCurrentPlayer());
+
+                    System.out.println(board.isCheck(this.getCurrentPlayer().getColor()));
                     IMove move = this.execute(oldPos, newPos, movedPiece, this.getCurrentPlayer(), board);
+                    //si le coup du joueur actuel le met en echec
                     if ( board.isCheck(this.getCurrentPlayer().getColor()) ) {
                         this.undo();
                         JOptionPane.showMessageDialog(null, "coup invalide cause echec");
@@ -156,6 +169,9 @@ public class GameManager {
                     newPos = 0;
                     movedPiece = null;
                     this.changeTurn();
+                    if ( isCheckMate() || isPat() ) {
+                        System.out.println("echec et mat");
+                    }
                 } catch (Exception exception) {
                     System.out.println("GameFrame.java : Tile(final BoardPanel boardPanel, final int tileId)3 : " + exception);
                 }

@@ -3,8 +3,10 @@ package Model;
 import Model.Board.Board;
 import Model.Move.IMove;
 import Model.Move.Move;
+import Model.utils.IObserverMoveLog;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MoveLog {
@@ -12,11 +14,13 @@ public class MoveLog {
 
     private final List<IMove> positions;
     private final Board board;
+    private List<IObserverMoveLog> observers;
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
     public MoveLog(Board board) {
         this.positions = new ArrayList<>();
         this.board = board;
+        this.observers = new LinkedList<>();
     }
 
     /*---------------------------------------------GET SET------------------------------------------------------------*/
@@ -30,6 +34,7 @@ public class MoveLog {
 
     public void addMove(final IMove move) {
         this.positions.add(move);
+        notifyObserver();
     }
 
     public int size() {
@@ -42,5 +47,14 @@ public class MoveLog {
 
     public boolean removeMove(final Move move) {
         return this.positions.remove(move);
+    }
+
+    public void addObserver(IObserverMoveLog obs) {
+        observers.add(obs);
+    }
+    public void notifyObserver() {
+        for(IObserverMoveLog obs : observers) {
+            obs.updateGameHistoryPanel();
+        }
     }
 }

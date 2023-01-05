@@ -187,6 +187,8 @@ public class Board {
     public boolean isPathFree(Piece piece, int newPos) {
         if ( piece instanceof Pawn && isPositionOccupied( newPos ) && (Math.abs(piece.getPosition() - newPos) == 9) || (Math.abs(piece.getPosition() - newPos)) == 11 && isPositionOccupied( newPos )) {
             return true;
+        } else if ( piece instanceof Pawn && isPositionOccupied(newPos) ) {
+            return false;
         } else {
             int oldPos = piece.getPosition();
             int[] offset = piece.executeStrategy();
@@ -252,7 +254,23 @@ public class Board {
 
     //TODO anyValidMove
     public boolean anyValidMove(Color2 color) {
-        return true;
+        List<Piece> teamPieces = pieces.stream().filter(piece -> piece.getColor() == color ).toList();
+        List<Piece> ennemyPieces = pieces.stream().filter(piece -> piece.getColor() != color && isPathFree(piece, getKingPosition(color))).toList();
+        for (Piece teamPiece : teamPieces) {
+            for (Piece ennemyPiece : ennemyPieces) {
+                if ( isPathFree(teamPiece, ennemyPiece.getPosition()) && !willMoveResultInCheck(teamPiece, ennemyPiece.getPosition()) )
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean willMoveResultInCheck(Piece piece, int newPos) {
+        int oldPos = piece.getPosition();
+        piece.setPosition(newPos);
+        boolean isCheck = isCheck(getKing(piece.getColor()).getColor());
+        piece.setPosition(oldPos);
+        return isCheck;
     }
 
     /*-----------------------------------------------OBSERVER---------------------------------------------------------*/
