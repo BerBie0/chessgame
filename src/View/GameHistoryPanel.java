@@ -2,6 +2,7 @@ package View;
 
 import Model.Board.Board;
 import Model.Move.IMove;
+import Model.MoveLog;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,7 +10,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static View.GameFrame2.*;
 
 public class GameHistoryPanel extends JPanel {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
@@ -37,7 +37,7 @@ public class GameHistoryPanel extends JPanel {
         this.setVisible(true);
     }
 
-    void redo(final Board board, final MoveLog moveLog) {
+    void redo(final MoveLog moveLog) {
         int currentRow = 0;
         this.model.clear();
         for (final IMove move : moveLog.getMoves()) {

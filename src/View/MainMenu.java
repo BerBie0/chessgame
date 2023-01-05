@@ -2,6 +2,7 @@ package View;
 
 import Controller.GameManager;
 import Model.Board.Board;
+import Model.MoveLog;
 import Model.Player.Player;
 import Model.utils.Color2;
 
@@ -104,10 +105,11 @@ public class MainMenu extends JFrame {
         Player bPlayer = new Player(Color2.BLACK, "");
         Board board = new Board();
         board.inializeBoard();
+        MoveLog moveLog = new MoveLog(board);
         //controller
-        GameManager gameManager = new GameManager(wPlayer, bPlayer, board);
+        GameManager gameManager = new GameManager(wPlayer, bPlayer, board, moveLog);
         //view
-        EnterNameMenu enterNameMenu = new EnterNameMenu(wPlayer, bPlayer, board, gameManager);
+        EnterNameMenu enterNameMenu = new EnterNameMenu(wPlayer, bPlayer, board, moveLog, gameManager);
         //observer
         wPlayer.addObserver(enterNameMenu);
         bPlayer.addObserver(enterNameMenu);

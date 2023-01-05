@@ -3,6 +3,7 @@ package Controller;
 import Model.Board.Board;
 import Model.Move.IMove;
 import Model.Move.MoveFactory;
+import Model.MoveLog;
 import Model.Pieces.King;
 import Model.Pieces.Piece;
 import Model.utils.Color2;
@@ -20,6 +21,7 @@ public class GameManager {
     private final Board board;
     private final Player bPlayer;
     private final Player wPlayer;
+    private final MoveLog moveLog;
     private int oldPos;
     private int newPos;
     private Piece movedPiece;
@@ -30,10 +32,11 @@ public class GameManager {
 
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
-    public GameManager(Player wPlayer, Player bPlayer, Board board) {
+    public GameManager(Player wPlayer, Player bPlayer, Board board, MoveLog moveLog) {
         this.board = board;
         this.bPlayer = bPlayer;
         this.wPlayer = wPlayer;
+        this.moveLog = moveLog;
         this.moveFactory = new MoveFactory(board);
     }
 
@@ -148,9 +151,7 @@ public class GameManager {
                         movedPiece = null;
                         return;
                     }
-                    //moveLog.addMove(move);
-                    //gameHistoryPanel.redo(gameManager.getBoard(), moveLog);
-                    //takenPiecesPanel.redo();
+                    moveLog.addMove(move);
                     oldPos = 0;
                     newPos = 0;
                     movedPiece = null;
@@ -158,7 +159,6 @@ public class GameManager {
                 } catch (Exception exception) {
                     System.out.println("GameFrame.java : Tile(final BoardPanel boardPanel, final int tileId)3 : " + exception);
                 }
-
             }
         }
     }

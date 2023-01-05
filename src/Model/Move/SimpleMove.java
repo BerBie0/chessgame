@@ -4,22 +4,20 @@ import Model.Board.Board;
 import Model.Pieces.Piece;
 import Model.Player.Player;
 
-public class SimpleMove extends Move
-{
+public class SimpleMove extends Move {
 
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
-    public SimpleMove(int op, int np, Piece pi, Player pl, Board b)
-    {
+    public SimpleMove(int op, int np, Piece pi, Player pl, Board b) {
         super(op, np, pi, pl, b);
     }
+
     /*---------------------------------------------GET SET------------------------------------------------------------*/
     /*-------------------------------------------OVERRIDE METHOD------------------------------------------------------*/
     /*-------------------------------------------INTERFACE METHOD-----------------------------------------------------*/
     @Override
-    public void execute()
-    {
+    public void execute() {
         //FixMe pas besoin du trhow
         /*
         if( piece.getColor() != player.getColor() )
@@ -35,8 +33,7 @@ public class SimpleMove extends Move
     }
 
     @Override
-    public void undo()
-    {
+    public void undo() {
         board.move(piece, oldPos);
         player.move(piece, oldPos);
     }

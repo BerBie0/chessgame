@@ -5,6 +5,7 @@ import java.awt.*;
 
 import Controller.GameManager;
 import Model.Board.Board;
+import Model.MoveLog;
 import Model.Player.IPlayerObserver;
 import Model.Player.Player;
 
@@ -18,13 +19,15 @@ public class EnterNameMenu extends JFrame implements IPlayerObserver {
     Player bPlayer;
     Board board;
     GameManager gameManager;
+    MoveLog moveLog;
     private int cpt = 0;
 
-    public EnterNameMenu(Player wPlayer, Player bPlayer, Board board, GameManager GameManager) {
+    public EnterNameMenu(Player wPlayer, Player bPlayer, Board board, MoveLog moveLog, GameManager GameManager) {
         this.wPlayer = wPlayer;
         this.bPlayer = bPlayer;
         this.board = board;
         this.gameManager = GameManager;
+        this.moveLog = moveLog;
         this.init();
     }
 
@@ -69,7 +72,7 @@ public class EnterNameMenu extends JFrame implements IPlayerObserver {
         frame.setVisible(false);
 
         if (cpt > 1) {
-            GameFrame2 gameFrame2 = GameFrame2.createInstance(wPlayer, bPlayer, board, gameManager);
+            GameFrame2 gameFrame2 = GameFrame2.createInstance(wPlayer, bPlayer, board, moveLog, gameManager);
             board.addObserver(gameFrame2);
             bPlayer.addObserverGame(gameFrame2);
             wPlayer.addObserverGame(gameFrame2);

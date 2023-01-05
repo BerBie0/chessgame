@@ -5,6 +5,7 @@ import Model.Board.Board;
 import Model.Board.IBoardObserver;
 import Model.Move.IMove;
 import Model.Move.Move;
+import Model.MoveLog;
 import Model.Pieces.Piece;
 import Model.Player.IPlayerObserverGame;
 import Model.Player.Player;
@@ -20,7 +21,6 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,12 +54,13 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
 
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
-    private GameFrame2(Player wPlayer, Player bPlayer, Board board, GameManager gameManager) {
+    private GameFrame2(Player wPlayer, Player bPlayer, Board board, MoveLog moveLog, GameManager gameManager) {
         super("chess game 2 players");
         this.gameManager = gameManager;
         this.wPlayer = wPlayer;
         this.bPlayer = bPlayer;
         this.board = board;
+        this.moveLog = moveLog;
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setSize(GLOBAL_DIM);
@@ -69,7 +70,6 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
         this.gameHistoryPanel = new GameHistoryPanel(wPlayer.getName(), bPlayer.getName());
         this.takenPiecesPanel = new TakenPiecesPanel(wPlayer.getCapturedPieces(), bPlayer.getCapturedPieces());
         boardPanel = new BoardPanel();
-        this.moveLog = new MoveLog(board);
         this.add(this.boardPanel, BorderLayout.CENTER);
         this.add(this.gameHistoryPanel, BorderLayout.EAST);
         this.add(this.takenPiecesPanel, BorderLayout.WEST);
@@ -88,9 +88,9 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
         });
     }
 
-    public static GameFrame2 createInstance(Player wPlayer, Player bPlayer, Board board, GameManager gameManager) {
+    public static GameFrame2 createInstance(Player wPlayer, Player bPlayer, Board board, MoveLog moveLog, GameManager gameManager) {
         if (gameFrame2 == null)
-            gameFrame2 = new GameFrame2(wPlayer, bPlayer, board, gameManager);
+            gameFrame2 = new GameFrame2(wPlayer, bPlayer, board, moveLog, gameManager);
         return gameFrame2;
     }
 
@@ -102,6 +102,15 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
     @Override
     public void updateBoard() {
         boardPanel.drawBoard(board.getBoard());
+    }
+
+    @Override
+    public void updateTakenPiecePanel() {
+        takenPiecesPanel.redo();
+    }
+    @Override
+    public void updateGameHistoryPanel() {
+        gameHistoryPanel.redo(moveLog);
     }
 
     @Override
@@ -318,39 +327,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
 
     }// end Tile
 
-    public static class MoveLog
-    {
-        private final List<IMove> positions;
-        private final Board board;
 
-        MoveLog(Board board)
-        {
-            this.positions = new ArrayList<>();
-            this.board = board;
-        }
-        public List<IMove> getMoves()
-        {
-            return this.positions;
-        }
-        public void addMove(final IMove move)
-        {
-            this.positions.add(move);
-        }
-
-        public int size()
-        {
-            return this.positions.size();
-        }
-        public void clear()
-        {
-            this.positions.clear();
-        }
-        public boolean removeMove(final Move move)
-        {
-            return this.positions.remove(move);
-        }
-
-    } // end MoveLog
 
     public enum BoardDirection2 {
         NORMAL {

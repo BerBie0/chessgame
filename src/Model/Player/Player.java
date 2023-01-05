@@ -58,6 +58,7 @@ public class Player {
 
     public void addCapturedPiece(Piece piece) {
         capturedPiece.add(piece);
+        notifyObserversCapturePiece();
     }
 
     public void move(Piece piece, int position) {
@@ -89,6 +90,13 @@ public class Player {
     public void notifyObserversGame() {
         for (IPlayerObserverGame obs : observersGame) {
             obs.updateBoard();
+            obs.updateGameHistoryPanel();
+        }
+    }
+
+    public void notifyObserversCapturePiece() {
+        for (IPlayerObserverGame obs : observersGame) {
+            obs.updateTakenPiecePanel();
         }
     }
 
