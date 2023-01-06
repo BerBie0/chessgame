@@ -4,7 +4,6 @@ import Controller.GameManager;
 import Model.Board.Board;
 import Model.Board.IBoardObserver;
 import Model.utils.MoveLog;
-import Model.Pieces.Piece;
 import Model.Player.IPlayerObserverGame;
 import Model.Player.Player;
 import Model.utils.Color2;
@@ -318,7 +317,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
         }
 
         public void clickTile(MouseEvent e, int tileId) {
-            gameManager.game(e, tileId);
+            gameManager.game(e, tileId, gameFrame2);
         }
     }// end Tile
 

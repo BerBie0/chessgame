@@ -1,46 +1,54 @@
 # Chess Gameeee
 
-## Démarche
+## Package View
 
-### Choix de la structure de donnée
-Il existe de nombreuses possibilités, nous avons choisies de représenter l'echiquier
-avec un tableau d'entier à une dimension de 10x12, idéal pour générer les coups valides, et 
-les déplacements.
+Il est constitué des classes :
+* MainMenu : qui affiche le menu principal et instantie les modèles (Player(x2), Board et MoveLog), le controller (GameManager) et la vue (EnterNameMenu). on ajoute un observer pour chaque joueur afin d'observer EnterNameMenu. 
+* EnterNameMenu : ces observers permettent de mettre à jours le nom des joueurs il notifie la vue en affichant le noms des joueurs dans les JLabel. Cette observer n'est pas utile car il n'est utiliser qu'une seule fois. c'était un premier essaie pour avoir une idée de la manière à implémenter. cette classe créee une instance de GameFrame2
+* GameFrame2 : C'est la vue principale dans notre application. elle connait les modèles et le controller. Elle est constitué des classes TakenPiecePanel, GameHistoryPanel et des classes interne BoardPanel, Tile, BoardDirection2 et Menu. classe interne pour essayer de comprendre le focntionnement et les avantages. cette classe implémente les interfaces des observers afin de mettre la vue à jours, GameFrame2 délégue aux autres classe de la vue.
+* Tile : permet de dessiner une case selon les informations des modèles
+* BoardPanel : permet de dessiner l'ensemble des cases.
+* BoardDirection2 : permet de retourner le sens du plateau.
+* TakenPiecePanel : classe qui permet d'afficher les pièces capturé.
+* GamehistoryPanel : classe qui permet d'afficher l'historique des coups.
+* les classes qui composent la vue principales possèdent chacune une méthodes redo qui sont appelées par la vue principale pour mettre à jour l'affichage.
 
-### décomposition du problème en sous problème
-**le package Model sera composé des classes<br>**
-* Piece : représente les différentes pièces du jeu, nous donnes les caractéristiques
-commune des pièces (couleur déplacement).
-* Board : qui représente la grille ainsi que les caractéristqiues du jeu (si échec et mat,
-pat, la liste des pièces des joueurs.)
-* Player : qui représente les joueurs de la partie (couleur, pièce capturer,
-déplace les pieces dans le jeu.)
-* les classes Command : qui permettent de créer les coups à éxecuter
 
-**Le package View sera composé des classes :**
-* MainMenu : qui permet de démarrer le jeu.
-* GameFrame : la vue principal lors d'une partie.
+## Package Model
+Il est constitué de plusieurs Package :
+* Board
+  * Board : classe qui contient la liste des pièces, le plateau de jeu reprénsenter par un tableau de 120 éléments. les positions valide sont les indexs de [21 à 28], [31,38] ... [91,98], les autres indexes sont des positions non valide. mailbox chess.
+  * IBoardObserver : interface qui permet de mettre à jour le plateau en affichant les coups possibles pour une pièces.
+* Move : 
+  * AttackMove : classe qui sert a capturer une pièce adverse.
+  * CastleMove : classe qui permet le petit et grand roque.
+  * SimpleMove : classe qui permet le mouvement simple d'une piece.
+  * IMove : implémente Move permet de mettre à jours MoveLog
+  * Move : classe abstraite avec les caractéristiques communes des mouvements.
+* Pieces
+  * Piece : classe abstraite avec les caractéristiques communes des pieces. elle possède un attribut contexte qui est définit d'après les classes filles.
+  * StrategyMovement : interface qui permet aux classes filles de trouver l'offset de déplacement des pieces
+* Player : 
+  * Player : possède une liste d'observer des 2 types décrit plus bas. la classe notifie la vue lorseque qu'un déplacement est effectué ou qu'une pièce est capturé.
+  * IPlayerObserver : observer du nom des joueurs
+  * IObserverGame : observer du déplacement des pièces et des pièces capturé.
+* utils :
+  * Color2 : Enum des couleurs
+  * MoveLog : classe qui garde l'historique des mouvements.
+  * PieceFactory : classe qui permet d'instantier les pièces.
+  * IObserverMoveLog : interface lié à la notification de la vue mettre à jour GamehistoryPanel lorseque un coup est joué.
 
-**Le package Controller sera composé des classes :**
-* GameManager : façade qui se comportera comme un game manager.
-* MiddleMan : façade pour simplifier le passage du controleur à la vue.
+## package Controller
+* GameManager : classe qui permet de mettre à jours le modèle.
 
-### design pattern
-* Factory pattern qui assiste à la création des pièces.
-* strategy pattern qui permet d'appliquer un type de mouvement à une pièce.
-* façade qui à pour but de simplifier les interactions entre les classes.
-* observer pour mettre a jour la vue.
 
-## Suivie
+## problèmes
+* public boolean anyValidMove(Color2 color) et public boolean willMoveResultInCheck(Piece piece, int newPos2) devraient être dans le modèle, la classe board par exemple. le modèle devrait contenir une variable isCheckMate.
+* exemple pour le mat du berger, le cavalier noir est en H6 pour défendre F7, la reine blanche est en F7 le fou blanc en C4. le controlleur considère que la partie est terminé, victoire pour les blancs. ou ne detecte pas echec et mat.
+* parfois le controller fait office de modèle.
+* la partie promotion des pions n'est pas terminé.
+* le grand roque et petit roque fonctionne même si le roi à déjà bouger.
+* ...
 
-* Dans un premier temps nous avons choisie la structure de donnée pour représenter l'echiquier.
-* Ensuite nous avons décomposer le problème en sous problème dans le but de trouver 
-les objets idéals à utiliser.
-* Nous avons commencer par décrire le package model sans nous préocuper des packages
-view et controller, ce n'est pas une bonne manière de travailler mais ne connaissant
-pas les possibilités offertes par java swing. je profiterai des vacances de noel 
-* pour apprendre à l'utiliser.
-* Ensuite nous avons écris quelques test pour le déplacement des pièces.
-* Enfin nous avons écris les classes dans le package view (ne respecte pas le design mvc)
-afin d'avoir une interface graphique pour se faire une idée du résultat.
-
+## lancer l'application
+* java 17.

@@ -8,6 +8,8 @@ import Model.utils.MoveLog;
 import Model.Pieces.Piece;
 import Model.utils.Color2;
 import Model.Player.Player;
+import View.EndMenu;
+import View.GameFrame2;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -145,9 +147,12 @@ public class GameManager {
         }
     }
 
-    public void game(MouseEvent e, int tileId) {
+    public void game(MouseEvent e, int tileId, GameFrame2 gameFrame2) {
         if ( isCheckMate() || isPat() ) {
             System.out.println("echec et mat");
+            EndMenu endMenu = new EndMenu();
+            gameFrame2.setVisible(false);
+            endMenu.setVisible(true);
             return;
         }
         if (isRightMouseButton(e)) {
@@ -202,7 +207,10 @@ public class GameManager {
                     movedPiece = null;
                     this.changeTurn();
                     if ( isCheckMate() || isPat() ) {
-                        System.out.println("echec et mat2");
+                        System.out.println("echec et mat");
+                        EndMenu endMenu = new EndMenu();
+                        gameFrame2.setVisible(false);
+                        endMenu.setVisible(true);
                     }
                 } catch (Exception exception) {
                     System.out.println("GameFrame.java : Tile(final BoardPanel boardPanel, final int tileId)3 : " + exception);
