@@ -1,34 +1,33 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class Pawn extends Piece
-class Knight extends Piece
-class Bishop extends Piece
-class Rook extends Piece
-class Queen extends Piece
-class King extends Piece
-interface StrategyMovement
-
-class GameController {
-
-}
 class GameManager{
     -whitePlayer : Player
     -blackPlayer : Player
     -lastCommand : IMove
     -commandFactory : MoveFactory
     -board : Board
+    -moveLog : MoveLog
+    -oldPos : int
+    -newPos : int
+    -movedPiece : int
 
-    +GameManager()
+    +GameManager(wPlayer : Player, bPlayer : PLayer, board : Board, moveLog : MoveLog)
 
     +getCurrentPlayer() : Player
-    +setBlackTurn(boolean turn) : void
-    +setWhiteTurn(boolean turn) : void
+    +setBlackTurn(turn : boolean) : void
+    +setWhiteTurn(turn : boolean) : void
+    +setPlayerName(name : String, player : Player) : void
 
+    +isWhitePlayer() : boolean
+    +isBlackPlayer() : boolean
     +isCheckMate() : boolean
     +isPat() : boolean
-    +execute(int oldPos, int newPos, Piece piece, Player player, Board board) : void
-    +undoCommand() : void
+    +execute(oldPos : int, newPos : int, piece : Piece, player : Player, board : Board) : IMove
+    +undoCommand(moveLog : MoveLog) : void
+    +changeTurn() : void
+    +Game(e : MouseEvent, tileId : int)
+
 }
 
 
@@ -39,150 +38,195 @@ class GameManager{
 class Board {
     -board int[]
     -pieces : List<Piece>
+    -observers : List<IBoardObserver>
+    -highLightMove : LinkedList<Integer>
 
     +Board() : Board
 
     +getPieces() : List<Piece>
     +getPieceFromPosition(position : int) : Piece
+    +getHighLightMove() : LinkedList<Integer>
+    +getBoard() : Board
 
-    +calculateLegalMoves(Piece piece) : LinkedList<Integer>
+    +calculateLegalMoves(piece : Piece) : LinkedList<Integer>
     +isPostionOccupied(position : int) : boolean
-    +addPieceToBoard(Piece piece) : void
+    +addPieceToBoard(piece : Piece) : void
     +removePieceToBoard(piece : Piece) : void
     +initialzeBoard() : void
-    +validateMoveCommon(Piece piece, int newPos) : void
-    +validateSimpleMove(Piece piece, int newPos) : void
-    +validateAttackMove(Piece piece, int newPos) : void
-    +validateCastleMove(Piece piece, int newPos) : void
-    +isPathFree(Piece piece, int newPos) : boolean
-    +isPathFreeVertical(Piece piece, int newPos) : boolean
-    +isPathFreeDiagonal(Piece piece, int newPos) : boolean
-    +move(Piece piece, int position) : void
+    +validateMoveCommon(piece : Piece, newPos : int) : void
+    +validateSimpleMove(piece : Piece, newPos : int) : void
+    +validateAttackMove(piece : Piece, newPos : int) : void
+    +validateCastleMove(piece : Piece, newPos : int) : void
+    +isPathFree(piece : Piece, newPos : in) : boolean
+    +move(piece : Piece, newPos : in) : void
     +getWhiteKing() : Piece
     +getBlackKing() : Piece
-    +getKing(Color color) : King
-    +isCheck(Color color) : boolean
-    +anyValidMove(Color color) : boolean
-
-    +isPat(color : Color)
-    +moveWillCauseCheck(piece : Piece, newPosition : int)
-
+    +getKing(color : Color2) : King
+    +getKingPosition(color : Color2) : int
+    +isCheck(color : Color2) : boolean
+    +anyValidMove(color : Color2) : boolean
+    +willMoveResultInCheck(piece : Piece, newPos : int) : boolean
 
     +addObserver(observer : BoardObserver) : void
     +notifyObserver() : void
 }
 
+interface IBoardObserver {
+    +updateBoardAndLegalMoves() : void
+}
+
 class AttackMove extends Move {
-    +AttackMove(int op, int np, Piece pi, Player pl, Board b) : AttackMove
+    +AttackMove(op : int, np : int, pi : Piece, pl : Player, b : Board) : AttackMove
 
     +execute() : void
-    +undo() : void
+    +undo(moveLog : MoveLog) : void
     -capture(Piece capturedPiece) : void
 }
 
 class castleMove extends Move {
-    +CastleMove(int op, int np, Piece pi, Player pl, Board b) : CastleMove
+    +CastleMove(op : int, np : int, pi : Piece, pl : Player, b : Board) : CastleMove
 
     +execute() : void
-    +undo() : void
-    -canCastle(Piece king, Piece rook) : boolean
+    +undo(moveLog : MoveLog) : void
+    -canCastle(king : Piece, rook : Piece) : boolean
 }
 
 class SimpleMove extends Move {
-    +SimpleMove(int op, int np, Piece pi, Player pl, Board b) : SimpleMove
+    +SimpleMove(op : int, np : int, pi : Piece, pl : Player, b : Board) : SimpleMove
 
     +execute() : void
-    +undo() : void
+    +undo(moveLog : MoveLog) : void
 }
 
-interface IMove
-{
+interface IMove {
     +execute() : void
-    +undo() : void
+    +undo(moveLog : MoveLog) : void
+    +getPiece() : Piece
+    +getNewPos(): int
 }
 
-abstract class Move {
+
+abstract class Move implements IMove{
     -oldPos : int
     -newPos : int
     -piece : Piece
     -player : Player
     -board : Board
 
-    +Move(int op, int np, Piece pi, Player pl, Board b) : Move
+    +Move(op : int, np : int, pi : Piece, pl : Player, b : Board) : Move
+
+    +getPiece() : Piece
+    +getNewPos(): int
 }
 
 class MoveFactory {
     -board : Board
 
-    +MoveFactory(Board b)
-    +createMove(int oldPos, int newPos, Piece piece, Player player, Board board) : IMove
+    +MoveFactory(b : Board)
+    +createMove(op : int, np : int, pi : Piece, pl : Player, b : Board) : IMove
 }
 
 
 
 
 
-class Bishop {
+class Bishop extends Piece{
+    +Bishop(color : Color2, position : int) : Bishop
+
+    +toString() : String
+    +isValidMove(position : int) : boolean
 }
 
-class King {
-    -instance : King
+class King extends Piece{
+    -{static}nbrInstance : int
     -isChecked : boolean
     -hasMovedOnce : boolean
-    -King()
-    +createInstance() : King
+
+    -King(color : Color2, position : int)
+    +{static}createInstance(color : Color2, position : int) : King
+
+    +getIsChecked() : boolean
+    +getHasMovedOnce() : boolean
+    +setIsChecked(isChecked : boolean) : void
+    +setIsChecked(hasMovedOnce : boolean) : void
+
+    +toString() : String
+    +isValidMove(position : int) : boolean
 }
 
-class Knight {
+class Knight extends Piece {
+    +Knight(color : Color2, position : int) : Knight
+
+    +toString() : String
+    +isValidMove(position : int) : boolean
 }
 
 class Pawn {
     -isPromoted : boolean
     -isEmpassant : boolean
     -hasMovedOnce : boolean
+
+    +Pawn(color : Color2, position : int) : Pawn
+
+    +getHasMovedOnce() : boolean
+    +setHasMovedOnce(hasMovedOnce) : void
+
+    +toString() : String
+    +isValidMove(position : int) : boolean
 }
 
-class Piece {
-    -color : Color
+abstract class Piece {
+    -color : Color2
     -position : int
     -context : StrategyMovement
     -value : float
     -pieceCode : int
     +board : int[]
 
-    +Piece(Color2 color, int position, float value, int pieceCode) : Piece
+    +Piece(color : Color2, position : int, value : float, pieceCode : int) : Piece
 
     +getPosition() : int
     +setPosition(position : int)
-    +setStrategy(StrategyMovement context) : void
-    +getColor() : Color
-    +setValue(float value) : void
-    +setPieceCode(int value) : void
+    +setStrategy(context : StrategyMovement) : void
+    +getColor() : Color2
+    +setValue(value : float) : void
     +getPieceCode() : int
     +getValue() : int
 
     +executeStrategy() : int[]
     +isWhite : boolean
     +canCapturePiece(piece : Piece) : boolean
-    +isValidMove(newPosition : int) : boolean
+    +abstract isValidMove(newPosition : int) : boolean
 
 }
 
 class Queen {
+    +Queen(color : Color2, position : int) : Queen
+
+    +toString() : String
+    +isValidMove(position : int) : boolean
 }
 
 class Rook {
+    +Rook(color : Color2, position : int) : Rook
+
+    +toString() : String
+    +isValidMove(position : int) : boolean
 }
 
 class Player {
     -name : String
     -urTurn : boolean
     -capturedPiece : List<Piece>
-    -color : Color
+    -color : Color2
+    -observers : List<IPlayerObserver>
+    -observersGame : List<IPlayerObserverGame>
 
-    +Player(Color : color, String : name) : Player
+    +Player(color : Color2, name : String) : Player
 
-    +getColor() : Color
+    +setName(name : String) : void
+    +getName() : String
+    +getColor() : Color2
     +setUrTurn(boolean turn) : void
     +isUrTurn() : boolean
     +changeTurn() : void
@@ -190,11 +234,50 @@ class Player {
     +addCapturedPieces(piece : Piece) : void
     +move(piece : Piece, newPosition : int) : void
     +isWhite() : boolean
+
+    +addObserver(IBoardObserver) : void
+    +notifyObserver() : void
+    +addObserverGame(IBoardObserverGame) : void
+    +notifyObserverGame() : void
+    +notifyObserverCapturePiece() : void
+
+    +toString() : String
 }
 
-enum Color {
+interface IPlayerObserver {
+    +updatePlayerName() : void
+}
+
+interface IPlayerObserverGame {
+    +updateBoard() : void
+    +updateTakenPiecePanel() : void
+}
+
+enum Color2 {
     WHITE
     BLACK
+}
+
+interface IObserverMoveLog {
+    updateGameHistoryPanel() : void
+}
+
+class MoveLog {
+    -positions : List<IMove>
+    -board : Board
+    observers : List<IObserverMoveLog>
+
+    +MoveLog(board : Board)
+
+    +getMoves() : List<IMove>
+
+    +addMove(move : IMove) : void
+    +size() : int
+    +clear() : void
+    +removeMove(move : Move)
+
+    +addObserver(obs : IObserverMoveLog) : void
+    +notifyObserver() : void
 }
 
 class PieceFactory {
@@ -211,9 +294,151 @@ class PieceFactory {
 }
 
 
+class EnterNameMenu implements IPlayerObserver{
+    -wPlayer : Player
+    -bPlayer : Player
+    -board : Board
+    -gameManager : GameManager
+    -movLog : MoveLog
+
+    +EnterNameMenu(wPlayer : Player, bPlayer : Player, board : Board, moveLog : MoveLog) : EnterNameMenu
+
+    +init() : void
+    +setPlayerName(name : String, player : Player)
+
+    +updatePlayerName() : void+
+}
+
+class GameFrame2 implements IBoardObserver, IPlayerObserverGame, IObserverMoveLog {
+    -wPlayer : Player
+    -bPlayer : Player
+    -board : Board
+    -gameManager : GameManager
+    -boardDirection : BoardDirection2
+    -boardPanel : BoardPanel
+    -gameHistoryPanel : GameHistoryPanel
+    -takenPiecesPanel :TakenPiecesPanel
+    -moveLog : MoveLog
+    -{static} gameFrame2 : GameFrame2
+
+    -GameFrame2(wPlayer : Player, bPlayer : Player, board : Board, moveLog : MoveLog, gameManager : GameManager) : GameFrame2
+    +{static} createInstance(wPlayer : Player, bPlayer : Player, board : Board, moveLog : MoveLog, gameManager : GameManager) : GameFrame2
+
+    +updateBoard() : void
+    +updateTakenPiecePanel : void
+    +updateGameHistoryPanel: void
+    +updateBoardAndLegalMoves : void
+}
+
+class Menu {
+    +Menu() : Menu
+}
+
+class BoardPanel {
+    -boardTiles : List<Tile>
+
+    +BoardPanel() : BoardPanel
+
+    +drawBoardAndLegalMoves(board : Board)
+    +drawBoard(board : Board)
+}
+
+class Tile {
+    -tileId : int
+
+    +Tile(tileId : int)
+
+    +assignTileColor() : void
+    +assignTilePieceImg(board : Board) : void
+    +assignCheckToTile(board : Board) : void
+    +highLightMove(board : Board) : void
+    +drawTile(board : Board) : void
+    +drawTileAndLegalMoves(board : Board) : void
+    +clickTile(e : MouseEvent, tileId : int) : void
+}
+
+enum BoardDirection2 {
+    NORMAL
+        +traverse(boardTiles : List<Tile>) : List<Tile>
+        +opposite() : BoardDirection2
+    FLIPPED
+        +traverse(boardTiles : List<Tile>) : List<Tile>
+        +opposite() : BoardDirection2
+    +abstract (boardTiles : List<Tile>) : List<Tile>
+    +abstract opposite() : BoardDirection2
+}
+
+class GameHistoryPanel {
+    -model : DataModel
+    -whiteName : String
+    -blackName : String
+
+    +GameHistoryPanel(whiteName : String, blackName : String) : GameHistoryPanel
+
+    +redo(moveLog : MoveLog) : void
+}
+
+class DataModel {
+    -values : List<Row>
+    -NAMES : String[]
+
+    +DataModel(whiteName : String, blackName : String) : DataModel
+
+    +clear() : void
+
+    +getRowCount() : int
+    +getColumnCount() : int
+    +getValueAt(row : int, col : int) : Object
+    +setValueAt(aValue : Object, row : int, col : int) : void
+    +getColumnClass(columnIndex : int) : Class<?>
+    +getColumnName(column : int) : String
+}
+
+class Row {
+    -whiteMove : String
+    -blackMove : String
+
+    +Row() : Row
+
+    +getWhiteMove() : String
+    +getBlackMove() : String
+    +setWhiteMove(move : String) : void
+    +setBlackMove(move : String) : void
+}
+
+class MainMenu() {
+    +MainMenu() : MainMenu
+
+    -mainMenu() : void
+    -game2pEnterMenu(event : ActionEvent) : void
+}
+
+class TakenPiecesPanel {
+    -whiteTakenPiece : List<Piece>
+    -blackTakenPiece : List<Piece>
+
+    +TakenPiecesPanel(whiteTakenPiecePanel : List<Piece>, blackTakenPiece : List<Piece>) : TakenPiecesPanel
+
+    +redo() : void
+}
 
 
 
+
+
+
+
+
+
+GameFrame2 "1" *-- "1" Menu : contains
+GameFrame2 "1" *-- "1" BoardPanel : contains
+GameFrame2 "1" *-- "1" Tile : contains
+GameFrame2 "1" *-- "1" BoardDirection2 : contains
+GameFrame2 "1" *-- "1" TakenPiecesPanel : contains
+GameFrame2 "1" *-- "1" GameHistoryPanel : contains
+
+GameHistoryPanel "1" *-- "1" DataModel : contains
+GameHistoryPanel "1" *-- "1" Row : contains
 
 Piece "1" *-- "1" StrategyMovement : contains
 Piece "1" *-- "1" Color : contains

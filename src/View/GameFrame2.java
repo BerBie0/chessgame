@@ -3,9 +3,7 @@ package View;
 import Controller.GameManager;
 import Model.Board.Board;
 import Model.Board.IBoardObserver;
-import Model.Move.IMove;
-import Model.Move.Move;
-import Model.MoveLog;
+import Model.utils.MoveLog;
 import Model.Pieces.Piece;
 import Model.Player.IPlayerObserverGame;
 import Model.Player.Player;
@@ -49,9 +47,6 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
     private Board board;
 
     private BoardDirection2 boardDirection;
-    private int oldPos;
-    private int newPos;
-    private Piece movedPiece;
 
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
@@ -325,8 +320,6 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
         public void clickTile(MouseEvent e, int tileId) {
             gameManager.game(e, tileId);
         }
-
-
     }// end Tile
 
 

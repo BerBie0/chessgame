@@ -1,8 +1,7 @@
 package View;
 
-import Model.Board.Board;
 import Model.Move.IMove;
-import Model.MoveLog;
+import Model.utils.MoveLog;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

@@ -1,7 +1,7 @@
 package Model.Move;
 
 import Model.Board.Board;
-import Model.MoveLog;
+import Model.utils.MoveLog;
 import Model.Pieces.Piece;
 import Model.Player.Player;
 

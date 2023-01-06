@@ -1,9 +1,7 @@
-package Model;
+package Model.utils;
 
 import Model.Board.Board;
 import Model.Move.IMove;
-import Model.Move.Move;
-import Model.utils.IObserverMoveLog;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -45,7 +43,7 @@ public class MoveLog {
         this.positions.clear();
     }
 
-    public boolean removeMove(final Move move) {
+    public boolean removeMove(final IMove move) {
         boolean res = this.positions.remove(move);
         notifyObserver();
         return res;

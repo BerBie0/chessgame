@@ -5,7 +5,7 @@ import java.awt.*;
 
 import Controller.GameManager;
 import Model.Board.Board;
-import Model.MoveLog;
+import Model.utils.MoveLog;
 import Model.Player.IPlayerObserver;
 import Model.Player.Player;
 

@@ -4,8 +4,7 @@ import Model.Board.Board;
 import Model.Pieces.Piece;
 import Model.Player.Player;
 
-public abstract class Move implements IMove
-{
+public abstract class Move implements IMove {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
     protected final int oldPos;
@@ -18,8 +17,7 @@ public abstract class Move implements IMove
 
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
-    public Move(int op, int np, Piece pi, Player pl, Board b)
-    {
+    public Move(int op, int np, Piece pi, Player pl, Board b) {
         oldPos = op;
         newPos = np;
         piece = pi;

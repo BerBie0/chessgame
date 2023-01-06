@@ -3,7 +3,7 @@ package Controller;
 import Model.Board.Board;
 import Model.Move.IMove;
 import Model.Move.MoveFactory;
-import Model.MoveLog;
+import Model.utils.MoveLog;
 import Model.Pieces.Piece;
 import Model.utils.Color2;
 import Model.Player.Player;
@@ -21,11 +21,11 @@ public class GameManager {
     private final Player bPlayer;
     private final Player wPlayer;
     private final MoveLog moveLog;
+    private final MoveFactory moveFactory;
+    private IMove lastMove;
     private int oldPos;
     private int newPos;
     private Piece movedPiece;
-    private IMove lastMove;
-    private final MoveFactory moveFactory;
 
 
 
@@ -43,9 +43,6 @@ public class GameManager {
 
     public Player getCurrentPlayer() {
         return wPlayer.isUrTurn() ? wPlayer : bPlayer;
-    }
-    public Player getOppositePlayer()  {
-        return wPlayer.isUrTurn() ? bPlayer : wPlayer;
     }
 
     public void setBlackTurn(boolean turn) {
@@ -81,11 +78,7 @@ public class GameManager {
         return board.isCheck(currentPlayerColor) && !board.anyValidMove(currentPlayerColor);
     }
 
-    public boolean isCurrentPlayerCheck() {
-        return board.isCheck(board.getKing(getCurrentPlayer().getColor()).getColor());
-    }
-
-    //TODO
+    //TODO fonction isPat
     public boolean isPat() {
         return false;
     }
@@ -97,13 +90,13 @@ public class GameManager {
         return move;
     }
 
+    public void undo(MoveLog moveLog) {
+        lastMove.undo(moveLog);
+    }
+
     public void changeTurn() {
         this.setWhiteTurn(!this.isWhitePlayer());
         this.setBlackTurn(!this.isBlackPlayer());
-    }
-
-    public void undo(MoveLog moveLog) {
-        lastMove.undo(moveLog);
     }
 
     public void game(MouseEvent e, int tileId) {

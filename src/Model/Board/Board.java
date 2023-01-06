@@ -183,6 +183,9 @@ public class Board {
     }
 
     //TODO validateCastleMove
+    public void validateCastleMove(Piece piece, int newPos) {
+        validateMoveCommon(piece, newPos);
+    }
 
     public boolean isPathFree(Piece piece, int newPos) {
         if ( piece instanceof Pawn && isPositionOccupied( newPos ) && (Math.abs(piece.getPosition() - newPos) == 9) || (Math.abs(piece.getPosition() - newPos)) == 11 && isPositionOccupied( newPos )) {
@@ -205,7 +208,6 @@ public class Board {
                 }
             }
         }
-
         return false;
     }
 
@@ -252,7 +254,7 @@ public class Board {
         return check;
     }
 
-    //TODO anyValidMove
+    //TODO anyValidMove ajouter dnas le if si une piece peut se mettre sur le chemin de ma piece qui met le roi echec
     public boolean anyValidMove(Color2 color) {
         List<Piece> teamPieces = pieces.stream().filter(piece -> piece.getColor() == color ).toList();
         List<Piece> ennemyPieces = pieces.stream().filter(piece -> piece.getColor() != color && isPathFree(piece, getKingPosition(color))).toList();

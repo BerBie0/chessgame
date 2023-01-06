@@ -1,6 +1,6 @@
 package Model.Move;
 
-import Model.MoveLog;
+import Model.utils.MoveLog;
 import Model.Pieces.Piece;
 
 public interface IMove

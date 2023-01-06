@@ -2,7 +2,7 @@ package View;
 
 import Controller.GameManager;
 import Model.Board.Board;
-import Model.MoveLog;
+import Model.utils.MoveLog;
 import Model.Player.Player;
 import Model.utils.Color2;
 
