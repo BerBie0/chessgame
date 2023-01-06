@@ -1,6 +1,7 @@
 package Model.Move;
 
 import Model.Board.Board;
+import Model.MoveLog;
 import Model.Pieces.Piece;
 import Model.Pieces.Rook;
 import Model.Player.Player;
@@ -22,7 +23,7 @@ public class CastleMove extends Move
     {
         //TODO reecrire
         if( piece.getColor() != player.getColor() )
-            throw new IllegalArgumentException("AttackMove.java : The piece is not ur");
+            throw new IllegalArgumentException("CastleMove.java : The piece is not ur");
 
         if ( player.isWhite() && newPos == 97 ) {
             Piece king = board.getWhiteKing();
@@ -30,6 +31,8 @@ public class CastleMove extends Move
             if (canCastle(king, rook)) {
                 board.move(rook, 97);
                 board.move(king, 96);
+                player.move(rook, 97);
+                player.move(king, 96);
             } else
                 throw new IllegalArgumentException("CastleMove.java : execute() : white can't castle on king side");
         } else if ( player.isWhite() && newPos == 93 ) {
@@ -38,6 +41,8 @@ public class CastleMove extends Move
             if (canCastle(king, rook)) {
                 board.move(rook, 94);
                 board.move(king, 93);
+                player.move(rook, 94);
+                player.move(king, 93);
             } else
                 throw new IllegalArgumentException("CastleMove.java : execute() : white can't castle on queen side");
         } else if ( !player.isWhite() && newPos == 27 ) {
@@ -45,7 +50,9 @@ public class CastleMove extends Move
             Piece rook = board.getPieceFromPosition(28);
             if (canCastle(king, rook)) {
                 board.move(rook, 26);
-                board.move(king, 28);
+                board.move(king, 27);
+                player.move(rook, 26);
+                player.move(king, 27);
             } else
                 throw new IllegalArgumentException("CastleMove.java : execute() : black can't castle on king side");
         } else if ( !player.isWhite() && newPos == 23 ) {
@@ -54,6 +61,8 @@ public class CastleMove extends Move
             if (canCastle(king, rook)) {
                 board.move(rook, 24);
                 board.move(king, 23);
+                player.move(rook, 24);
+                player.move(king, 23);
             } else
                 throw new IllegalArgumentException("CastleMove.java : execute() : black can't castle on queen side");
         }
@@ -61,7 +70,7 @@ public class CastleMove extends Move
 
     //TODO reecrire
     @Override
-    public void undo()
+    public void undo(MoveLog moveLog)
     {
         int rookPosition, kingPosition;
         if ( player.isWhite() && board.getWhiteKing().getPosition() == 97 ) {
@@ -71,6 +80,8 @@ public class CastleMove extends Move
             Piece rook = board.getPieceFromPosition(96);
             board.move(king, kingPosition);
             board.move(rook, rookPosition);
+            player.move(king, kingPosition);
+            player.move(rook, rookPosition);
         } else if ( player.isWhite() && board.getWhiteKing().getPosition() == 92 ) {
             kingPosition = 95;
             rookPosition = 91;
@@ -78,6 +89,8 @@ public class CastleMove extends Move
             Piece rook = board.getPieceFromPosition(94);
             board.move(king, kingPosition);
             board.move(rook, rookPosition);
+            player.move(king, kingPosition);
+            player.move(rook, rookPosition);
         }
         else if ( !player.isWhite() && board.getBlackKing().getPosition() == 27 ) {
             kingPosition = 25;
@@ -86,6 +99,8 @@ public class CastleMove extends Move
             Piece rook = board.getPieceFromPosition(26);
             board.move(king, kingPosition);
             board.move(rook, rookPosition);
+            player.move(king, kingPosition);
+            player.move(rook, rookPosition);
         } else if ( !player.isWhite() && board.getBlackKing().getPosition() == 22 ) {
             kingPosition = 25;
             rookPosition = 21;
@@ -93,6 +108,8 @@ public class CastleMove extends Move
             Piece rook = board.getPieceFromPosition(24);
             board.move(king, kingPosition);
             board.move(rook, rookPosition);
+            player.move(king, kingPosition);
+            player.move(rook, rookPosition);
         }
     }
 

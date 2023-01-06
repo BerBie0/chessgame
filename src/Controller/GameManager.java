@@ -3,12 +3,16 @@ package Controller;
 import Model.Board.Board;
 import Model.Move.IMove;
 import Model.Move.MoveFactory;
-import Model.Pieces.King;
+import Model.MoveLog;
 import Model.Pieces.Piece;
 import Model.utils.Color2;
 import Model.Player.Player;
 
-import java.util.LinkedList;
+import javax.swing.*;
+import java.awt.event.MouseEvent;
+
+import static javax.swing.SwingUtilities.isLeftMouseButton;
+import static javax.swing.SwingUtilities.isRightMouseButton;
 
 public class GameManager {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
@@ -16,6 +20,10 @@ public class GameManager {
     private final Board board;
     private final Player bPlayer;
     private final Player wPlayer;
+    private final MoveLog moveLog;
+    private int oldPos;
+    private int newPos;
+    private Piece movedPiece;
     private IMove lastMove;
     private final MoveFactory moveFactory;
 
@@ -23,11 +31,11 @@ public class GameManager {
 
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
-    public GameManager(Player wPlayer, Player bPlayer, Board board) {
+    public GameManager(Player wPlayer, Player bPlayer, Board board, MoveLog moveLog) {
         this.board = board;
-        //board.inializeBoard();
         this.bPlayer = bPlayer;
         this.wPlayer = wPlayer;
+        this.moveLog = moveLog;
         this.moveFactory = new MoveFactory(board);
     }
 
@@ -36,6 +44,9 @@ public class GameManager {
     public Player getCurrentPlayer() {
         return wPlayer.isUrTurn() ? wPlayer : bPlayer;
     }
+    public Player getOppositePlayer()  {
+        return wPlayer.isUrTurn() ? bPlayer : wPlayer;
+    }
 
     public void setBlackTurn(boolean turn) {
         bPlayer.setUrTurn(turn);
@@ -43,10 +54,6 @@ public class GameManager {
 
     public void setWhiteTurn(boolean turn) {
         wPlayer.setUrTurn(turn);
-    }
-
-    public Board getBoard() {
-        return board;
     }
 
     public void setPlayerName(String name, Player player) {
@@ -71,7 +78,6 @@ public class GameManager {
 
     public boolean isCheckMate() {
         Color2 currentPlayerColor = getCurrentPlayer().getColor();
-        King currentPlayerKing = (King) board.getKing(currentPlayerColor);
         return board.isCheck(currentPlayerColor) && !board.anyValidMove(currentPlayerColor);
     }
 
@@ -84,27 +90,88 @@ public class GameManager {
         return false;
     }
 
-    public void execute(int oldPos, int newPos, Piece piece, Player player, Board board) {
+    public IMove execute(int oldPos, int newPos, Piece piece, Player player, Board board) {
         IMove move = moveFactory.createMove(oldPos, newPos, piece, player, board);
         move.execute();
         lastMove = move;
+        return move;
     }
 
-    public void undo() {
-        lastMove.undo();
+    public void changeTurn() {
+        this.setWhiteTurn(!this.isWhitePlayer());
+        this.setBlackTurn(!this.isBlackPlayer());
     }
 
-    /*TEST*/
-    public static void main(String[] args) {
-        Board b = new Board();
-        Player bPlayer = new Player(Color2.BLACK, "nom1");
-        Player wPlayer = new Player(Color2.WHITE, "nom2");
-        //b.displayBoard();
-        b.inializeBoard();
-        b.displayBoard();
-        b.move(b.getPieces().get(0), 71);
-        b.displayBoard();
-        System.out.println();
-        System.out.println(b.getPieces());
+    public void undo(MoveLog moveLog) {
+        lastMove.undo(moveLog);
+    }
+
+    public void game(MouseEvent e, int tileId) {
+        if ( isCheckMate() || isPat() ) {
+            System.out.println("echec et mat");
+            return;
+        }
+        if (isRightMouseButton(e)) {
+            oldPos = 0;
+            newPos = 0;
+            movedPiece = null;
+            wPlayer.notifyObserversGame();
+            System.out.println(moveLog.getMoves());
+        } else if (isLeftMouseButton(e)) {
+            //click game
+            if (oldPos == 0) {
+                //first click
+                try {
+                    oldPos = board.
+                            getPieceFromPosition(tileId).getPosition();
+                } catch (Exception exception) {
+                    System.out.println("GameFrame.java : "+ "Tile(final BoardPanel boardPanel, final int tileId)1 : " + exception);
+                }
+                try {
+                    movedPiece = board.getPieceFromPosition(oldPos);
+                } catch (Exception exception) {
+                    System.out.println("GameFrame.java : " + "Tile(final BoardPanel boardPanel, final int tileId)2 : " + exception);
+                }
+                //update mvc
+                if (movedPiece == null) {
+                    oldPos = 0;
+                } else {
+                    if (movedPiece.getColor() != this.getCurrentPlayer().getColor()) {
+                        oldPos = 0;
+                        JOptionPane.showMessageDialog(null, "pas votre tour");
+                    } else {
+                        board.calculateLegalMoves(movedPiece);
+                    }
+                }
+            } else {
+                //second click
+                newPos = tileId;
+                try {
+                    //update mvc
+                    IMove move = this.execute(oldPos, newPos, movedPiece, this.getCurrentPlayer(), board);
+
+                    moveLog.addMove(move);
+                    //si le coup du joueur actuel le met en echec
+                    System.out.println("roi en echec2 ? : " + board.isCheck(this.getCurrentPlayer().getColor()));
+                    if ( board.isCheck(this.getCurrentPlayer().getColor()) ) {
+                        this.undo(moveLog);
+                        JOptionPane.showMessageDialog(null, "coup invalide cause echec");
+                        oldPos = 0;
+                        newPos = 0;
+                        movedPiece = null;
+                        return;
+                    }
+                    oldPos = 0;
+                    newPos = 0;
+                    movedPiece = null;
+                    this.changeTurn();
+                    if ( isCheckMate() || isPat() ) {
+                        System.out.println("echec et mat2");
+                    }
+                } catch (Exception exception) {
+                    System.out.println("GameFrame.java : Tile(final BoardPanel boardPanel, final int tileId)3 : " + exception);
+                }
+            }
+        }
     }
 }

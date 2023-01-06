@@ -1,5 +1,6 @@
 package Model.Player;
 
+import Model.Pieces.Pawn;
 import Model.utils.Color2;
 import Model.Pieces.Piece;
 
@@ -57,9 +58,13 @@ public class Player {
 
     public void addCapturedPiece(Piece piece) {
         capturedPiece.add(piece);
+        notifyObserversCapturePiece();
     }
 
     public void move(Piece piece, int position) {
+        if(piece instanceof Pawn && !((Pawn) piece).getHasMovedOnce()) {
+            ((Pawn) piece).setHasMovedOnce(true);
+        }
         piece.setPosition(position);
         notifyObserversGame();
     }
@@ -85,6 +90,12 @@ public class Player {
     public void notifyObserversGame() {
         for (IPlayerObserverGame obs : observersGame) {
             obs.updateBoard();
+        }
+    }
+
+    public void notifyObserversCapturePiece() {
+        for (IPlayerObserverGame obs : observersGame) {
+            obs.updateTakenPiecePanel();
         }
     }
 
