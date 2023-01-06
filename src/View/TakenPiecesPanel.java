@@ -19,6 +19,7 @@ public class TakenPiecesPanel extends JPanel {
     private static final Color PANEL_COLOR = Color.GRAY;
     private static final Dimension TAKEN_PIECES_DIM = new Dimension(100, 800);
     private static final Dimension TAKEN_PIECES_DIM_ICON = new Dimension(40, 40);
+    private final static String pieceIconPath = "src/img/";
     private final JPanel northPanel;
     private final JPanel southPanel;
     private List<Piece> whiteTakenPieces;
@@ -57,8 +58,9 @@ public class TakenPiecesPanel extends JPanel {
         blackTakenPieces.sort(Comparator.comparingInt(Piece::getPieceCode));
 
         for (final Piece takenPiece : whiteTakenPieces) {
+            /*
             try {
-                final BufferedImage image = ImageIO.read(new File("img/" + takenPiece.toString() + ".gif"));
+                final BufferedImage image = ImageIO.read(new File(pieceIconPath + takenPiece.toString() + ".gif"));
                 Image dimg = image.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
                 final ImageIcon icon = new ImageIcon(dimg);
                 final JLabel imageLabel = new JLabel(icon);
@@ -69,11 +71,24 @@ public class TakenPiecesPanel extends JPanel {
                 e.printStackTrace();
                 System.out.println("TakenPiecePanel.java : redo(final MoveLog moveLog, final Board board) : pb image");
             }
+
+             */
+
+            java.net.URL imageURL = getClass().getClassLoader().getResource(takenPiece.toString() + ".gif");
+            ImageIcon icon = new ImageIcon(imageURL);
+            Image icon2 = icon.getImage().getScaledInstance(40,40,Image.SCALE_SMOOTH);
+            Image dimg = icon2.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+            ImageIcon icon3 = new ImageIcon(dimg);
+            JLabel imageLabel = new JLabel(icon3);
+            imageLabel.setPreferredSize(TAKEN_PIECES_DIM_ICON);
+            imageLabel.setSize(TAKEN_PIECES_DIM_ICON);
+            southPanel.add(imageLabel);
         }
 
         for (final Piece takenPiece : blackTakenPieces) {
+            /*
             try {
-                final BufferedImage image = ImageIO.read(new File("img/" + takenPiece.toString() + ".gif"));
+                final BufferedImage image = ImageIO.read(new File(pieceIconPath + takenPiece.toString() + ".gif"));
                 Image dimg = image.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
                 final ImageIcon icon = new ImageIcon(dimg);
                 final JLabel imageLabel = new JLabel(icon);
@@ -84,6 +99,18 @@ public class TakenPiecesPanel extends JPanel {
                 e.printStackTrace();
                 System.out.println("TakenPiecePanel.java : redo(final MoveLog moveLog, final Board board) : pb image");
             }
+
+             */
+
+            java.net.URL imageURL = getClass().getClassLoader().getResource(takenPiece.toString() + ".gif");
+            ImageIcon icon = new ImageIcon(imageURL);
+            Image icon2 = icon.getImage().getScaledInstance(40,40,Image.SCALE_SMOOTH);
+            Image dimg = icon2.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+            ImageIcon icon3 = new ImageIcon(dimg);
+            JLabel imageLabel = new JLabel(icon3);
+            imageLabel.setPreferredSize(TAKEN_PIECES_DIM_ICON);
+            imageLabel.setSize(TAKEN_PIECES_DIM_ICON);
+            northPanel.add(imageLabel);
         }
         validate();
         repaint();

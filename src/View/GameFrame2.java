@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserverGame, IObserverMoveLog {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
@@ -29,7 +30,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
     private final static Dimension GLOBAL_DIM = new Dimension(800, 800);
     private final static Dimension BOARD_PANEL_DIM = new Dimension(600, 600);
     private final static Dimension TILE_PANEL_DIM = new Dimension(20, 20);
-    private final static String pieceIconPath = "img/";
+    private final static String pieceIconPath = "src/img/";
     private final static Color whiteTile = new Color(240,217,181);
     private final static Color blackTile = new Color(180,136,99);
 
@@ -214,7 +215,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
         /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
         private final static Dimension TILE_PANEL_DIM = new Dimension(20, 20);
-        private final static String pieceIconPath = "img/";
+        private final static String pieceIconPath = "src/img/";
 
         private final int tileId;
 
@@ -254,6 +255,7 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
         public void assignTilePieceImg(final Board board) {
             this.removeAll();
             if (board.isPositionOccupied(this.tileId)) {
+                /*
                 try {
                     BufferedImage image = ImageIO.read(new File(pieceIconPath + board.getPieceFromPosition(this.tileId).toString() + ".gif"));
                     Image newImage = image.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
@@ -263,24 +265,53 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                */
+
+                /*
+                try {
+                    Image myImage = ImageIO.read((Objects.requireNonNull(getClass().getResource("img/redDot.png"))));
+                    Image newImage = myImage.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+                    ImageIcon imageIcon = new ImageIcon(newImage);
+                    add(new JLabel(new ImageIcon(imageIcon.getImage())));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                 */
+
+                java.net.URL imageURL = getClass().getClassLoader().getResource(board.getPieceFromPosition(this.tileId).toString() + ".gif");
+                ImageIcon icon = new ImageIcon(imageURL);
+                add(new JLabel(new ImageIcon(icon.getImage())));
+
+
             }
         }
         public void assignCheckToTile(final Board board) {
             if (board.getBoard().isCheck(Color2.WHITE)) {
                 if (board.getKingPosition(Color2.WHITE) == this.tileId) {
+                    /*
                     try {
                         add(new JLabel(new ImageIcon(ImageIO.read(new File(pieceIconPath + "redDot.png")))));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                     */
+                    java.net.URL imageURL = getClass().getClassLoader().getResource("redDot.png");
+                    ImageIcon icon = new ImageIcon(imageURL);
+                    add(new JLabel(new ImageIcon(icon.getImage())));
                 }
             } else if (board.getBoard().isCheck(Color2.BLACK)) {
                 if (board.getKingPosition(Color2.BLACK) == this.tileId) {
+                    /*
                     try {
                         add(new JLabel(new ImageIcon(ImageIO.read(new File(pieceIconPath + "redDot.png")))));
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }
+                    }+
+                     */
+                    java.net.URL imageURL = getClass().getClassLoader().getResource("redDot.png");
+                    ImageIcon icon = new ImageIcon(imageURL);
+                    add(new JLabel(new ImageIcon(icon.getImage())));
                 }
             }
         }
@@ -289,11 +320,18 @@ public class GameFrame2 extends JFrame implements IBoardObserver, IPlayerObserve
             if (!board.getBoard().getHighLightMove().isEmpty()) {
                 for (final int position : board.getBoard().getHighLightMove()) {
                     if (position == this.tileId) {
+                        /*
                         try {
                             add(new JLabel(new ImageIcon(ImageIO.read(new File(pieceIconPath + "greenDot.png")))));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                         */
+
+                        java.net.URL imageURL = getClass().getClassLoader().getResource("greenDot.png");
+                        ImageIcon icon = new ImageIcon(imageURL);
+                        add(new JLabel(new ImageIcon(icon.getImage())));
+
                     }
                 }
             }
