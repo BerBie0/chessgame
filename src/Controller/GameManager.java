@@ -3,6 +3,7 @@ package Controller;
 import Model.Board.Board;
 import Model.Move.IMove;
 import Model.Move.MoveFactory;
+import Model.Pieces.Knight;
 import Model.utils.MoveLog;
 import Model.Pieces.Piece;
 import Model.utils.Color2;
@@ -10,6 +11,7 @@ import Model.Player.Player;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import static javax.swing.SwingUtilities.isLeftMouseButton;
 import static javax.swing.SwingUtilities.isRightMouseButton;
@@ -75,7 +77,7 @@ public class GameManager {
 
     public boolean isCheckMate() {
         Color2 currentPlayerColor = getCurrentPlayer().getColor();
-        return board.isCheck(currentPlayerColor) && !board.anyValidMove(currentPlayerColor);
+        return board.isCheck(currentPlayerColor) && !anyValidMove(currentPlayerColor);
     }
 
     //TODO fonction isPat
@@ -97,6 +99,50 @@ public class GameManager {
     public void changeTurn() {
         this.setWhiteTurn(!this.isWhitePlayer());
         this.setBlackTurn(!this.isBlackPlayer());
+    }
+
+    //TODO anyValidMove ajouter dnas le if si une piece peut se mettre sur le chemin de ma piece qui met le roi echec
+    public boolean anyValidMove(Color2 color) {
+        /*
+        List<Piece> teamPieces = pieces.stream().filter(piece -> piece.getColor() == color ).toList();
+        List<Piece> ennemyPieces = pieces.stream().filter(piece -> piece.getColor() != color && isPathFree(piece, getKingPosition(color))).toList();
+        for (Piece teamPiece : teamPieces) {
+            for (Piece ennemyPiece : ennemyPieces) {
+                if ( !willMoveResultInCheck(teamPiece, ennemyPiece.getPosition()) && teamPiece.canCapturePiece(ennemyPiece) ) {
+                    System.out.println("heyy");
+                    return true;
+                }
+            }
+        }
+        return false;
+         */
+
+        List<Piece> teamPieces = board.getPieces().stream().filter(piece -> piece.getColor() == color ).toList();
+        for (Piece teamPiece : teamPieces) {
+            for (int i = 21; i < 100; i += 10) {
+                for (int j = 0; j < 8; j++) {
+                    if ( !willMoveResultInCheck(teamPiece, i) ) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean willMoveResultInCheck(Piece piece, int newPos2) {
+        int oldPos2 = piece.getPosition();
+        try {
+            IMove move = this.execute(oldPos2, newPos2, piece, this.getCurrentPlayer(), board);
+            if ( board.isCheck(this.getCurrentPlayer().getColor()) ) {
+                this.undo(moveLog);
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception exception) {
+            return true;
+        }
     }
 
     public void game(MouseEvent e, int tileId) {
@@ -141,8 +187,6 @@ public class GameManager {
                 try {
                     //update mvc
                     IMove move = this.execute(oldPos, newPos, movedPiece, this.getCurrentPlayer(), board);
-
-                    moveLog.addMove(move);
                     //si le coup du joueur actuel le met en echec
                     if ( board.isCheck(this.getCurrentPlayer().getColor()) ) {
                         this.undo(moveLog);
@@ -152,6 +196,7 @@ public class GameManager {
                         movedPiece = null;
                         return;
                     }
+                    moveLog.addMove(move);
                     oldPos = 0;
                     newPos = 0;
                     movedPiece = null;

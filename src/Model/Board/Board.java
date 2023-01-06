@@ -5,11 +5,13 @@ import Model.Pieces.Pawn;
 import Model.utils.Color2;
 import Model.Pieces.Piece;
 import Model.utils.PieceFactory;
+import View.GameFrame2;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutionException;
 
 public class Board {
 
@@ -152,8 +154,6 @@ public class Board {
         }
 
         if (!isPathFree(piece, newPos)) {
-            System.out.println("piece a bouger : " + piece.getPosition());
-            System.out.println("piece a suppprimer : " + newPos);
             throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
                     "there a piece(s) in path");
         }
@@ -245,7 +245,7 @@ public class Board {
         Color2 attackColor = color == Color2.WHITE ? Color2.BLACK : Color2.WHITE;
         King king = getKing(color);
 
-        Boolean check = pieces.stream()
+        boolean check = pieces.stream()
                 .filter(piece -> piece.getColor() == attackColor)
                 .anyMatch(piece -> piece.canCapturePiece(king) && isPathFree(piece, king.getPosition()));
         if (!king.getIsChecked() && check) {
@@ -254,30 +254,7 @@ public class Board {
         return check;
     }
 
-    //TODO anyValidMove ajouter dnas le if si une piece peut se mettre sur le chemin de ma piece qui met le roi echec
-    public boolean anyValidMove(Color2 color) {
-        List<Piece> teamPieces = pieces.stream().filter(piece -> piece.getColor() == color ).toList();
-        List<Piece> ennemyPieces = pieces.stream().filter(piece -> piece.getColor() != color && isPathFree(piece, getKingPosition(color))).toList();
-        for (Piece teamPiece : teamPieces) {
-            for (Piece ennemyPiece : ennemyPieces) {
-                if ( !willMoveResultInCheck(teamPiece, ennemyPiece.getPosition()) && teamPiece.canCapturePiece(ennemyPiece) ) {
-                    System.out.println("heyy");
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
-    public boolean willMoveResultInCheck(Piece piece, int newPos) {
-        int oldPos = piece.getPosition();
-        piece.setPosition(newPos);
-        this.move(piece, newPos);
-        boolean isCheck = isCheck(getKing(piece.getColor()).getColor());
-        piece.setPosition(oldPos);
-        this.move(piece, oldPos);
-        return isCheck;
-    }
 
     /*-----------------------------------------------OBSERVER---------------------------------------------------------*/
     public void addObserver(IBoardObserver obs) {

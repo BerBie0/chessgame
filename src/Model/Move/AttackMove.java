@@ -42,8 +42,6 @@ public class AttackMove extends Move {
         board.move(comeBackPiece, newPos);
         player.getCapturedPieces().remove(comeBackPiece);
         moveLog.removeMove(this);
-        System.out.println(moveLog.getMoves());
-
     }
 
 
