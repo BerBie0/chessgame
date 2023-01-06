@@ -36,7 +36,7 @@ public class GameManager {
         this.bPlayer = bPlayer;
         this.wPlayer = wPlayer;
         this.moveLog = moveLog;
-        this.moveFactory = new MoveFactory(board);
+        this.moveFactory = new MoveFactory();
     }
 
     /*---------------------------------------------GET SET------------------------------------------------------------*/

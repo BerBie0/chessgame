@@ -9,10 +9,6 @@ public abstract class Piece {
 
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
-    // TODO ecrire isvalid dans les enfants ou dans la classe parent ? parent : override pion cavalier et roi
-    // TODO context dans le constructeur enfant ?
-    // TODO retirer fonction inutile
-
     /**
      * Model.Pieces.Piece's color
      */
@@ -83,17 +79,7 @@ public abstract class Piece {
      * @param position position in the board.
      */
     public void setPosition(int position) {
-        //TODO deja verifier ?
-        /*
-        if(position < 0)
-            throw new IllegalArgumentException("Model.Pieces.Piece.java : setPosition(int position) : position < 0");
-        if ( board[position] == -10 )
-            throw new IllegalArgumentException("Model.Pieces.Piece.java : setPosition(int position) : position = -10");
-        if ( !isValidMove(position) )
-            throw new IllegalArgumentException("Model.Pieces.Piece.java : setPosition(int position) : move not valid");
-        */
         this.position = position;
-
     }
 
     /**

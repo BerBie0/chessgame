@@ -1,44 +1,9 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class GameManager{
-    -whitePlayer : Player
-    -blackPlayer : Player
-    -lastCommand : IMove
-    -commandFactory : MoveFactory
-    -board : Board
-    -moveLog : MoveLog
-    -oldPos : int
-    -newPos : int
-    -movedPiece : int
-
-    +GameManager(wPlayer : Player, bPlayer : PLayer, board : Board, moveLog : MoveLog)
-
-    +getCurrentPlayer() : Player
-    +setBlackTurn(turn : boolean) : void
-    +setWhiteTurn(turn : boolean) : void
-    +setPlayerName(name : String, player : Player) : void
-
-    +isWhitePlayer() : boolean
-    +isBlackPlayer() : boolean
-    +isCheckMate() : boolean
-    +isPat() : boolean
-    +execute(oldPos : int, newPos : int, piece : Piece, player : Player, board : Board) : IMove
-    +undoCommand(moveLog : MoveLog) : void
-    +changeTurn() : void
-    +Game(e : MouseEvent, tileId : int)
-
-}
-
-
-
-
-
 
 class Board {
     -board int[]
-    -pieces : List<Piece>
-    -observers : List<IBoardObserver>
     -highLightMove : LinkedList<Integer>
 
     +Board() : Board
@@ -109,9 +74,6 @@ interface IMove {
 abstract class Move implements IMove{
     -oldPos : int
     -newPos : int
-    -piece : Piece
-    -player : Player
-    -board : Board
 
     +Move(op : int, np : int, pi : Piece, pl : Player, b : Board) : Move
 
@@ -120,8 +82,6 @@ abstract class Move implements IMove{
 }
 
 class MoveFactory {
-    -board : Board
-
     +MoveFactory(b : Board)
     +createMove(op : int, np : int, pi : Piece, pl : Player, b : Board) : IMove
 }
@@ -176,9 +136,7 @@ class Pawn extends Piece{
 }
 
 abstract class Piece {
-    -color : Color2
     -position : int
-    -context : StrategyMovement
     -value : float
     -pieceCode : int
     +board : int[]
@@ -194,7 +152,7 @@ abstract class Piece {
     +getValue() : int
 
     +executeStrategy() : int[]
-    +isWhite : boolean
+    +isWhite() : boolean
     +canCapturePiece(piece : Piece) : boolean
     +abstract isValidMove(newPosition : int) : boolean
 
@@ -217,10 +175,6 @@ class Rook extends Piece{
 class Player {
     -name : String
     -urTurn : boolean
-    -capturedPiece : List<Piece>
-    -color : Color2
-    -observers : List<IPlayerObserver>
-    -observersGame : List<IPlayerObserverGame>
 
     +Player(color : Color2, name : String) : Player
 
@@ -263,10 +217,6 @@ interface IObserverMoveLog {
 }
 
 class MoveLog {
-    -positions : List<IMove>
-    -board : Board
-    observers : List<IObserverMoveLog>
-
     +MoveLog(board : Board)
 
     +getMoves() : List<IMove>
@@ -281,8 +231,6 @@ class MoveLog {
 }
 
 class PieceFactory {
-    -instance : PieceFactory
-
     -PieceFactory()
     +createInstance() : PieceFactory
     +createPawn() : Piece
@@ -293,169 +241,52 @@ class PieceFactory {
     +createKing() : Piece
 }
 
-
-class EnterNameMenu implements IPlayerObserver{
-    -wPlayer : Player
-    -bPlayer : Player
-    -board : Board
-    -gameManager : GameManager
-    -movLog : MoveLog
-
-    +EnterNameMenu(wPlayer : Player, bPlayer : Player, board : Board, moveLog : MoveLog) : EnterNameMenu
-
-    +init() : void
-    +setPlayerName(name : String, player : Player)
-
-    +updatePlayerName() : void+
+class StrategyMovementRook implements StrategyMovement {
+    +offset() : int[]
+}
+class StrategyMovementBishop implements StrategyMovement {
+    +offset() : int[]
+}
+class StrategyMovementKing implements StrategyMovement {
+    +offset() : int[]
+}
+class StrategyMovementKnight implements StrategyMovement {
+    +offset() : int[]
+}
+class StrategyMovementPawn implements StrategyMovement {
+    +offset() : int[]
+}
+class StrategyMovementQueen implements StrategyMovement {
+    +offset() : int[]
+}
+interface StrategyMovement {
+    +offset() : int[]
 }
 
-class GameFrame2 implements IBoardObserver, IPlayerObserverGame, IObserverMoveLog {
-    -wPlayer : Player
-    -bPlayer : Player
-    -board : Board
-    -gameManager : GameManager
-    -boardDirection : BoardDirection2
-    -boardPanel : BoardPanel
-    -gameHistoryPanel : GameHistoryPanel
-    -takenPiecesPanel :TakenPiecesPanel
-    -moveLog : MoveLog
-    -{static} gameFrame2 : GameFrame2
+Piece "1" *-- "1" Color2 : contains
+Piece "1" o-- "1" StrategyMovement : contains
 
-    -GameFrame2(wPlayer : Player, bPlayer : Player, board : Board, moveLog : MoveLog, gameManager : GameManager) : GameFrame2
-    +{static} createInstance(wPlayer : Player, bPlayer : Player, board : Board, moveLog : MoveLog, gameManager : GameManager) : GameFrame2
+Board "1" o-- "*" Piece : contains
+Board "1" o-- "*" IBoardObserver : contains
 
-    +updateBoard() : void
-    +updateTakenPiecePanel : void
-    +updateGameHistoryPanel: void
-    +updateBoardAndLegalMoves : void
-}
+Player "1" o-- "*" Piece : contains
+Player "1" *-- "1" Color2 : contains
+Player "1" o-- "*" IPlayerObserver : contains obs
+Player "1" o-- "*" IPlayerObserverGame : contains ObsGame
 
-class Menu {
-    +Menu() : Menu
-}
+PieceFactory "1" *-- "*" Board : instantiate
+PieceFactory "1" *-- "1" PieceFactory : contains
 
-class BoardPanel {
-    -boardTiles : List<Tile>
+MoveFactory "1" o-- "1" Board : instantiate
 
-    +BoardPanel() : BoardPanel
+MoveLog "1" o-- "*" IMove : contains
+MoveLog "1" o-- "*" IObserverMoveLog : contains
 
-    +drawBoardAndLegalMoves(board : Board)
-    +drawBoard(board : Board)
-}
+Move "1" o-- "1" Board : contains
+Move "1" o-- "1" Player : contains
+Move "1" o-- "1" Piece : contains
 
-class Tile {
-    -tileId : int
 
-    +Tile(tileId : int)
-
-    +assignTileColor() : void
-    +assignTilePieceImg(board : Board) : void
-    +assignCheckToTile(board : Board) : void
-    +highLightMove(board : Board) : void
-    +drawTile(board : Board) : void
-    +drawTileAndLegalMoves(board : Board) : void
-    +clickTile(e : MouseEvent, tileId : int) : void
-}
-
-enum BoardDirection2 {
-    NORMAL
-        +traverse(boardTiles : List<Tile>) : List<Tile>
-        +opposite() : BoardDirection2
-    FLIPPED
-        +traverse(boardTiles : List<Tile>) : List<Tile>
-        +opposite() : BoardDirection2
-    +abstract (boardTiles : List<Tile>) : List<Tile>
-    +abstract opposite() : BoardDirection2
-}
-
-class GameHistoryPanel {
-    -model : DataModel
-    -whiteName : String
-    -blackName : String
-
-    +GameHistoryPanel(whiteName : String, blackName : String) : GameHistoryPanel
-
-    +redo(moveLog : MoveLog) : void
-}
-
-class DataModel {
-    -NAMES : String[]
-
-    +DataModel(whiteName : String, blackName : String) : DataModel
-
-    +clear() : void
-
-    +getRowCount() : int
-    +getColumnCount() : int
-    +getValueAt(row : int, col : int) : Object
-    +setValueAt(aValue : Object, row : int, col : int) : void
-    +getColumnClass(columnIndex : int) : Class<?>
-    +getColumnName(column : int) : String
-}
-
-class Row {
-    -whiteMove : String
-    -blackMove : String
-
-    +Row() : Row
-
-    +getWhiteMove() : String
-    +getBlackMove() : String
-    +setWhiteMove(move : String) : void
-    +setBlackMove(move : String) : void
-}
-
-class MainMenu {
-    +MainMenu() : MainMenu
-
-    -mainMenu() : void
-    -game2pEnterMenu(event : ActionEvent) : void
-}
-
-class TakenPiecesPanel {
-    +TakenPiecesPanel(whiteTakenPiecePanel : List<Piece>, blackTakenPiece : List<Piece>) : TakenPiecesPanel
-
-    +redo() : void
-}
-
-class ChessMain {
-    +{static} main : void
-}
-
-ChessMain -[dashed]- MainMenu
-MainMenu -[dashed]- EnterNameMenu
-EnterNameMenu -[dashed]- GameFrame2
-GameFrame2 "1" *-- "1" Menu : contains
-GameFrame2 "1" *-- "1" BoardPanel : contains
-GameFrame2 "1" *-- "1" BoardDirection2 : contains
-GameFrame2 "1" *-- "1" TakenPiecesPanel : contains
-GameFrame2 "1" *-- "1" GameHistoryPanel : contains
-GameFrame2 "1" *-- "1" BoardDirection2 : contains
-
-BoardPanel "1" *-- "1" Tile : contains
-GameHistoryPanel "1" *-- "1" DataModel : contains
-GameHistoryPanel "1" *-- "1" Row : contains
-
-Piece "1" *-- "1" StrategyMovement : contains
-Piece "1" *-- "1" Color : contains
-Player "1" *-- "1" Color : contains
-
-StrategyMovement <|-- StrategyMovementPawn
-StrategyMovement <|-- StrategyMovementKnight
-StrategyMovement <|-- StrategyMovementBishop
-StrategyMovement <|-- StrategyMovementRook
-StrategyMovement <|-- StrategyMovementQueen
-StrategyMovement <|-- StrategyMovementKing
-Player --o Piece
-Board --* MoveFactory
-MoveFactory --[dashed]-> IMove
-IMove --* GameManager
-MoveFactory --* GameManager
-Board --* GameManager
-Player --* GameManager
-Move *-- Board
-Move *-- Piece
-Move *-- Player
 
 
 @enduml

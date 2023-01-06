@@ -9,14 +9,11 @@ import Model.Player.Player;
 public class MoveFactory {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
-    private Board board;
-
 
 
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
-    public MoveFactory(Board b) {
-        board = b;
+    public MoveFactory() {
     }
 
 

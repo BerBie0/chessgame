@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="654px" preserveAspectRatio="none" style="width:858px;height:654px;background:#FFFFFF;" version="1.1" viewBox="0 0 858 654" width="858px" zoomAndPan="magnify"><defs/><g><!--MD5=[ebecb9917226677787fac7e9a2731304]
+class GameManager--><g id="elem_GameManager"><rect codeLine="3" fill="#F1F1F1" height="325.0469" id="GameManager" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="633" x="87" y="7"/><ellipse cx="346.25" cy="23" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M349.2188,28.6406 Q348.6406,28.9375 348,29.0781 Q347.3594,29.2344 346.6563,29.2344 Q344.1406,29.2344 342.8281,27.5938 Q341.5156,25.9375 341.5156,22.8281 Q341.5156,19.6875 342.8281,18.0469 Q344.1406,16.3906 346.6563,16.3906 Q347.3594,16.3906 348,16.5469 Q348.6563,16.6875 349.2188,16.9844 L349.2188,19.7188 Q348.5781,19.125 347.9844,18.8594 Q347.4063,18.5938 346.7656,18.5938 Q345.4219,18.5938 344.7344,19.6563 Q344.0625,20.7188 344.0625,22.8281 Q344.0625,24.9063 344.7344,25.9844 Q345.4219,27.0469 346.7656,27.0469 Q347.4063,27.0469 347.9844,26.7813 Q348.5781,26.5 349.2188,25.9219 L349.2188,28.6406 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106" x="366.75" y="27.8467">GameManager</text><line style="stroke:#181818;stroke-width:0.5;" x1="88" x2="719" y1="39" y2="39"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="95" y="49.6484"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="77" x="107" y="55.9951">oldPos : int</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="95" y="65.9453"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84" x="107" y="72.292">newPos : int</text><line style="stroke:#181818;stroke-width:0.5;" x1="88" x2="719" y1="79.5938" y2="79.5938"/><ellipse cx="98" cy="93.2422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="607" x="107" y="96.5889">GameManager(wPlayer : Player, bPlayer : PLayer, board : Board, moveLog : MoveLog)</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="107" y="112.8857"> </text><ellipse cx="98" cy="125.8359" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="188" x="107" y="129.1826">getCurrentPlayer() : Player</text><ellipse cx="98" cy="142.1328" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="246" x="107" y="145.4795">setBlackTurn(turn : boolean) : void</text><ellipse cx="98" cy="158.4297" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="248" x="107" y="161.7764">setWhiteTurn(turn : boolean) : void</text><ellipse cx="98" cy="174.7266" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="366" x="107" y="178.0732">setPlayerName(name : String, player : Player) : void</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="107" y="194.3701"> </text><ellipse cx="98" cy="207.3203" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="177" x="107" y="210.667">isWhitePlayer() : boolean</text><ellipse cx="98" cy="223.6172" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="175" x="107" y="226.9639">isBlackPlayer() : boolean</text><ellipse cx="98" cy="239.9141" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="171" x="107" y="243.2607">isCheckMate() : boolean</text><ellipse cx="98" cy="256.2109" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="114" x="107" y="259.5576">isPat() : boolean</text><ellipse cx="98" cy="272.5078" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="605" x="107" y="275.8545">execute(oldPos : int, newPos : int, piece : Piece, player : Player, board : Board) : IMove</text><ellipse cx="98" cy="288.8047" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="306" x="107" y="292.1514">undoCommand(moveLog : MoveLog) : void</text><ellipse cx="98" cy="305.1016" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="139" x="107" y="308.4482">changeTurn() : void</text><ellipse cx="98" cy="321.3984" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="235" x="107" y="324.7451">Game(e : MouseEvent, tileId : int)</text></g><!--MD5=[9563755d011c5cec7ec66dc53565a59e]
+class Board--><g id="elem_Board"><rect codeLine="25" fill="#F1F1F1" height="48" id="Board" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="75" x="7" y="409"/><ellipse cx="22" cy="425" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M24.9688,430.6406 Q24.3906,430.9375 23.75,431.0781 Q23.1094,431.2344 22.4063,431.2344 Q19.8906,431.2344 18.5781,429.5938 Q17.2656,427.9375 17.2656,424.8281 Q17.2656,421.6875 18.5781,420.0469 Q19.8906,418.3906 22.4063,418.3906 Q23.1094,418.3906 23.75,418.5469 Q24.4063,418.6875 24.9688,418.9844 L24.9688,421.7188 Q24.3281,421.125 23.7344,420.8594 Q23.1563,420.5938 22.5156,420.5938 Q21.1719,420.5938 20.4844,421.6563 Q19.8125,422.7188 19.8125,424.8281 Q19.8125,426.9063 20.4844,427.9844 Q21.1719,429.0469 22.5156,429.0469 Q23.1563,429.0469 23.7344,428.7813 Q24.3281,428.5 24.9688,427.9219 L24.9688,430.6406 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="43" x="36" y="429.8467">Board</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="81" y1="441" y2="441"/><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="81" y1="449" y2="449"/></g><!--MD5=[efa6f20148f558c1f7679adf975d7287]
+class IMove--><g id="elem_IMove"><rect codeLine="28" fill="#F1F1F1" height="113.1875" id="IMove" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="258" x="52.5" y="534"/><ellipse cx="156.25" cy="550" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M152.1719,545.7813 L152.1719,543.625 L159.5469,543.625 L159.5469,545.7813 L157.0938,545.7813 L157.0938,553.8438 L159.5469,553.8438 L159.5469,556 L152.1719,556 L152.1719,553.8438 L154.6406,553.8438 L154.6406,545.7813 L152.1719,545.7813 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="42" x="176.75" y="554.8467">IMove</text><line style="stroke:#181818;stroke-width:0.5;" x1="53.5" x2="309.5" y1="566" y2="566"/><line style="stroke:#181818;stroke-width:0.5;" x1="53.5" x2="309.5" y1="574" y2="574"/><ellipse cx="63.5" cy="587.6484" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="110" x="72.5" y="590.9951">execute() : void</text><ellipse cx="63.5" cy="603.9453" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="232" x="72.5" y="607.292">undo(moveLog : MoveLog) : void</text><ellipse cx="63.5" cy="620.2422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122" x="72.5" y="623.5889">getPiece() : Piece</text><ellipse cx="63.5" cy="636.5391" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="114" x="72.5" y="639.8857">getNewPos(): int</text></g><!--MD5=[ccf5fa323e8f82df3ac80c9016f1af42]
+class MoveFactory--><g id="elem_MoveFactory"><rect codeLine="35" fill="#F1F1F1" height="48" id="MoveFactory" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="123" x="245" y="409"/><ellipse cx="260" cy="425" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M262.9688,430.6406 Q262.3906,430.9375 261.75,431.0781 Q261.1094,431.2344 260.4063,431.2344 Q257.8906,431.2344 256.5781,429.5938 Q255.2656,427.9375 255.2656,424.8281 Q255.2656,421.6875 256.5781,420.0469 Q257.8906,418.3906 260.4063,418.3906 Q261.1094,418.3906 261.75,418.5469 Q262.4063,418.6875 262.9688,418.9844 L262.9688,421.7188 Q262.3281,421.125 261.7344,420.8594 Q261.1563,420.5938 260.5156,420.5938 Q259.1719,420.5938 258.4844,421.6563 Q257.8125,422.7188 257.8125,424.8281 Q257.8125,426.9063 258.4844,427.9844 Q259.1719,429.0469 260.5156,429.0469 Q261.1563,429.0469 261.7344,428.7813 Q262.3281,428.5 262.9688,427.9219 L262.9688,430.6406 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="91" x="274" y="429.8467">MoveFactory</text><line style="stroke:#181818;stroke-width:0.5;" x1="246" x2="367" y1="441" y2="441"/><line style="stroke:#181818;stroke-width:0.5;" x1="246" x2="367" y1="449" y2="449"/></g><!--MD5=[e05bacf3ff4416a0580578814d41bbf6]
+class Piece--><g id="elem_Piece"><rect codeLine="38" fill="#F1F1F1" height="48" id="Piece" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="70" x="403.5" y="409"/><ellipse cx="418.5" cy="425" fill="#A9DCDF" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M418.6094,420.3594 L417.4531,425.4219 L419.7656,425.4219 L418.6094,420.3594 Z M417.1094,418.125 L420.1094,418.125 L423.4531,430.5 L421,430.5 L420.25,427.4375 L416.9688,427.4375 L416.2188,430.5 L413.7813,430.5 L417.1094,418.125 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="38" x="432.5" y="429.8467">Piece</text><line style="stroke:#181818;stroke-width:0.5;" x1="404.5" x2="472.5" y1="441" y2="441"/><line style="stroke:#181818;stroke-width:0.5;" x1="404.5" x2="472.5" y1="449" y2="449"/></g><!--MD5=[2cb47ba637a0d19583e6199456f6ad0b]
+class Player--><g id="elem_Player"><rect codeLine="41" fill="#F1F1F1" height="48" id="Player" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="76" x="560.5" y="409"/><ellipse cx="575.5" cy="425" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M578.4688,430.6406 Q577.8906,430.9375 577.25,431.0781 Q576.6094,431.2344 575.9063,431.2344 Q573.3906,431.2344 572.0781,429.5938 Q570.7656,427.9375 570.7656,424.8281 Q570.7656,421.6875 572.0781,420.0469 Q573.3906,418.3906 575.9063,418.3906 Q576.6094,418.3906 577.25,418.5469 Q577.9063,418.6875 578.4688,418.9844 L578.4688,421.7188 Q577.8281,421.125 577.2344,420.8594 Q576.6563,420.5938 576.0156,420.5938 Q574.6719,420.5938 573.9844,421.6563 Q573.3125,422.7188 573.3125,424.8281 Q573.3125,426.9063 573.9844,427.9844 Q574.6719,429.0469 576.0156,429.0469 Q576.6563,429.0469 577.2344,428.7813 Q577.8281,428.5 578.4688,427.9219 L578.4688,430.6406 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="44" x="589.5" y="429.8467">Player</text><line style="stroke:#181818;stroke-width:0.5;" x1="561.5" x2="635.5" y1="441" y2="441"/><line style="stroke:#181818;stroke-width:0.5;" x1="561.5" x2="635.5" y1="449" y2="449"/></g><!--MD5=[e25a8d403f2fd2b9cd0e6d3213b45ff7]
+class MoveLog--><g id="elem_MoveLog"><rect codeLine="44" fill="#F1F1F1" height="48" id="MoveLog" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="96" x="755.5" y="409"/><ellipse cx="770.5" cy="425" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M773.4688,430.6406 Q772.8906,430.9375 772.25,431.0781 Q771.6094,431.2344 770.9063,431.2344 Q768.3906,431.2344 767.0781,429.5938 Q765.7656,427.9375 765.7656,424.8281 Q765.7656,421.6875 767.0781,420.0469 Q768.3906,418.3906 770.9063,418.3906 Q771.6094,418.3906 772.25,418.5469 Q772.9063,418.6875 773.4688,418.9844 L773.4688,421.7188 Q772.8281,421.125 772.2344,420.8594 Q771.6563,420.5938 771.0156,420.5938 Q769.6719,420.5938 768.9844,421.6563 Q768.3125,422.7188 768.3125,424.8281 Q768.3125,426.9063 768.9844,427.9844 Q769.6719,429.0469 771.0156,429.0469 Q771.6563,429.0469 772.2344,428.7813 Q772.8281,428.5 773.4688,427.9219 L773.4688,430.6406 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="64" x="784.5" y="429.8467">MoveLog</text><line style="stroke:#181818;stroke-width:0.5;" x1="756.5" x2="850.5" y1="441" y2="441"/><line style="stroke:#181818;stroke-width:0.5;" x1="756.5" x2="850.5" y1="449" y2="449"/></g><!--MD5=[2c60702319f8c1237c5950f8b3f84db7]
+reverse link GameManager to Player--><g id="link_GameManager_Player"><path codeLine="48" d="M469.85,343.39 C478.14,356.14 487.34,368.21 497.5,379 C514.61,397.16 539.34,410.28 560.05,418.93 " fill="none" id="GameManager-backto-Player" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="462.79,332.02,462.557,339.2273,469.1203,342.2145,469.3533,335.0071,462.79,332.02" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="108" x="498.5" y="375.0669">contains bPlayer</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="457.4681" y="352.3243">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="544.4886" y="412.1666">1</text></g><!--MD5=[2c60702319f8c1237c5950f8b3f84db7]
+reverse link GameManager to Player--><g id="link_GameManager_Player"><path codeLine="49" d="M602.4,343.65 C605.72,349.65 608.77,355.77 611.5,362 C618,376.83 614.45,394.81 609.42,408.84 " fill="none" id="GameManager-backto-Player-1" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="595.69,332.26,595.2832,339.4596,601.7725,342.6042,602.1793,335.4046,595.69,332.26" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="111" x="616.5" y="375.0669">contains wPlayer</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="596.2174" y="352.0437">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="603.1932" y="397.811">1</text></g><!--MD5=[a3993a835b9d70c07a51afbbbc65fbd4]
+reverse link GameManager to MoveLog--><g id="link_GameManager_MoveLog"><path codeLine="50" d="M706.68,339.65 C716.88,346.99 726.86,354.44 736.5,362 C754.24,375.9 771.77,394.43 784.44,408.93 " fill="none" id="GameManager-backto-MoveLog" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="695.96,332.06,698.5398,338.7938,705.7479,339.0024,703.1681,332.2686,695.96,332.06" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="55" x="755.5" y="375.0669">contains</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="701.9323" y="352.3663">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="770.5309" y="397.9241">1</text></g><!--MD5=[cf338c74923de7c01c9add2499d1f95c]
+reverse link GameManager to MoveFactory--><g id="link_GameManager_MoveFactory"><path codeLine="51" d="M337.98,344.38 C335.79,350.32 333.62,356.21 331.5,362 C325.77,377.63 319.47,395.28 314.62,408.95 " fill="none" id="GameManager-backto-MoveFactory" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="342.52,332.11,336.6908,336.355,338.3673,343.3685,344.1965,339.1235,342.52,332.11" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="55" x="332.5" y="375.0669">contains</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="331.5756" y="351.887">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="307.6758" y="397.9492">1</text></g><!--MD5=[fc3ae33b93376b51f13f1734e787ab21]
+reverse link GameManager to IMove--><g id="link_GameManager_IMove"><path codeLine="52" d="M207.95,342.6 C192.95,363.49 179.98,385.73 170.5,409 C154.39,448.54 158.5,497.01 165.9,533.76 " fill="none" id="GameManager-backto-IMove" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="215.71,332.13,208.9233,334.5673,208.5629,341.7694,215.3496,339.3321,215.71,332.13" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="55" x="171.5" y="437.5669">contains</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="199.0195" y="351.9079">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="155.5113" y="522.9943">1</text></g><!--MD5=[b4e92188852c040b1a78b1779fabb51a]
+reverse link GameManager to Piece--><g id="link_GameManager_Piece"><path codeLine="53" d="M392.59,345.34 C394.44,356.86 397.02,368.17 400.5,379 C403.96,389.78 410.52,400.22 417.22,408.95 " fill="none" id="GameManager-backto-Piece" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="390.8,332.27,387.6474,338.7554,392.4214,344.16,395.574,337.6745,390.8,332.27" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="55" x="401.5" y="375.0669">contains</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="382.0433" y="352.0542">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="402.742" y="397.9492">1</text></g><!--MD5=[4acbed0b0e084336895c9b98f4637a33]
+reverse link GameManager to Board--><g id="link_GameManager_Board"><path codeLine="54" d="M87.92,341.67 C81.49,348.25 75.33,355.02 69.5,362 C58.32,375.36 51.98,394.1 48.48,408.82 " fill="none" id="GameManager-backto-Board" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="97.53,332.18,90.4503,333.5502,88.9921,340.6123,96.0718,339.2421,97.53,332.18" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="55" x="70.5" y="375.0669">contains</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="75.4845" y="351.9601">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="40.4749" y="397.7859">1</text></g><!--MD5=[d1ce76e98f49d1686f4f68b4a87ed632]
+link MoveFactory to IMove--><g id="link_MoveFactory_IMove"><path codeLine="56" d="M287.79,457.28 C272.4,476.42 249.9,504.41 229.56,529.72 " fill="none" id="MoveFactory-to-IMove" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#181818" points="226.31,533.75,235.0618,529.2327,229.4387,529.8498,228.8215,524.2268,226.31,533.75" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="70" x="263.5" y="500.0669">instantiate</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="274.2544" y="477.1095">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="223.2837" y="522.9831">1</text></g><!--MD5=[e0f7ccf7efbc02c5dd5c21aa5e5c5aab]
+@startuml
+'https://plantuml.com/class-diagram
+
+class GameManager{
+    -oldPos : int
+    -newPos : int
+
+    +GameManager(wPlayer : Player, bPlayer : PLayer, board : Board, moveLog : MoveLog)
+
+    +getCurrentPlayer() : Player
+    +setBlackTurn(turn : boolean) : void
+    +setWhiteTurn(turn : boolean) : void
+    +setPlayerName(name : String, player : Player) : void
+
+    +isWhitePlayer() : boolean
+    +isBlackPlayer() : boolean
+    +isCheckMate() : boolean
+    +isPat() : boolean
+    +execute(oldPos : int, newPos : int, piece : Piece, player : Player, board : Board) : IMove
+    +undoCommand(moveLog : MoveLog) : void
+    +changeTurn() : void
+    +Game(e : MouseEvent, tileId : int)
+
+}
+
+class Board {
+}
+
+interface IMove {
+    +execute() : void
+    +undo(moveLog : MoveLog) : void
+    +getPiece() : Piece
+    +getNewPos(): int
+}
+
+class MoveFactory {
+}
+
+abstract class Piece {
+}
+
+class Player {
+}
+
+class MoveLog {
+}
+
+
+GameManager "1" o- - "1" Player : contains bPlayer
+GameManager "1" o- - "1" Player : contains wPlayer
+GameManager "1" o- - "1" MoveLog : contains
+GameManager "1" o- - "1" MoveFactory : contains
+GameManager "1" o- - "1" IMove : contains
+GameManager "1" o- - "1" Piece : contains
+GameManager "1" o- - "1" Board : contains
+
+MoveFactory "1" -[Dashed]-> "1" IMove : instantiate
+
+
+@enduml
+
+@startuml
+
+class GameManager{
+    -oldPos : int
+    -newPos : int
+
+    +GameManager(wPlayer : Player, bPlayer : PLayer, board : Board, moveLog : MoveLog)
+
+    +getCurrentPlayer() : Player
+    +setBlackTurn(turn : boolean) : void
+    +setWhiteTurn(turn : boolean) : void
+    +setPlayerName(name : String, player : Player) : void
+
+    +isWhitePlayer() : boolean
+    +isBlackPlayer() : boolean
+    +isCheckMate() : boolean
+    +isPat() : boolean
+    +execute(oldPos : int, newPos : int, piece : Piece, player : Player, board : Board) : IMove
+    +undoCommand(moveLog : MoveLog) : void
+    +changeTurn() : void
+    +Game(e : MouseEvent, tileId : int)
+
+}
+
+class Board {
+}
+
+interface IMove {
+    +execute() : void
+    +undo(moveLog : MoveLog) : void
+    +getPiece() : Piece
+    +getNewPos(): int
+}
+
+class MoveFactory {
+}
+
+abstract class Piece {
+}
+
+class Player {
+}
+
+class MoveLog {
+}
+
+
+GameManager "1" o- - "1" Player : contains bPlayer
+GameManager "1" o- - "1" Player : contains wPlayer
+GameManager "1" o- - "1" MoveLog : contains
+GameManager "1" o- - "1" MoveFactory : contains
+GameManager "1" o- - "1" IMove : contains
+GameManager "1" o- - "1" Piece : contains
+GameManager "1" o- - "1" Board : contains
+
+MoveFactory "1" -[Dashed]-> "1" IMove : instantiate
+
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 19:01:30 CEST 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

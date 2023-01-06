@@ -1,0 +1,178 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class GameManager{
+}
+
+class Board {
+}
+
+interface IBoardObserver {
+}
+
+abstract class Piece {
+}
+class Player {
+}
+
+interface IPlayerObserver {
+}
+
+interface IPlayerObserverGame {
+
+}
+
+interface IObserverMoveLog {
+
+}
+
+class MoveLog {
+}
+
+class EnterNameMenu implements IPlayerObserver{
+    +EnterNameMenu(wPlayer : Player, bPlayer : Player, board : Board, moveLog : MoveLog) : EnterNameMenu
+
+    +init() : void
+    +setPlayerName(name : String, player : Player)
+
+    +updatePlayerName() : void+
+}
+
+class GameFrame2 implements IBoardObserver, IPlayerObserverGame, IObserverMoveLog {
+    -GameFrame2(wPlayer : Player, bPlayer : Player, board : Board, moveLog : MoveLog, gameManager : GameManager) : GameFrame2
+    +{static} createInstance(wPlayer : Player, bPlayer : Player, board : Board, moveLog : MoveLog, gameManager : GameManager) : GameFrame2
+
+    +updateBoard() : void
+    +updateTakenPiecePanel() : void
+    +updateGameHistoryPanel() : void
+    +updateBoardAndLegalMoves() : void
+}
+
+class Menu {
+    +Menu() : Menu
+}
+
+class BoardPanel {
+    +BoardPanel() : BoardPanel
+
+    +drawBoardAndLegalMoves(board : Board)
+    +drawBoard(board : Board)
+}
+
+enum BoardDirection2 {
+    NORMAL
+        +traverse(boardTiles : List<Tile>) : List<Tile>
+        +opposite() : BoardDirection2
+    FLIPPED
+        +traverse(boardTiles : List<Tile>) : List<Tile>
+        +opposite() : BoardDirection2
+    +abstract (boardTiles : List<Tile>) : List<Tile>
+    +abstract opposite() : BoardDirection2
+}
+
+class GameHistoryPanel {
+    -whiteName : String
+    -blackName : String
+
+    +GameHistoryPanel(whiteName : String, blackName : String) : GameHistoryPanel
+
+    +redo(moveLog : MoveLog) : void
+}
+
+class DataModel {
+    -NAMES : String[]
+
+    +DataModel(whiteName : String, blackName : String) : DataModel
+
+    +clear() : void
+
+    +getRowCount() : int
+    +getColumnCount() : int
+    +getValueAt(row : int, col : int) : Object
+    +setValueAt(aValue : Object, row : int, col : int) : void
+    +getColumnClass(columnIndex : int) : Class<?>
+    +getColumnName(column : int) : String
+}
+
+class Row {
+    -whiteMove : String
+    -blackMove : String
+
+    +Row() : Row
+
+    +getWhiteMove() : String
+    +getBlackMove() : String
+    +setWhiteMove(move : String) : void
+    +setBlackMove(move : String) : void
+}
+
+class MainMenu {
+    +MainMenu() : MainMenu
+
+    -mainMenu() : void
+    -game2pEnterMenu(event : ActionEvent) : void
+}
+
+class TakenPiecesPanel {
+    +TakenPiecesPanel(whiteTakenPiecePanel : List<Piece>, blackTakenPiece : List<Piece>) : TakenPiecesPanel
+
+    +redo() : void
+}
+
+class Tile {
+    -tileId : int
+
+    +Tile(tileId : int)
+
+    +assignTileColor() : void
+    +assignTilePieceImg(board : Board) : void
+    +assignCheckToTile(board : Board) : void
+    +highLightMove(board : Board) : void
+    +drawTile(board : Board) : void
+    +drawTileAndLegalMoves(board : Board) : void
+    +clickTile(e : MouseEvent, tileId : int) : void
+}
+
+
+MainMenu "1" -- "1" EnterNameMenu
+MainMenu "1" *-- "1" Player : instantiate
+MainMenu "1" *-- "1" Player : instantiate
+MainMenu "1" *-- "1" Board : instantiate
+MainMenu "1" *-- "1" GameManager : instantiate
+MainMenu "1" *-- "1" MoveLog : instantiate
+
+EnterNameMenu "1" -- "1" GameFrame2
+
+GameFrame2 "1" *-- "1" Menu : contains&instantiate
+GameFrame2 "1" *-- "1" BoardPanel : contains&instantiate
+GameFrame2 "1" *-- "1" BoardDirection2 : contains
+GameFrame2 "1" *-- "1" TakenPiecesPanel : contains&instantiate
+GameFrame2 "1" *-- "1" GameHistoryPanel : contains&instantiate
+GameFrame2 "1" o-- "1" MoveLog : contains
+GameFrame2 "1" o-- "1" Player : contains wPlayer
+GameFrame2 "1" o-- "1" Player : contains bPlayer
+GameFrame2 "1" o-- "1" Board : contains
+GameFrame2 "1" *-- "1" GameFrame2 : contains
+GameFrame2 "1" o-- "1" GameManager : contains
+
+BoardPanel "1" *-- "*" Tile : contains&instantiate
+
+GameHistoryPanel "1" o-- "1" DataModel : contains
+
+TakenPiecesPanel "1" o-- "*" Piece : contains whitePieces
+TakenPiecesPanel "1" o-- "*" Piece : contains blackPieces
+
+DataModel "1" *-- "*" Row : contains&instantiate
+
+EnterNameMenu "1" o-- "1" Player : contains
+EnterNameMenu "1" o-- "1" Player : contains
+EnterNameMenu "1" o-- "1" Board : contains
+EnterNameMenu "1" o-- "1" GameManager : contains
+EnterNameMenu "1" o-- "1" MoveLog : contains
+
+
+
+
+
+
+@enduml

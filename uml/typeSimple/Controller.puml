@@ -1,0 +1,60 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class GameManager{
+    -oldPos : int
+    -newPos : int
+
+    +GameManager(wPlayer : Player, bPlayer : PLayer, board : Board, moveLog : MoveLog)
+
+    +getCurrentPlayer() : Player
+    +setBlackTurn(turn : boolean) : void
+    +setWhiteTurn(turn : boolean) : void
+    +setPlayerName(name : String, player : Player) : void
+
+    +isWhitePlayer() : boolean
+    +isBlackPlayer() : boolean
+    +isCheckMate() : boolean
+    +isPat() : boolean
+    +execute(oldPos : int, newPos : int, piece : Piece, player : Player, board : Board) : IMove
+    +undoCommand(moveLog : MoveLog) : void
+    +changeTurn() : void
+    +Game(e : MouseEvent, tileId : int)
+
+}
+
+class Board {
+}
+
+interface IMove {
+    +execute() : void
+    +undo(moveLog : MoveLog) : void
+    +getPiece() : Piece
+    +getNewPos(): int
+}
+
+class MoveFactory {
+}
+
+abstract class Piece {
+}
+
+class Player {
+}
+
+class MoveLog {
+}
+
+
+GameManager "1" o-- "1" Player : contains bPlayer
+GameManager "1" o-- "1" Player : contains wPlayer
+GameManager "1" o-- "1" MoveLog : contains
+GameManager "1" o-- "1" MoveFactory : contains
+GameManager "1" o-- "1" IMove : contains
+GameManager "1" o-- "1" Piece : contains
+GameManager "1" o-- "1" Board : contains
+
+MoveFactory "1" -[Dashed]-> "1" IMove : instantiate
+
+
+@enduml

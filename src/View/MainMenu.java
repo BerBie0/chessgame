@@ -105,7 +105,7 @@ public class MainMenu extends JFrame {
         Player bPlayer = new Player(Color2.BLACK, "");
         Board board = new Board();
         board.inializeBoard();
-        MoveLog moveLog = new MoveLog(board);
+        MoveLog moveLog = new MoveLog();
         //controller
         GameManager gameManager = new GameManager(wPlayer, bPlayer, board, moveLog);
         //view

@@ -11,13 +11,11 @@ public class MoveLog {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
     private List<IMove> positions;
-    private final Board board;
     private List<IObserverMoveLog> observers;
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
 
-    public MoveLog(Board board) {
+    public MoveLog() {
         this.positions = new ArrayList<>();
-        this.board = board;
         this.observers = new LinkedList<>();
     }
 
