@@ -5,30 +5,30 @@ import java.util.List;
 
 import Model.Player.IPlayerObserver;
 
-public class Model{
+public class Model {
     String valeur;
     List<IPlayerObserver> observers;
 
     public Model() {
         observers = new ArrayList<>();
     }
-    public void addObserver( IPlayerObserver obs ) {
+
+    public void addObserver(IPlayerObserver obs) {
         observers.add(obs);
     }
 
     private void notifyTitleChange() {
-        for ( IPlayerObserver obs : observers ) {
+        for (IPlayerObserver obs : observers) {
             obs.updatePlayerName();
         }
     }
-    public void setTitle( String title )
-    {
+
+    public void setTitle(String title) {
         this.valeur = title;
         notifyTitleChange();
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return this.valeur;
     }
 }

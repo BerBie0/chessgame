@@ -150,11 +150,6 @@ public abstract class Piece
         return context.offset();
     }
 
-    /**
-     * valid a move, calculate all possible move.
-     * @param position piece's position in the board.
-     * @return true if the move is valid, false else.
-     */
 
     public boolean isWhite()
     {
@@ -167,8 +162,10 @@ public abstract class Piece
             throw new IllegalArgumentException("Model.Pieces.Piece.java : canCapturePiece : trying to capture ur own piece ");
         if(piece.getPosition() == this.getPosition())
             return false;
-        if ( !this.isValidMove(piece.getPosition()) )
+        if ( !this.isValidMove(piece.getPosition()) ) {
             return false;
+        }
+
         return true;
     }
 
@@ -176,11 +173,12 @@ public abstract class Piece
 
     /*-----------------------------------------------ABSTRACT---------------------------------------------------------*/
 
-    public abstract boolean isValidMove(int position);
+    /**
+     * valid a move, calculate all possible move.
+     * @param position piece's position in the board.
+     * @return true if the move is valid, false else.
+     */
 
-    public static void main(String[] args) {
-        King b = new King(Color2.WHITE, 44);
-        System.out.println(b.isValidMove(52));
-    }
+    public abstract boolean isValidMove(int position);
 
 }

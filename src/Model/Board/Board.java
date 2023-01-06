@@ -16,7 +16,7 @@ public class Board {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
     private int[] board;
-    private ArrayList<Piece> pieces;
+    private List<Piece> pieces;
     private List<IBoardObserver> observers;
     private LinkedList<Integer> highlightMove;
 
@@ -29,7 +29,7 @@ public class Board {
         for (int i = 0; i < 120; i++) {
             board[i] = (i < 20 || i > 100 || i % 10 == 9 || i % 10 == 0) ? -10 : 0;
         }
-        pieces = new ArrayList<>();
+        pieces = new LinkedList<>();
         observers = new LinkedList<>();
         highlightMove = new LinkedList<>();
     }
@@ -38,7 +38,7 @@ public class Board {
 
     /*---------------------------------------------GET SET------------------------------------------------------------*/
 
-    public ArrayList<Piece> getPieces() {
+    public List<Piece> getPieces() {
         return pieces;
     }
 
@@ -52,12 +52,15 @@ public class Board {
                         () -> {
                             throw new IllegalArgumentException("Model.Board.Board.java : getPieceFromPosition(int position) : can't find piece");
                         });
-        //notifyObservers();
         return piece;
     }
 
     public LinkedList<Integer> getHighLightMove() {
         return highlightMove;
+    }
+
+    public Board getBoard() {
+        return this;
     }
 
 
@@ -68,13 +71,23 @@ public class Board {
 
     public void calculateLegalMoves(Piece piece) {
         LinkedList<Integer> res = new LinkedList<>();
+
+        Piece targetPiece;
         for (int i = 0; i < board.length; i++) {
-            if (piece.isValidMove(i) && !this.isPositionOccupied(i)) {
-                res.add(i);
+            try {
+                targetPiece = getPieceFromPosition(i);
+                if ( piece.isValidMove(i) &&  isPathFree(piece, i) && targetPiece.getColor() != piece.getColor() ) {
+                    res.add(i);
+                }
+            } catch (Exception e) {
+                if ( piece.isValidMove(i) && isPathFree(piece, i) ) {
+                    res.add(i);
+                }
             }
         }
         highlightMove = res;
         notifyObservers();
+
     }
 
 
@@ -138,17 +151,18 @@ public class Board {
                         "can't capture ur piece");
         }
 
-        if (!isPathFree(piece, newPos))
+        if (!isPathFree(piece, newPos)) {
+            System.out.println("piece a bouger : " + piece.getPosition());
+            System.out.println("piece a suppprimer : " + newPos);
             throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
                     "there a piece(s) in path");
+        }
+
+
     }
 
     public void validateSimpleMove(Piece piece, int newPos) {
         validateMoveCommon(piece, newPos);
-
-        if (!isPathFree(piece, newPos))
-            throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
-                    "there a piece(s) in path");
 
         if (isPositionOccupied(newPos))
             throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
@@ -170,19 +184,29 @@ public class Board {
 
     //TODO validateCastleMove
 
-    //TODO isPathFree and axis and diagonal !
     public boolean isPathFree(Piece piece, int newPos) {
-        return true;
-    }
+        if ( piece instanceof Pawn && isPositionOccupied( newPos ) && (Math.abs(piece.getPosition() - newPos) == 9) || (Math.abs(piece.getPosition() - newPos)) == 11 && isPositionOccupied( newPos )) {
+            return true;
+        } else if ( piece instanceof Pawn && isPositionOccupied(newPos) ) {
+            return false;
+        } else {
+            int oldPos = piece.getPosition();
+            int[] offset = piece.executeStrategy();
+            for (int j : offset) {
+                int positionCalcul = oldPos;
+                //cpt pour affichage des coups
+                int cpt = 0;
+                while ( board[positionCalcul + j] != -10 && cpt < 1 ) {
+                    positionCalcul += j;
+                    //pion en face d'un pion corrige l'affichage
+                    if ( piece instanceof Pawn && board[positionCalcul] == Math.abs(1) ) break;
+                    if( board[positionCalcul] != 0 ) cpt++;
+                    if (positionCalcul == newPos) return true;
+                }
+            }
+        }
 
-    //TODO isPathFree and axis and diagonal !
-    public boolean isPathFreeVertical(Piece piece, int newPos) {
-        return true;
-    }
-
-    //TODO isPathFree and axis and diagonal !
-    public boolean isPathFreeDiagonal(Piece piece, int newPos) {
-        return true;
+        return false;
     }
 
     public void move(Piece piece, int position) {
@@ -211,12 +235,16 @@ public class Board {
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Board.java : Piece getKing(Color2 color) : king not found"));
     }
+    public int getKingPosition(Color2 color) {
+        return getKing(color).getPosition();
+    }
 
     public Boolean isCheck(Color2 color) {
         Color2 attackColor = color == Color2.WHITE ? Color2.BLACK : Color2.WHITE;
         King king = getKing(color);
+
         Boolean check = pieces.stream()
-                .filter(piece -> piece.getColor() != attackColor)
+                .filter(piece -> piece.getColor() == attackColor)
                 .anyMatch(piece -> piece.canCapturePiece(king) && isPathFree(piece, king.getPosition()));
         if (!king.getIsChecked() && check) {
             king.setIsChecked(true);
@@ -226,7 +254,27 @@ public class Board {
 
     //TODO anyValidMove
     public boolean anyValidMove(Color2 color) {
-        return true;
+        List<Piece> teamPieces = pieces.stream().filter(piece -> piece.getColor() == color ).toList();
+        List<Piece> ennemyPieces = pieces.stream().filter(piece -> piece.getColor() != color && isPathFree(piece, getKingPosition(color))).toList();
+        for (Piece teamPiece : teamPieces) {
+            for (Piece ennemyPiece : ennemyPieces) {
+                if ( !willMoveResultInCheck(teamPiece, ennemyPiece.getPosition()) && teamPiece.canCapturePiece(ennemyPiece) ) {
+                    System.out.println("hey");
+                }
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean willMoveResultInCheck(Piece piece, int newPos) {
+        int oldPos = piece.getPosition();
+        piece.setPosition(newPos);
+        this.move(piece, newPos);
+        boolean isCheck = isCheck(getKing(piece.getColor()).getColor());
+        piece.setPosition(oldPos);
+        this.move(piece, oldPos);
+        return isCheck;
     }
 
     /*-----------------------------------------------OBSERVER---------------------------------------------------------*/
@@ -239,8 +287,6 @@ public class Board {
             obs.updateBoardAndLegalMoves();
         }
     }
-
-
 
     /*------------------------------------------------TEST----------------------------------------------------------*/
 
