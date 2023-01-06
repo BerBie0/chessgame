@@ -12,7 +12,7 @@ import java.util.List;
 public class MoveLog {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
-    private final List<IMove> positions;
+    private List<IMove> positions;
     private final Board board;
     private List<IObserverMoveLog> observers;
     /*-------------------------------------------CONSTRUCTORS---------------------------------------------------------*/
@@ -46,7 +46,10 @@ public class MoveLog {
     }
 
     public boolean removeMove(final Move move) {
-        return this.positions.remove(move);
+        boolean res = this.positions.remove(move);
+        notifyObserver();
+        return res;
+
     }
 
     public void addObserver(IObserverMoveLog obs) {

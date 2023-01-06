@@ -38,8 +38,8 @@ public class TakenPiecesPanel extends JPanel {
         northPanel.setLayout(new GridLayout(8, 2));
         southPanel.setLayout(new GridLayout(8, 2));
         this.northPanel.setBackground(PANEL_COLOR);
-        northPanel.setBorder(BorderFactory.createEmptyBorder(0,0,20,0));
-        southPanel.setBorder(BorderFactory.createEmptyBorder(0,0,20,0));
+        northPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        southPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         this.southPanel.setBackground(PANEL_COLOR);
         this.whiteTakenPieces = whiteTakenPieces;
         this.blackTakenPieces = blackTakenPieces;
@@ -58,7 +58,6 @@ public class TakenPiecesPanel extends JPanel {
 
         for (final Piece takenPiece : whiteTakenPieces) {
             try {
-                //System.out.println(takenPiece.toString());
                 final BufferedImage image = ImageIO.read(new File("img/" + takenPiece.toString() + ".gif"));
                 Image dimg = image.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
                 final ImageIcon icon = new ImageIcon(dimg);
@@ -87,7 +86,6 @@ public class TakenPiecesPanel extends JPanel {
                 System.out.println("TakenPiecePanel.java : redo(final MoveLog moveLog, final Board board) : pb image");
             }
         }
-
         validate();
         repaint();
     }

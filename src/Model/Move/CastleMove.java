@@ -1,6 +1,7 @@
 package Model.Move;
 
 import Model.Board.Board;
+import Model.MoveLog;
 import Model.Pieces.Piece;
 import Model.Pieces.Rook;
 import Model.Player.Player;
@@ -69,7 +70,7 @@ public class CastleMove extends Move
 
     //TODO reecrire
     @Override
-    public void undo()
+    public void undo(MoveLog moveLog)
     {
         int rookPosition, kingPosition;
         if ( player.isWhite() && board.getWhiteKing().getPosition() == 97 ) {

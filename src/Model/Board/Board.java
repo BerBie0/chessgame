@@ -16,7 +16,7 @@ public class Board {
     /*-------------------------------------------ATTRIBUTS------------------------------------------------------------*/
 
     private int[] board;
-    private ArrayList<Piece> pieces;
+    private List<Piece> pieces;
     private List<IBoardObserver> observers;
     private LinkedList<Integer> highlightMove;
 
@@ -29,7 +29,7 @@ public class Board {
         for (int i = 0; i < 120; i++) {
             board[i] = (i < 20 || i > 100 || i % 10 == 9 || i % 10 == 0) ? -10 : 0;
         }
-        pieces = new ArrayList<>();
+        pieces = new LinkedList<>();
         observers = new LinkedList<>();
         highlightMove = new LinkedList<>();
     }
@@ -38,7 +38,7 @@ public class Board {
 
     /*---------------------------------------------GET SET------------------------------------------------------------*/
 
-    public ArrayList<Piece> getPieces() {
+    public List<Piece> getPieces() {
         return pieces;
     }
 
@@ -258,7 +258,9 @@ public class Board {
         List<Piece> ennemyPieces = pieces.stream().filter(piece -> piece.getColor() != color && isPathFree(piece, getKingPosition(color))).toList();
         for (Piece teamPiece : teamPieces) {
             for (Piece ennemyPiece : ennemyPieces) {
-                if ( isPathFree(teamPiece, ennemyPiece.getPosition()) && !willMoveResultInCheck(teamPiece, ennemyPiece.getPosition()) )
+                if ( !willMoveResultInCheck(teamPiece, ennemyPiece.getPosition()) && teamPiece.canCapturePiece(ennemyPiece) ) {
+                    System.out.println("hey");
+                }
                     return true;
             }
         }
@@ -268,8 +270,10 @@ public class Board {
     public boolean willMoveResultInCheck(Piece piece, int newPos) {
         int oldPos = piece.getPosition();
         piece.setPosition(newPos);
+        this.move(piece, newPos);
         boolean isCheck = isCheck(getKing(piece.getColor()).getColor());
         piece.setPosition(oldPos);
+        this.move(piece, oldPos);
         return isCheck;
     }
 

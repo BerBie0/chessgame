@@ -1,6 +1,7 @@
 package Model.Move;
 
 import Model.Board.Board;
+import Model.MoveLog;
 import Model.Pieces.Piece;
 import Model.Player.Player;
 
@@ -33,7 +34,7 @@ public class SimpleMove extends Move {
     }
 
     @Override
-    public void undo() {
+    public void undo(MoveLog moveLog) {
         board.move(piece, oldPos);
         player.move(piece, oldPos);
     }

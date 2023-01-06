@@ -181,9 +181,4 @@ public abstract class Piece
 
     public abstract boolean isValidMove(int position);
 
-    public static void main(String[] args) {
-        King b = new King(Color2.WHITE, 44);
-        System.out.println(b.isValidMove(52));
-    }
-
 }

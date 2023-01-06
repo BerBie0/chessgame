@@ -2,11 +2,8 @@ package Controller;
 
 import Model.Board.Board;
 import Model.Move.IMove;
-import Model.Move.Move;
 import Model.Move.MoveFactory;
-import Model.Move.SimpleMove;
 import Model.MoveLog;
-import Model.Pieces.King;
 import Model.Pieces.Piece;
 import Model.utils.Color2;
 import Model.Player.Player;
@@ -81,7 +78,6 @@ public class GameManager {
 
     public boolean isCheckMate() {
         Color2 currentPlayerColor = getCurrentPlayer().getColor();
-        King currentPlayerKing = (King) board.getKing(currentPlayerColor);
         return board.isCheck(currentPlayerColor) && !board.anyValidMove(currentPlayerColor);
     }
 
@@ -106,8 +102,8 @@ public class GameManager {
         this.setBlackTurn(!this.isBlackPlayer());
     }
 
-    public void undo() {
-        lastMove.undo();
+    public void undo(MoveLog moveLog) {
+        lastMove.undo(moveLog);
     }
 
     public void game(MouseEvent e, int tileId) {
@@ -120,6 +116,7 @@ public class GameManager {
             newPos = 0;
             movedPiece = null;
             wPlayer.notifyObserversGame();
+            System.out.println(moveLog.getMoves());
         } else if (isLeftMouseButton(e)) {
             //click game
             if (oldPos == 0) {
@@ -128,7 +125,7 @@ public class GameManager {
                     oldPos = board.
                             getPieceFromPosition(tileId).getPosition();
                 } catch (Exception exception) {
-                    System.out.println("GameFrame.java : " + "Tile(final BoardPanel boardPanel, final int tileId)1 : " + exception);
+                    System.out.println("GameFrame.java : "+ "Tile(final BoardPanel boardPanel, final int tileId)1 : " + exception);
                 }
                 try {
                     movedPiece = board.getPieceFromPosition(oldPos);
@@ -151,26 +148,25 @@ public class GameManager {
                 newPos = tileId;
                 try {
                     //update mvc
-                    System.out.println(getCurrentPlayer());
-
-                    System.out.println(board.isCheck(this.getCurrentPlayer().getColor()));
                     IMove move = this.execute(oldPos, newPos, movedPiece, this.getCurrentPlayer(), board);
+
+                    moveLog.addMove(move);
                     //si le coup du joueur actuel le met en echec
+                    System.out.println("roi en echec2 ? : " + board.isCheck(this.getCurrentPlayer().getColor()));
                     if ( board.isCheck(this.getCurrentPlayer().getColor()) ) {
-                        this.undo();
+                        this.undo(moveLog);
                         JOptionPane.showMessageDialog(null, "coup invalide cause echec");
                         oldPos = 0;
                         newPos = 0;
                         movedPiece = null;
                         return;
                     }
-                    moveLog.addMove(move);
                     oldPos = 0;
                     newPos = 0;
                     movedPiece = null;
                     this.changeTurn();
                     if ( isCheckMate() || isPat() ) {
-                        System.out.println("echec et mat");
+                        System.out.println("echec et mat2");
                     }
                 } catch (Exception exception) {
                     System.out.println("GameFrame.java : Tile(final BoardPanel boardPanel, final int tileId)3 : " + exception);
