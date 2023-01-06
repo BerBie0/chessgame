@@ -109,7 +109,6 @@ public class GameManager {
             newPos = 0;
             movedPiece = null;
             wPlayer.notifyObserversGame();
-            System.out.println(moveLog.getMoves());
         } else if (isLeftMouseButton(e)) {
             //click game
             if (oldPos == 0) {
@@ -145,7 +144,6 @@ public class GameManager {
 
                     moveLog.addMove(move);
                     //si le coup du joueur actuel le met en echec
-                    System.out.println("roi en echec2 ? : " + board.isCheck(this.getCurrentPlayer().getColor()));
                     if ( board.isCheck(this.getCurrentPlayer().getColor()) ) {
                         this.undo(moveLog);
                         JOptionPane.showMessageDialog(null, "coup invalide cause echec");

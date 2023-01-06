@@ -153,7 +153,6 @@ public abstract class Piece {
         if (!this.isValidMove(piece.getPosition())) {
             return false;
         }
-
         return true;
     }
 

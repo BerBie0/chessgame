@@ -261,9 +261,9 @@ public class Board {
         for (Piece teamPiece : teamPieces) {
             for (Piece ennemyPiece : ennemyPieces) {
                 if ( !willMoveResultInCheck(teamPiece, ennemyPiece.getPosition()) && teamPiece.canCapturePiece(ennemyPiece) ) {
-                    System.out.println("hey");
-                }
+                    System.out.println("heyy");
                     return true;
+                }
             }
         }
         return false;

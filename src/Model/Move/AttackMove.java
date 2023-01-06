@@ -51,7 +51,9 @@ public class AttackMove extends Move {
     /*------------------------------------------------METHOD----------------------------------------------------------*/
 
     private void capture(Piece capturePiece) {
+
         board.validateAttackMove(piece, newPos);
+
         board.removePieceToBoard(capturePiece);
         board.move(piece, newPos);
         player.move(piece, newPos);

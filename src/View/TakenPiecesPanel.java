@@ -65,7 +65,6 @@ public class TakenPiecesPanel extends JPanel {
                 imageLabel.setPreferredSize(TAKEN_PIECES_DIM_ICON);
                 imageLabel.setSize(TAKEN_PIECES_DIM_ICON);
                 southPanel.add(imageLabel);
-                System.out.println(takenPiece.toString());
             } catch (final IOException e) {
                 e.printStackTrace();
                 System.out.println("TakenPiecePanel.java : redo(final MoveLog moveLog, final Board board) : pb image");
