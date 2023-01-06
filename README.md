@@ -54,7 +54,7 @@ Il est constitué de plusieurs Packages :
 ## lancer l'application
 * java 17.
 * ouvrir un terminal dans le dossier jar à la racine.
-* java -jar a31-chessgame.jar (fonctionne sur ubuntu)
+* java -jar a31-chessgame.jar (fonctionne sur ubuntu et windows)
 * intellij :
   * test : dossier test
   * src : dossier src
