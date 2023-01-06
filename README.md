@@ -52,3 +52,9 @@ Il est constitué de plusieurs Package :
 
 ## lancer l'application
 * java 17.
+* ouvrir un terminal dans le dossier jar à la racine.
+* java -jar a31-chessgame.jar (fonctionne sur ubuntu)
+* intellij :
+  * test : dossier test
+  * src : dossier src
+  * resources : dossier ressources
