@@ -161,7 +161,7 @@ class Knight extends Piece {
     +isValidMove(position : int) : boolean
 }
 
-class Pawn {
+class Pawn extends Piece{
     -isPromoted : boolean
     -isEmpassant : boolean
     -hasMovedOnce : boolean
@@ -200,14 +200,14 @@ abstract class Piece {
 
 }
 
-class Queen {
+class Queen extends Piece{
     +Queen(color : Color2, position : int) : Queen
 
     +toString() : String
     +isValidMove(position : int) : boolean
 }
 
-class Rook {
+class Rook extends Piece{
     +Rook(color : Color2, position : int) : Rook
 
     +toString() : String
@@ -422,13 +422,9 @@ class TakenPiecesPanel {
     +redo() : void
 }
 
-
-
-
-
-
-
-
+class ChessMain() {
+    +{static} main : void
+}
 
 GameFrame2 "1" *-- "1" Menu : contains
 GameFrame2 "1" *-- "1" BoardPanel : contains
