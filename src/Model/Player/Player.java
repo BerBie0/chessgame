@@ -2,9 +2,7 @@ package Model.Player;
 
 import Model.Pieces.Piece;
 import Model.Utils.Color2;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class Player {
     private String name;
@@ -75,7 +73,8 @@ public class Player {
             obs.updateTakenPiecePanel();
     }
 
-    @Override String toString() {
+    @Override
+    public String toString() {
         return "player : " + getColor();
     }
 
