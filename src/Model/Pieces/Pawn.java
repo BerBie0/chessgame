@@ -34,7 +34,6 @@ public class Pawn extends Piece{
             return false;
         return allLegalMove(this.getPosition()).contains(position);
     }
-
     @Override
     public ArrayList<Integer> allLegalMove(int position) {
         int[] offset = executeStrategy();
@@ -49,6 +48,7 @@ public class Pawn extends Piece{
 
         if (!hasMovedOnce && board[doubleMovePosition] != 10)
             allLegalMove.add(doubleMovePosition);
+
 
         return allLegalMove;
     }

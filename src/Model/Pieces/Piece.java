@@ -57,9 +57,7 @@ public abstract class Piece {
         if (piece == null)
             throw new IllegalArgumentException("piece cannot be null");
         if (this.color == piece.getColor())
-            throw new InvalidMoveException("cannot capture same color piece");
-        if (this.position == piece.getPosition())
-            throw new InvalidMoveException("cannot capture your piece with the same piece");
+            throw new InvalidMoveException("cannot capture one of ur pieces");
         if ( !isValideMove(piece.getPosition()) )
             throw new InvalidMoveException("move not valid");
         return true;
