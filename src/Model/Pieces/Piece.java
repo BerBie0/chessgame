@@ -3,7 +3,6 @@ package Model.Pieces;
 import Exceptions.InvalidMoveException;
 import Model.Utils.Color2;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public abstract class Piece {
@@ -58,11 +57,11 @@ public abstract class Piece {
             throw new IllegalArgumentException("piece cannot be null");
         if (this.color == piece.getColor())
             throw new InvalidMoveException("cannot capture one of ur pieces");
-        if ( !isValideMove(piece.getPosition()) )
+        if ( !isValidMove(piece.getPosition()) )
             throw new InvalidMoveException("move not valid");
         return true;
     }
 
-    public abstract boolean isValideMove(int position);
+    public abstract boolean isValidMove(int position);
     public abstract ArrayList<Integer> allLegalMove(int position);
 }

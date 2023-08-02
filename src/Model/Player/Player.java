@@ -37,7 +37,7 @@ public class Player {
     public boolean getUrTurn() {
         return urTurn;
     }
-    public ArrayList<Piece> getCapturedPiece() {
+    public ArrayList<Piece> getCapturedPieces() {
         return capturedPiece;
     }
 

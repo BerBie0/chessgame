@@ -42,7 +42,7 @@ public class King extends Piece{
         return getColor() + "king";
     }
     @Override
-    public boolean isValideMove(int position) {
+    public boolean isValidMove(int position) {
         if (position < 0 || position > 120)
             return false;
         return allLegalMove(this.getPosition()).contains(position);
