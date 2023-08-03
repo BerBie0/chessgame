@@ -48,8 +48,6 @@ public class Pawn extends Piece{
 
         if (!hasMovedOnce && board[doubleMovePosition] != 10)
             allLegalMove.add(doubleMovePosition);
-
-
         return allLegalMove;
     }
 }

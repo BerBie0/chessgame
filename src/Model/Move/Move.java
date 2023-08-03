@@ -18,4 +18,14 @@ public abstract class Move implements IMove{
         player = p;
         board = b;
     }
+
+    @Override
+    public Piece getPiece() {
+        return piece;
+    }
+
+    @Override
+    public int getNewPos() {
+        return newPos;
+    }
 }

@@ -12,7 +12,7 @@ public class AttackMove extends Move{
     }
 
     @Override
-    public void execute() throws Exception {
+    public void execute() {
         Piece capturePiece = board.getPieceFromPosition(newPos);
         capture(capturePiece);
     }
@@ -31,7 +31,7 @@ public class AttackMove extends Move{
     }
 
 
-    private void capture(Piece capturePiece) throws Exception {
+    private void capture(Piece capturePiece) {
         board.validateAttackMove(piece, newPos);
         board.removePieceFromBoard(capturePiece);
         board.move(piece, newPos);

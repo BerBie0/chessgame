@@ -52,7 +52,7 @@ public abstract class Piece {
     public boolean isWhite() {
         return color == Color2.WHITE;
     }
-    public boolean canCapturePiece(Piece piece) throws Exception{
+    public boolean canCapturePiece(Piece piece) {
         if (piece == null)
             throw new IllegalArgumentException("piece cannot be null");
         if (this.color == piece.getColor())

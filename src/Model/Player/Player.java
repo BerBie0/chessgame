@@ -24,6 +24,7 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
+        notifyObserver();
     }
     public String getName() {
         return name;
@@ -49,6 +50,7 @@ public class Player {
     }
     public void move(Piece piece, int newPos) {
         piece.setPosition(newPos);
+        notifyObserverGame();
     }
     public boolean isWhite() {
         return color == Color2.WHITE;

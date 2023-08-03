@@ -13,7 +13,7 @@ public class CastleMove extends Move{
     }
 
     @Override
-    public void execute() throws Exception {
+    public void execute() {
         if (piece.getColor() != player.getColor())
             throw new IllegalArgumentException("CastleMove.java : The piece is not yours");
 
@@ -31,7 +31,7 @@ public class CastleMove extends Move{
             }
         }
     }
-    private void executeCastle(int rookPos, int kingPos, int newRookPos) throws Exception {
+    private void executeCastle(int rookPos, int kingPos, int newRookPos) {
         Piece king = getKing();
         Piece rook = board.getPieceFromPosition(rookPos);
 
@@ -74,7 +74,7 @@ public class CastleMove extends Move{
     private Piece getKing() {
         return player.isWhite() ? board.getKing(Color2.WHITE) : board.getKing(Color2.BLACK);
     }
-    private boolean canCastle(Piece king, Piece rook) throws Exception {
+    private boolean canCastle(Piece king, Piece rook) {
         if (!(rook instanceof Rook)) {
             return false;
         }

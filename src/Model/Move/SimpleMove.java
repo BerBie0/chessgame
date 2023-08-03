@@ -10,7 +10,7 @@ public class SimpleMove extends Move{
     }
 
     @Override
-    public void execute() throws Exception {
+    public void execute() {
         board.validateSimpleMove(piece, newPos);
         board.move(piece, newPos);
         player.move(piece, newPos);

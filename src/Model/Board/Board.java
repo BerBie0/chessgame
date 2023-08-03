@@ -56,11 +56,15 @@ public class Board {
                 targetPiece = getPieceFromPosition(i);
                 if ( piece.isValidMove(i) && targetPiece.getColor() != piece.getColor() && isPathFree(piece, i) )
                     res.add(i);
-            } catch (Exception ignored){
+            } catch (Exception e){
+                if ( piece.isValidMove(i) && isPathFree(piece, i)  ) {
+                    res.add(i);
+                }
 
             }
         }
         highLightMove = res;
+        notfifyObserver();
     }
     public void addPieceToBoard(Piece piece) {
         int piecePos = piece.getPosition();
@@ -126,7 +130,7 @@ public class Board {
         return getKing(color).getPosition();
     }
 
-    protected void validateMoveCommon(Piece piece, int newPos) throws Exception {
+    protected void validateMoveCommon(Piece piece, int newPos){
         if (!piece.isValidMove(newPos))
             throw new InvalidMoveException("move not valid");
         if (piece.getPosition() == newPos)
@@ -136,13 +140,13 @@ public class Board {
         if (!isPathFree(piece, newPos))
             throw new InvalidMoveException("cannot move piece block in path");
     }
-    public void validateSimpleMove(Piece piece, int newPos) throws Exception {
+    public void validateSimpleMove(Piece piece, int newPos) {
         validateMoveCommon(piece, newPos);
         if (isPositionOccupied(newPos))
             throw new IllegalArgumentException("Board.java : validateMove(Piece piece, int newPos) : " +
                     "position is occupied use AttackMove Move");
     }
-    public void validateAttackMove(Piece piece, int newPos) throws Exception {
+    public void validateAttackMove(Piece piece, int newPos) {
         validateMoveCommon(piece, newPos);
         if (!isPositionOccupied(newPos) || !piece.canCapturePiece(getPieceFromPosition(newPos)))
             throw new InvalidMoveException("cannot capture this piece");
@@ -153,6 +157,27 @@ public class Board {
     public boolean isCheck(Color2 color) {
         return getKing(color).getIsChecked();
     }
+    public void addObserver(IBoardObserver obs) {
+        observers.add(obs);
+    }
+    public void notfifyObserver() {
+        for (IBoardObserver obs : observers) {
+            obs.updateBoardAndLegalMoves();
+
+        }
+
+    }
+
+    public void displayBoard() {
+        for (int i = 0; i < 120; i++) {
+            if (i % 10 == 0 && i != 0) {
+                System.out.println();
+            }
+            //System.out.print(i +", ");
+            System.out.print(String.format("%4d", i));
+        }
+    }
+
 
 
 
