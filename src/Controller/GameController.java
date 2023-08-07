@@ -55,6 +55,9 @@ public class GameController {
             System.out.println("deuxieme click" + selectedPiece);
             IMove move = moveFactory.createMove(tileId, selectedPiece.getPosition(), selectedPiece, playerTurn, board);
             move.execute();
+            if ( board.isCheck(playerTurn.getColor()) ) {
+                move.undo(moveLog);
+            }
             selectedPiece = null;
             playerTurn.setUrTurn(false);
             otherPlayer.setUrTurn(true);

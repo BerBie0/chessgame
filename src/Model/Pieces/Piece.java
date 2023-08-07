@@ -54,7 +54,7 @@ public abstract class Piece {
     }
     public boolean canCapturePiece(Piece piece) {
         if (piece == null)
-            throw new IllegalArgumentException("piece cannot be null");
+            return false;
         if (this.color == piece.getColor())
             throw new InvalidMoveException("cannot capture one of ur pieces");
         if ( !isValidMove(piece.getPosition()) )

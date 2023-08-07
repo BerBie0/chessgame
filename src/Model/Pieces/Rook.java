@@ -9,7 +9,7 @@ public class Rook extends Piece{
     public Rook(Color2 color, int position) {
         super(color, position, 4.3f, Color2.WHITE == color ? 4 : -4);
 
-        setStrategy(new StrategyMovementPawn());
+        setStrategy(new StrategyMovementRook());
     }
 
     @Override
@@ -29,8 +29,10 @@ public class Rook extends Piece{
         ArrayList<Integer> allLegalMove = new ArrayList<Integer>();
         for (int i : offset) {
             int singleMovePosition = position + i;
-            if (board[singleMovePosition] != 10)
+            while (board[singleMovePosition] != -10) {
                 allLegalMove.add(singleMovePosition);
+                singleMovePosition += i;
+            }
         }
         return allLegalMove;
     }

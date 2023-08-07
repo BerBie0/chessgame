@@ -2,6 +2,7 @@ package Model.Board;
 
 import Exceptions.InvalidMoveException;
 import Model.Pieces.King;
+import Model.Pieces.Pawn;
 import Model.Pieces.Piece;
 import Model.Pieces.PieceFactory;
 import Model.Utils.Color2;
@@ -107,15 +108,24 @@ public class Board {
     public boolean isPathFree(Piece piece, int newPos) {
         int[] offset = piece.executeStrategy();
         int piecePos = piece.getPosition();
+        if ( piece instanceof Pawn && isPositionOccupied( newPos ) && (Math.abs(piecePos - newPos) == 9) || (Math.abs(piecePos - newPos)) == 11 && isPositionOccupied( newPos ))
+            return true;
+        if ( piece instanceof Pawn && isPositionOccupied(newPos) )
+            return false;
         for (int i : offset) {
             int nextPos = piecePos + i;
-            while ( !isPositionOccupied(nextPos) && board[nextPos] != -10 ) {
+            int nbMeetingPiece = 0;
+            while ( ( nbMeetingPiece < 1  ) && board[nextPos] != -10 ) {
+                if ( piece instanceof Pawn && board[nextPos] == Math.abs(1) ) break;
+                if (board[nextPos] != 0 && board[nextPos] != -10)
+                    nbMeetingPiece++;
                 if (nextPos == newPos) return true;
                 nextPos += i;
             }
         }
         return false;
     }
+
     public void move(Piece piece, int position) {
         board[piece.getPosition()] = 0;
         piece.setPosition(position);
@@ -164,7 +174,6 @@ public class Board {
     public void notfifyObserver() {
         for (IBoardObserver obs : observers) {
             obs.updateBoardAndLegalMoves();
-
         }
 
     }

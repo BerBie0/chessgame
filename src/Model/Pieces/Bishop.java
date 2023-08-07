@@ -27,8 +27,10 @@ public class Bishop extends Piece{
         ArrayList<Integer> allLegalMove = new ArrayList<Integer>();
         for (int i : offset) {
             int singleMovePosition = position + i;
-            if (board[singleMovePosition] != 10)
+            while (board[singleMovePosition] != -10) {
                 allLegalMove.add(singleMovePosition);
+                singleMovePosition += i;
+            }
         }
         return allLegalMove;
     }

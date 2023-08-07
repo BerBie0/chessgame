@@ -25,6 +25,11 @@ public class Pawn extends Piece{
     }
 
     @Override
+    public void setPosition(int position) {
+        setHasMovedOnce(true);
+        super.setPosition(position);
+    }
+    @Override
     public String toString() {
         return getColor() + "pawn";
     }
@@ -42,12 +47,17 @@ public class Pawn extends Piece{
 
         int singleMovePosition = position + offset[offsetIndex];
         int doubleMovePosition = position + (offset[offsetIndex] * 2);
+        int attackMovePosition = position + offset[offsetIndex] + 1;
+        int attackMovePosition2 = position + offset[offsetIndex] - 1;
 
         if (board[singleMovePosition] != 10)
             allLegalMove.add(singleMovePosition);
 
         if (!hasMovedOnce && board[doubleMovePosition] != 10)
             allLegalMove.add(doubleMovePosition);
+
+        allLegalMove.add(attackMovePosition);
+        allLegalMove.add(attackMovePosition2);
         return allLegalMove;
     }
 }

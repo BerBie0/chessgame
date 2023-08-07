@@ -9,7 +9,7 @@ public class Queen extends Piece{
     public Queen(Color2 color, int position) {
         super(color, position, 8.9f, Color2.WHITE == color ? 5 : -5);
 
-        setStrategy(new StrategyMovementPawn());
+        setStrategy(new StrategyMovementQueen());
     }
 
     @Override
@@ -29,8 +29,10 @@ public class Queen extends Piece{
         ArrayList<Integer> allLegalMove = new ArrayList<Integer>();
         for (int i : offset) {
             int singleMovePosition = position + i;
-            if (board[singleMovePosition] != 10)
+            while (board[singleMovePosition] != -10) {
                 allLegalMove.add(singleMovePosition);
+                singleMovePosition += i;
+            }
         }
         return allLegalMove;
     }
