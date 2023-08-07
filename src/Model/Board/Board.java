@@ -118,6 +118,7 @@ public class Board {
     }
     public void move(Piece piece, int position) {
         board[piece.getPosition()] = 0;
+        piece.setPosition(position);
         board[piece.getPosition()] = piece.getPieceCode();
     }
     public King getKing(Color2 color) {

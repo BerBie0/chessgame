@@ -36,6 +36,7 @@ public class GameController {
 
     public void game(MouseEvent e, int tileId, GameFrame2 gameFrame2) {
         Player playerTurn = wPlayer.getUrTurn() ? wPlayer : bPlayer;
+        Player otherPlayer = wPlayer.getUrTurn() ? bPlayer : wPlayer;
 
         if (isRightMouseButton(e)) {
             System.out.println("reset droit");
@@ -54,6 +55,9 @@ public class GameController {
             System.out.println("deuxieme click" + selectedPiece);
             IMove move = moveFactory.createMove(tileId, selectedPiece.getPosition(), selectedPiece, playerTurn, board);
             move.execute();
+            selectedPiece = null;
+            playerTurn.setUrTurn(false);
+            otherPlayer.setUrTurn(true);
         }
     }
 
