@@ -47,6 +47,7 @@ public class Player {
     }
     public void addCapturedPiece(Piece piece) {
         capturedPiece.add(piece);
+        notifyObserverCapturePiece();
     }
     public void move(Piece piece, int newPos) {
         piece.setPosition(newPos);

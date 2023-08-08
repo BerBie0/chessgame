@@ -7,14 +7,13 @@ import Model.Move.MoveLog;
 import Model.Pieces.Piece;
 import Model.Player.Player;
 import Model.Utils.Color2;
+import View.EndMenu;
 import View.GameFrame2;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 import static javax.swing.SwingUtilities.isLeftMouseButton;
 import static javax.swing.SwingUtilities.isRightMouseButton;
@@ -54,14 +53,13 @@ public class GameController {
         } catch (Exception exception) {
             return true;
         }
-
     }
     public boolean isAnyValidMove(Color2 color) {
         List<Piece> teamPieces = board.getPieces().stream().filter(piece -> piece.getColor() == color ).toList();
         for (Piece teamPiece : teamPieces) {
             for (int i = 21; i < 100; i += 10) {
                 for (int j = 0; j < 8; j++) {
-                    if ( !willMoveResultInCheck(teamPiece, i) ) {
+                    if ( !willMoveResultInCheck(teamPiece, i+j) ) {
                         return true;
                     }
                 }
@@ -78,16 +76,10 @@ public class GameController {
         Player playerTurn = wPlayer.getUrTurn() ? wPlayer : bPlayer;
         Player otherPlayer = wPlayer.getUrTurn() ? bPlayer : wPlayer;
 
-        if (isCheckMate(playerTurn.getColor())) {
-            System.out.println("checkmate");
-        }
-
         if (isRightMouseButton(e)) {
-            System.out.println("reset droit");
             selectedPiece = null;
             playerTurn.notifyObserverGame();
         } else if ( isLeftMouseButton(e) && selectedPiece == null ) {
-            System.out.println("premier click");
             selectedPiece = board.getPieceFromPosition(tileId);
             if (selectedPiece.getColor() != playerTurn.getColor()) {
                 selectedPiece = null;
@@ -96,7 +88,6 @@ public class GameController {
             board.calculateLegalMoves(selectedPiece);
 
         } else if ( isLeftMouseButton(e) && selectedPiece != null ) {
-            System.out.println("deuxieme click" + selectedPiece);
             IMove move = moveFactory.createMove(tileId, selectedPiece.getPosition(), selectedPiece, playerTurn, board);
             move.execute();
             if ( board.isCheck(playerTurn.getColor()) ) {
@@ -105,9 +96,16 @@ public class GameController {
                 selectedPiece = null;
                 return;
             }
+            moveLog.addMove(move);
             selectedPiece = null;
             playerTurn.setUrTurn(false);
             otherPlayer.setUrTurn(true);
+        }
+
+        if (isCheckMate(otherPlayer.getColor())) {
+            EndMenu endMenu = new EndMenu(playerTurn.getColor());
+            gameFrame2.setVisible(false);
+            endMenu.setVisible(true);
         }
     }
 
