@@ -56,9 +56,9 @@ public abstract class Piece {
         if (piece == null)
             return false;
         if (this.color == piece.getColor())
-            throw new InvalidMoveException("cannot capture one of ur pieces");
+            return false;
         if ( !isValidMove(piece.getPosition()) )
-            throw new InvalidMoveException("move not valid");
+            return false;
         return true;
     }
 

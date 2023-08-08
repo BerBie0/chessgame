@@ -165,8 +165,15 @@ public class Board {
     public void validateCastleMove(Piece piece, int newPos) throws Exception {
         validateMoveCommon(piece, newPos);
     }
-    public boolean isCheck(Color2 color) {
-        return getKing(color).getIsChecked();
+    public Boolean isCheck(Color2 color) {
+        Color2 attackColor = color == Color2.WHITE ? Color2.BLACK : Color2.WHITE;
+        King defKing = getKing(color);
+
+        boolean check = pieces.stream()
+                .filter(piece -> piece.getColor() == attackColor)
+                .anyMatch(piece -> piece.canCapturePiece(defKing) && isPathFree(piece, defKing.getPosition()));
+        defKing.setIsChecked(check);
+        return check;
     }
     public void addObserver(IBoardObserver obs) {
         observers.add(obs);
