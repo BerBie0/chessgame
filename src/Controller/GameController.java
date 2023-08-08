@@ -42,13 +42,14 @@ public class GameController {
         Player playerTurn = wPlayer.getUrTurn() ? wPlayer : bPlayer;
         int oldPos = piece.getPosition();
         try {
-            IMove move = moveFactory.createMove(oldPos, newPos, piece, playerTurn, board);
+            IMove move = moveFactory.createMove(newPos, oldPos, piece, playerTurn, board);
             move.execute();
             if ( board.isCheck(playerTurn.getColor()) ) {
                 move.undo(moveLog);
-                return false;
-            } else {
                 return true;
+            } else {
+                move.undo(moveLog);
+                return false;
             }
         } catch (Exception exception) {
             return true;
